@@ -214,6 +214,24 @@ nav .container {
     height: 24px;
 }
 
+.whatsapp-button::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+}
+
+.whatsapp-button:hover::before {
+    width: 300px;
+    height: 300px;
+}
+
 .whatsapp-button:hover {
     background-color: #128C7E;
     transform: translateY(-3px);
@@ -866,6 +884,8 @@ footer {
     width: 32px;
     height: 32px;
     transition: transform 0.3s ease;
+    fill: #FFFFFF;
+    color: #FFFFFF;
 }
 
 .social-link:hover svg {
