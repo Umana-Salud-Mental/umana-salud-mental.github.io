@@ -4,7 +4,7 @@ Sitio web oficial de Umana, una plataforma digital dedicada a hacer la salud men
 
 ## 🌐 Sitio en Vivo
 
-El sitio está desplegado en Netlify: [Ver sitio](https://umana-mental-health.netlify.app)
+El sitio está desplegado en Netlify: [umana-salud-mental.netlify.app](https://umana-salud-mental.netlify.app)
 
 ## 📋 Características
 

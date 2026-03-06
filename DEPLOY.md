@@ -101,7 +101,7 @@ netlify open
 Después del despliegue, tu sitio estará disponible en:
 
 - **URL temporal:** `https://[nombre-aleatorio].netlify.app`
-- **URL personalizada:** `https://umana.netlify.app` (si cambias el nombre)
+- **URL personalizada:** `https://umana-salud-mental.netlify.app` (recomendado)
 - **Dominio propio:** `https://www.tudominio.com` (si configuras uno)
 
 ## 📊 Monitoreo y Analytics
