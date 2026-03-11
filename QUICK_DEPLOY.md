@@ -1,101 +1,50 @@
-# 🚀 Despliegue Rápido a Netlify - Umana
+# 🚀 Quick Deploy Guide - 2 Minutes
 
-## Opción 1: Despliegue Automático (5 minutos)
-
-### Pasos:
-
-1. **Ve a Netlify**
-   ```
-   https://app.netlify.com
-   ```
-
-2. **Inicia sesión con GitHub**
-   - Clic en "Log in"
-   - Selecciona GitHub
-
-3. **Importa el proyecto**
-   - Clic en "Add new site" → "Import an existing project"
-   - Selecciona "GitHub"
-   - Busca: `luisspiel16-beep/Personal`
-   - Rama: `copilot/add-landing-page-es`
-
-4. **Configuración (usar estos valores):**
-   ```
-   Build command:     (dejar vacío)
-   Publish directory: .
-   ```
-
-5. **Deploy!**
-   - Clic en "Deploy site"
-   - Espera 30-60 segundos
-
-6. **¡Listo!**
-   - Tu sitio estará en: `https://[nombre-random].netlify.app`
+## Your Recursos redesign is ready! Deploy in 2 minutes:
 
 ---
 
-## Cambiar el Nombre del Sitio
+## ⚡ FASTEST METHOD (No Git Required)
 
-1. En Netlify dashboard, ve a tu sitio
-2. "Site settings" → "Site details"
-3. "Change site name"
-4. Ingresa: `umana` o `umana-salud-mental`
-5. Tu URL será: `https://umana.netlify.app`
+### Step 1: Create Pull Request
+Visit: https://github.com/Umana-Salud-Mental/umana-salud-mental.github.io/compare/main...copilot/add-landing-page-es
 
----
+### Step 2: Click "Create pull request"
 
-## Configurar Dominio Propio (Opcional)
+### Step 3: Click "Merge pull request"
 
-1. En Netlify: "Domain settings"
-2. "Add custom domain"
-3. Ingresa tu dominio: `www.tudominio.com`
-4. Configura los DNS según las instrucciones
+### Step 4: Click "Confirm merge"
 
----
+### Done! ✅
 
-## 🔄 Actualizaciones Automáticas
-
-Cada vez que hagas `git push` a la rama configurada:
-- Netlify detectará los cambios
-- Desplegará automáticamente
-- El sitio se actualizará en ~1 minuto
+Your site will be live in 2 minutes at:
+**https://umana-salud-mental.github.io/recursos.html**
 
 ---
 
-## 📱 Habilitar Formulario de Contacto
+## 📊 What's Being Deployed
 
-Actualiza el formulario en `index.html` línea 206:
-
-```html
-<form name="contact" method="POST" data-netlify="true">
-```
-
-Los mensajes aparecerán en: Netlify Dashboard → Forms
-
----
-
-## ⚠️ ¿Problemas?
-
-**El sitio no se ve bien:**
-- Limpia caché: Ctrl + Shift + R
-- Espera 2 minutos para propagación CDN
-
-**Error de deploy:**
-- Revisa los logs en Netlify dashboard
-- Verifica que todos los archivos estén en el repo
-
-**Imágenes no cargan:**
-- Verifica que la carpeta `assets/` esté en el repositorio
-- Revisa las rutas en el código
+- ✅ Complete Recursos page redesign
+- ✅ BetterHelp-inspired modern design
+- ✅ Enhanced search and filtering
+- ✅ Category navigation pills
+- ✅ Featured articles section
+- ✅ Modern card layout
+- ✅ Newsletter signup
+- ✅ Full responsive design
+- ✅ All Umana brand colors maintained
 
 ---
 
-## 📞 Ayuda
+## ✅ After Deployment
 
-- **Guía completa:** Ver `DEPLOY.md`
-- **Documentación Netlify:** https://docs.netlify.com
-- **Soporte:** https://answers.netlify.com
+1. Visit: https://umana-salud-mental.github.io/recursos.html
+2. Test search and filters
+3. Check mobile view
+4. Share on social media!
 
 ---
 
-**¡Tu sitio estará en vivo en menos de 5 minutos! 🎉**
+**That's it! Your beautiful new page will be live! 🎉**
+
+For detailed instructions, see: DEPLOY_RECURSOS.md
