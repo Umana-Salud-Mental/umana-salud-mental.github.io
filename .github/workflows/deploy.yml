@@ -8,7 +8,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
   pages: write
   id-token: write
 
@@ -18,22 +18,40 @@ concurrency:
 
 jobs:
   deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
+      - name: Checkout current branch
         uses: actions/checkout@v4
-
-      - name: Setup Pages
-        uses: actions/configure-pages@v5
-
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
         with:
-          path: '.'
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+      - name: Configure git
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Push site files to pages source branch
+        run: |
+          # Get the current branch name
+          CURRENT_BRANCH="${GITHUB_REF_NAME}"
+          echo "Deploying from branch: $CURRENT_BRANCH"
+
+          # Create a temporary directory with the site files
+          TMPDIR=$(mktemp -d)
+          # Copy all site files (exclude .git, .github)
+          rsync -av --exclude='.git' --exclude='.github' . "$TMPDIR/"
+
+          # Checkout or create the pages source branch
+          git fetch origin copilot/add-landing-page-es || true
+          git checkout -B deploy-pages origin/copilot/add-landing-page-es 2>/dev/null || git checkout -B deploy-pages
+
+          # Copy the updated files
+          rsync -av --exclude='.git' --exclude='.github' "$TMPDIR/" .
+
+          # Commit and push
+          git add -A
+          git diff --cached --quiet || git commit -m "deploy: sync from $CURRENT_BRANCH [skip ci]"
+          git push origin deploy-pages:copilot/add-landing-page-es --force
+          echo "Successfully deployed to copilot/add-landing-page-es"
+
