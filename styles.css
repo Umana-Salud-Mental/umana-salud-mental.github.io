@@ -897,6 +897,36 @@ footer {
     font-weight: 500;
 }
 
+/* Crisis Help Section */
+.crisis-help {
+    padding: 2rem 0;
+    background-color: #fff;
+    border-top: 3px solid #C86B4A;
+}
+
+.crisis-box {
+    max-width: 900px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.crisis-warning {
+    font-size: 1rem;
+    color: #2F2F2F;
+    line-height: 1.6;
+}
+
+.crisis-link {
+    color: #C86B4A;
+    font-weight: 600;
+    text-decoration: underline;
+    transition: all 0.3s ease;
+}
+
+.crisis-link:hover {
+    color: #D9A88F;
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
     .nav-menu {
