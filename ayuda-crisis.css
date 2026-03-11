@@ -1,5 +1,19 @@
 /* Crisis Help Page Specific Styles */
 
+/* Navigation Override for Crisis Page */
+nav {
+    background-color: #5D8064;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    transition: box-shadow 0.3s ease;
+}
+
+nav:hover {
+    box-shadow: 0 4px 20px rgba(93, 128, 100, 0.3);
+}
+
 /* Crisis Header */
 .crisis-header {
     background: linear-gradient(135deg, #FEE2E2 0%, #FED7D7 100%);
