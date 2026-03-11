@@ -200,22 +200,56 @@ nav:hover {
     box-shadow: 0 12px 40px rgba(93, 128, 100, 0.2);
 }
 
+/* ============================================
+   ARTICLE IMAGE GRADIENT BACKGROUNDS
+   (replaces external placeholder images)
+   ============================================ */
 .article-image {
     position: relative;
     height: 220px;
     overflow: hidden;
     background-color: #F5EFE6;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-.article-image img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+.article-img-icon {
+    font-size: 4rem;
+    line-height: 1;
+    filter: drop-shadow(0 2px 8px rgba(0,0,0,0.15));
     transition: transform 0.4s ease;
+    position: relative;
+    z-index: 1;
 }
 
-.article-card:hover .article-image img {
-    transform: scale(1.1);
+.article-card:hover .article-img-icon {
+    transform: scale(1.15);
+}
+
+/* Category-specific gradient backgrounds */
+.img-ansiedad {
+    background: linear-gradient(135deg, #5D8064 0%, #4a6650 60%, #3a5040 100%);
+}
+
+.img-depresion {
+    background: linear-gradient(135deg, #B7C6AD 0%, #8fa886 60%, #5D8064 100%);
+}
+
+.img-relaciones {
+    background: linear-gradient(135deg, #D9A88F 0%, #c48a6a 60%, #C86B4A 100%);
+}
+
+.img-estres {
+    background: linear-gradient(135deg, #5D8064 0%, #7a9e82 60%, #B7C6AD 100%);
+}
+
+.img-autocuidado {
+    background: linear-gradient(135deg, #B7C6AD 0%, #cdd6c7 60%, #E9E4DE 100%);
+}
+
+.img-familia {
+    background: linear-gradient(135deg, #D9A88F 0%, #e8c0a8 60%, #F5EFE6 100%);
 }
 
 .article-badge {
