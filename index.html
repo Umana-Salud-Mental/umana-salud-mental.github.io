@@ -17,7 +17,10 @@
                 <div class="logo">
                     <a href="#inicio">Umana</a>
                 </div>
-                <ul class="nav-menu">
+                <button class="nav-toggle" id="nav-toggle" aria-label="Menú" aria-expanded="false">
+                    <span></span><span></span><span></span>
+                </button>
+                <ul class="nav-menu" id="nav-menu">
                     <li><a href="#inicio">Inicio</a></li>
                     <li><a href="#quienes-somos">Quiénes Somos</a></li>
                     <li><a href="#servicios">Servicios</a></li>
@@ -44,6 +47,67 @@
                             Contactar por WhatsApp
                         </a>
                     </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Trust Stats Bar -->
+        <section class="trust-stats" id="confianza">
+            <div class="container">
+                <div class="stats-bar">
+                    <div class="trust-stat">
+                        <span class="trust-number">500+</span>
+                        <span class="trust-label">Pacientes atendidos</span>
+                    </div>
+                    <div class="trust-divider"></div>
+                    <div class="trust-stat">
+                        <span class="trust-number">30+</span>
+                        <span class="trust-label">Terapeutas certificados</span>
+                    </div>
+                    <div class="trust-divider"></div>
+                    <div class="trust-stat">
+                        <span class="trust-number">98%</span>
+                        <span class="trust-label">Tasa de satisfacción</span>
+                    </div>
+                    <div class="trust-divider"></div>
+                    <div class="trust-stat">
+                        <span class="trust-number">100%</span>
+                        <span class="trust-label">Online y confidencial</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Cómo Funciona -->
+        <section id="como-funciona" class="how-it-works">
+            <div class="container">
+                <h2 id="cms-how-heading">¿Cómo Funciona Umana?</h2>
+                <p class="section-intro">Comenzar es más fácil de lo que crees. Solo tres pasos te separan del bienestar.</p>
+                <div class="steps-grid" id="cms-how-steps">
+                    <div class="step-card">
+                        <div class="step-number">01</div>
+                        <div class="step-icon">📋</div>
+                        <h3>Agenda tu sesión</h3>
+                        <p>Contáctanos por WhatsApp o llena nuestro formulario. Rápido, fácil y sin compromiso.</p>
+                    </div>
+                    <div class="step-connector"></div>
+                    <div class="step-card">
+                        <div class="step-number">02</div>
+                        <div class="step-icon">🤝</div>
+                        <h3>Conoce a tu terapeuta</h3>
+                        <p>Te conectamos con el profesional más adecuado para tus necesidades y objetivos.</p>
+                    </div>
+                    <div class="step-connector"></div>
+                    <div class="step-card">
+                        <div class="step-number">03</div>
+                        <div class="step-icon">🌱</div>
+                        <h3>Comienza tu proceso</h3>
+                        <p>Sesiones 100% online desde la comodidad de tu hogar, a tu ritmo y horario.</p>
+                    </div>
+                </div>
+                <div class="how-cta">
+                    <a href="#contacto" class="cta-button">Agenda tu primera sesión</a>
+                    <span class="how-cta-note">Sin compromiso · Primera consulta orientativa gratuita</span>
                 </div>
             </div>
         </section>
@@ -126,39 +190,126 @@
         <section id="faq" class="faq">
             <div class="container">
                 <h2>Preguntas Frecuentes</h2>
-                <div class="faq-grid">
-                    <div class="faq-item">
-                        <h3>¿Cómo funciona Umana?</h3>
-                        <p>Umana es una plataforma que conecta a personas que buscan apoyo de salud mental con profesionales certificados. Puedes elegir entre sesiones online o presenciales, agendar tu cita y comenzar tu proceso terapéutico de manera sencilla y confidencial.</p>
+                <p class="section-intro">Todo lo que necesitas saber antes de dar el primer paso.</p>
+                <div class="faq-list">
+                    <details class="faq-item">
+                        <summary class="faq-question">¿Cómo funciona Umana?</summary>
+                        <div class="faq-answer"><p>Umana es una plataforma que conecta a personas que buscan apoyo de salud mental con profesionales certificados. Agenda tu cita, conoce a tu terapeuta y comienza tu proceso terapéutico de manera sencilla y confidencial, 100% desde tu hogar.</p></div>
+                    </details>
+                    <details class="faq-item">
+                        <summary class="faq-question">¿Los terapeutas están certificados?</summary>
+                        <div class="faq-answer"><p>Sí, todos nuestros profesionales están debidamente certificados y cuentan con licencia para ejercer. Cada terapeuta pasa por un riguroso proceso de verificación antes de unirse a nuestra plataforma.</p></div>
+                    </details>
+                    <details class="faq-item">
+                        <summary class="faq-question">¿Cuánto cuesta una sesión?</summary>
+                        <div class="faq-answer"><p>Los costos varían según el tipo de servicio y el profesional. Contáctanos para conocer nuestras tarifas actuales y planes disponibles. Trabajamos para hacer la terapia accesible para todos.</p></div>
+                    </details>
+                    <details class="faq-item">
+                        <summary class="faq-question">¿Es confidencial mi información?</summary>
+                        <div class="faq-answer"><p>Absolutamente. La confidencialidad es fundamental para nosotros. Toda la información compartida en las sesiones está protegida por las leyes de privacidad y secreto profesional. Usamos tecnología de encriptación para proteger tus datos.</p></div>
+                    </details>
+                    <details class="faq-item">
+                        <summary class="faq-question">¿Puedo cambiar de terapeuta?</summary>
+                        <div class="faq-answer"><p>Sí, sabemos que la conexión con tu terapeuta es importante. Si sientes que no es el adecuado para ti, puedes solicitar un cambio sin ningún problema ni costo adicional.</p></div>
+                    </details>
+                    <details class="faq-item">
+                        <summary class="faq-question">¿Qué necesito para una sesión online?</summary>
+                        <div class="faq-answer"><p>Solo necesitas una conexión a internet estable, un dispositivo (computadora, tablet o smartphone) con cámara y micrófono, y un espacio privado donde te sientas cómodo hablando.</p></div>
+                    </details>
+                    <details class="faq-item">
+                        <summary class="faq-question">¿Cuánto dura una sesión?</summary>
+                        <div class="faq-answer"><p>Las sesiones típicamente duran entre 45 y 60 minutos. Tu terapeuta trabajará contigo para establecer la frecuencia y duración más adecuadas para tu proceso.</p></div>
+                    </details>
+                    <details class="faq-item">
+                        <summary class="faq-question">¿Puedo cancelar o reprogramar mi cita?</summary>
+                        <div class="faq-answer"><p>Sí, puedes cancelar o reprogramar tu cita con al menos 24 horas de anticipación sin costo adicional. Contáctanos y con gusto te ayudamos a encontrar un nuevo horario.</p></div>
+                    </details>
+                </div>
+            </div>
+        </section>
+
+        <!-- Testimonials -->
+        <section id="testimonios" class="testimonials">
+            <div class="container">
+                <h2 id="cms-test-heading">Lo que dicen nuestros pacientes</h2>
+                <p class="section-intro">Historias reales de personas que dieron el primer paso hacia su bienestar.</p>
+                <div class="testimonials-grid" id="cms-testimonials">
+                    <div class="testimonial-card">
+                        <div class="testimonial-stars">★★★★★</div>
+                        <p class="testimonial-quote">"Gracias a Umana pude dar el primer paso que tanto me costaba. Mi terapeuta me cambió la vida. No saben cuánto valoro este servicio."</p>
+                        <div class="testimonial-author">
+                            <div class="author-avatar">M</div>
+                            <div>
+                                <strong>María G.</strong>
+                                <span>Quito, Ecuador</span>
+                            </div>
+                        </div>
                     </div>
-                    <div class="faq-item">
-                        <h3>¿Los terapeutas están certificados?</h3>
-                        <p>Sí, todos nuestros profesionales están debidamente certificados y cuentan con licencia para ejercer. Cada terapeuta pasa por un riguroso proceso de verificación antes de unirse a nuestra plataforma.</p>
+                    <div class="testimonial-card">
+                        <div class="testimonial-stars">★★★★★</div>
+                        <p class="testimonial-quote">"Nunca pensé que la terapia online funcionaría tan bien. Ahora me siento en control de mi ansiedad. El proceso fue muy claro y sin complicaciones."</p>
+                        <div class="testimonial-author">
+                            <div class="author-avatar">C</div>
+                            <div>
+                                <strong>Carlos M.</strong>
+                                <span>Guayaquil, Ecuador</span>
+                            </div>
+                        </div>
                     </div>
-                    <div class="faq-item">
-                        <h3>¿Cuánto cuesta una sesión?</h3>
-                        <p>Los costos varían según el tipo de servicio y profesional. Contáctanos para conocer nuestras tarifas actuales y planes disponibles. Trabajamos para hacer la terapia accesible para todos.</p>
+                    <div class="testimonial-card">
+                        <div class="testimonial-stars">★★★★★</div>
+                        <p class="testimonial-quote">"El proceso fue muy fácil desde el inicio. Encontré a la terapeuta perfecta para mí en poco tiempo. La recomiendo con los ojos cerrados."</p>
+                        <div class="testimonial-author">
+                            <div class="author-avatar">S</div>
+                            <div>
+                                <strong>Sofía R.</strong>
+                                <span>Cuenca, Ecuador</span>
+                            </div>
+                        </div>
                     </div>
-                    <div class="faq-item">
-                        <h3>¿Es confidencial mi información?</h3>
-                        <p>Absolutamente. La confidencialidad es fundamental para nosotros. Toda la información compartida en las sesiones está protegida por las leyes de privacidad y secreto profesional. Usamos tecnología de encriptación para proteger tus datos.</p>
+                </div>
+                <p class="testimonials-note">* Testimonios anónimos con permiso de nuestros pacientes. Los nombres han sido modificados para proteger la privacidad.</p>
+            </div>
+        </section>
+
+        <!-- Blog Preview -->
+        <section id="blog-preview" class="blog-preview">
+            <div class="container">
+                <div class="blog-preview-header">
+                    <div>
+                        <h2>Recursos para tu Bienestar</h2>
+                        <p class="section-intro">Artículos escritos por nuestros especialistas para acompañarte en tu camino.</p>
                     </div>
-                    <div class="faq-item">
-                        <h3>¿Puedo cambiar de terapeuta?</h3>
-                        <p>Sí, sabemos que la conexión con tu terapeuta es importante. Si sientes que no es el adecuado para ti, puedes solicitar un cambio sin ningún problema.</p>
-                    </div>
-                    <div class="faq-item">
-                        <h3>¿Qué necesito para una sesión online?</h3>
-                        <p>Solo necesitas una conexión a internet estable, un dispositivo (computadora, tablet o smartphone) con cámara y micrófono, y un espacio privado donde te sientas cómodo hablando.</p>
-                    </div>
-                    <div class="faq-item">
-                        <h3>¿Cuánto dura una sesión?</h3>
-                        <p>Las sesiones típicamente duran entre 45 y 60 minutos. Tu terapeuta trabajará contigo para establecer la frecuencia y duración que mejor se adapte a tus necesidades.</p>
-                    </div>
-                    <div class="faq-item">
-                        <h3>¿Puedo cancelar o reprogramar mi cita?</h3>
-                        <p>Sí, puedes cancelar o reprogramar tu cita con al menos 24 horas de anticipación sin costo adicional. Consulta nuestra política de cancelación para más detalles.</p>
-                    </div>
+                    <a href="recursos.html" class="btn-all-resources">Ver todos los recursos →</a>
+                </div>
+                <div class="blog-preview-grid">
+                    <a href="recursos.html" class="blog-preview-card">
+                        <div class="blog-preview-card-accent"></div>
+                        <div class="blog-preview-card-body">
+                            <div class="blog-preview-cat">😰 Ansiedad</div>
+                            <h3>10 Técnicas Efectivas para Manejar la Ansiedad</h3>
+                            <p>Aprende estrategias prácticas y respaldadas por la ciencia para reducir la ansiedad en tu vida diaria.</p>
+                            <span class="read-more">Leer artículo →</span>
+                        </div>
+                    </a>
+                    <a href="recursos.html" class="blog-preview-card">
+                        <div class="blog-preview-card-accent"></div>
+                        <div class="blog-preview-card-body">
+                            <div class="blog-preview-cat">😔 Depresión</div>
+                            <h3>Señales de Depresión y Cuándo Buscar Ayuda</h3>
+                            <p>Identifica los síntomas clave y entiende cuándo es el momento de dar el paso y hablar con un profesional.</p>
+                            <span class="read-more">Leer artículo →</span>
+                        </div>
+                    </a>
+                    <a href="recursos.html" class="blog-preview-card">
+                        <div class="blog-preview-card-accent"></div>
+                        <div class="blog-preview-card-body">
+                            <div class="blog-preview-cat">🧘 Autocuidado</div>
+                            <h3>La Importancia del Autocuidado Mental</h3>
+                            <p>Descubre por qué el autocuidado no es un lujo, sino una necesidad fundamental para tu salud emocional.</p>
+                            <span class="read-more">Leer artículo →</span>
+                        </div>
+                    </a>
                 </div>
             </div>
         </section>
@@ -277,5 +428,129 @@
             </div>
         </div>
     </footer>
+
+    <script>
+    // ── Mobile hamburger menu ──
+    (function() {
+        const toggle = document.getElementById('nav-toggle');
+        const menu   = document.getElementById('nav-menu');
+        if (!toggle || !menu) return;
+        toggle.addEventListener('click', function() {
+            const open = menu.classList.toggle('open');
+            toggle.classList.toggle('open', open);
+            toggle.setAttribute('aria-expanded', open);
+        });
+        // Close on nav link click
+        menu.querySelectorAll('a').forEach(function(a) {
+            a.addEventListener('click', function() {
+                menu.classList.remove('open');
+                toggle.classList.remove('open');
+                toggle.setAttribute('aria-expanded', 'false');
+            });
+        });
+    })();
+
+    // ── CMS localStorage integration ──
+    // Reads content stored via the CMS at /edit and applies it to the live page.
+    (function() {
+        try {
+            const data = JSON.parse(localStorage.getItem('umana_site_content') || '{}');
+            if (!data || !Object.keys(data).length) return;
+
+            // Hero
+            if (data.hero) {
+                const h = data.hero;
+                if (h.h1)       { const el = document.querySelector('.hero h1'); if (el) el.textContent = h.h1; }
+                if (h.subtitle) { const el = document.querySelector('.hero .hero-subtitle'); if (el) el.textContent = h.subtitle; }
+                if (h.desc)     { const el = document.querySelector('.hero .hero-content > p:not(.hero-subtitle)'); if (el) el.textContent = h.desc; }
+                if (h.cta)      { const el = document.querySelector('.hero .cta-button'); if (el) { el.textContent = h.cta; if (h.ctaLink) el.href = h.ctaLink; } }
+            }
+            // About
+            if (data.about) {
+                const ab = data.about;
+                if (ab.heading)    { const el = document.querySelector('#quienes-somos h2'); if (el) el.textContent = ab.heading; }
+                if (ab.subheading) { const el = document.querySelector('#quienes-somos .about-text h3'); if (el) el.textContent = ab.subheading; }
+                if (ab.p1)         { const el = document.querySelector('#quienes-somos .about-text > p:nth-of-type(1)'); if (el) el.textContent = ab.p1; }
+                if (ab.p2)         { const el = document.querySelector('#quienes-somos .about-text > p:nth-of-type(2)'); if (el) el.textContent = ab.p2; }
+            }
+            // How it works
+            if (data.howItWorks) {
+                const hw = data.howItWorks;
+                if (hw.heading) { const el = document.getElementById('cms-how-heading'); if (el) el.textContent = hw.heading; }
+                if (hw.steps && hw.steps.length) {
+                    const grid = document.getElementById('cms-how-steps');
+                    if (grid) {
+                        grid.innerHTML = '';
+                        hw.steps.forEach(function(s, i) {
+                            const card = document.createElement('div');
+                            card.className = 'step-card';
+                            const num = document.createElement('div'); num.className = 'step-number'; num.textContent = s.num || ('0'+(i+1));
+                            const icon = document.createElement('div'); icon.className = 'step-icon'; icon.textContent = '🌿';
+                            const h3 = document.createElement('h3'); h3.textContent = s.title || '';
+                            const p  = document.createElement('p');  p.textContent  = s.desc  || '';
+                            card.appendChild(num); card.appendChild(icon); card.appendChild(h3); card.appendChild(p);
+                            grid.appendChild(card);
+                            if (i < hw.steps.length - 1) {
+                                const conn = document.createElement('div'); conn.className = 'step-connector'; grid.appendChild(conn);
+                            }
+                        });
+                    }
+                }
+            }
+            // Testimonials
+            if (data.testimonials) {
+                const tm = data.testimonials;
+                if (tm.heading) { const el = document.getElementById('cms-test-heading'); if (el) el.textContent = tm.heading; }
+                if (tm.items && tm.items.length) {
+                    const grid = document.getElementById('cms-testimonials');
+                    if (grid) {
+                        grid.innerHTML = '';
+                        tm.items.forEach(function(t) {
+                            const card = document.createElement('div'); card.className = 'testimonial-card';
+                            const stars = document.createElement('div'); stars.className = 'testimonial-stars'; stars.textContent = '★'.repeat(Math.min(5, parseInt(t.stars)||5));
+                            const quote = document.createElement('p');   quote.className = 'testimonial-quote'; quote.textContent = '\u201c' + (t.quote||'') + '\u201d';
+                            const auth  = document.createElement('div'); auth.className = 'testimonial-author';
+                            const av    = document.createElement('div'); av.className = 'author-avatar';    av.textContent = ((t.author||'?')[0]||'?').toUpperCase();
+                            const info  = document.createElement('div');
+                            const name  = document.createElement('strong'); name.textContent = t.author   || '';
+                            const loc   = document.createElement('span');   loc.textContent  = t.location || '';
+                            info.appendChild(name); info.appendChild(loc);
+                            auth.appendChild(av); auth.appendChild(info);
+                            card.appendChild(stars); card.appendChild(quote); card.appendChild(auth);
+                            grid.appendChild(card);
+                        });
+                    }
+                }
+            }
+            // Contact
+            if (data.contact) {
+                const ct = data.contact;
+                if (ct.email)   { document.querySelectorAll('.contact-details .contact-item').forEach(function(item) { const s = item.querySelector('.icon'); if (s && s.textContent.includes('📧')) { const p = item.querySelector('p'); if (p) p.textContent = ct.email; } }); }
+                if (ct.phone)   { document.querySelectorAll('.contact-details .contact-item').forEach(function(item) { const s = item.querySelector('.icon'); if (s && s.textContent.includes('📱')) { const p = item.querySelector('p'); if (p) p.textContent = ct.phone; } }); }
+                if (ct.address) { document.querySelectorAll('.contact-details .contact-item').forEach(function(item) { const s = item.querySelector('.icon'); if (s && s.textContent.includes('📍')) { const p = item.querySelector('p'); if (p) p.textContent = ct.address; } }); }
+                if (ct.wa) {
+                    document.querySelectorAll('a[href*="wa.me"]').forEach(function(a) {
+                        const msg = encodeURIComponent('Hola, quisiera información sobre las sesiones de terapia');
+                        a.href = 'https://wa.me/' + ct.wa + '?text=' + msg;
+                    });
+                }
+            }
+            // Schedule
+            if (data.schedule) {
+                const sc = data.schedule;
+                const cards = document.querySelectorAll('.schedule-card');
+                if (cards[0]) {
+                    if (sc.days1) { const h = cards[0].querySelector('h3'); if (h) h.textContent = sc.days1; }
+                    if (sc.hours1) { const p = cards[0].querySelector('.schedule-time'); if (p) p.textContent = sc.hours1; }
+                }
+                if (cards[1]) {
+                    if (sc.days2) { const h = cards[1].querySelector('h3'); if (h) h.textContent = sc.days2; }
+                    if (sc.hours2) { const p = cards[1].querySelector('.schedule-time'); if (p) p.textContent = sc.hours2; }
+                }
+                if (sc.note) { const el = document.querySelector('.schedule-note'); if (el) el.textContent = sc.note; }
+            }
+        } catch(e) { /* CMS integration: graceful fail */ }
+    })();
+    </script>
 </body>
 </html>
