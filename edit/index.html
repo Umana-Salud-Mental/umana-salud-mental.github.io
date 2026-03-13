@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Umana CMS – Panel de Administración</title>
+    <meta name="robots" content="noindex, nofollow">
+    <!-- Quill rich-text editor -->
+    <link href="https://cdn.quilljs.com/1.3.7/quill.snow.css" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --green:   #5D8064;
+            --cream:   #F5EFE6;
+            --dark:    #2F2F2F;
+            --peach:   #D9A88F;
+            --light:   #B7C6AD;
+            --white:   #ffffff;
+            --border:  #ddd;
+            --danger:  #c0392b;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background: var(--cream);
+            color: var(--dark);
+            min-height: 100vh;
+        }
+
+        /* ── Login screen ── */
+        #login-screen {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+        .login-card {
+            background: var(--white);
+            border-radius: 12px;
+            padding: 2.5rem 2rem;
+            width: 100%;
+            max-width: 380px;
+            box-shadow: 0 4px 24px rgba(0,0,0,.12);
+        }
+        .login-card h1 {
+            font-size: 1.6rem;
+            color: var(--green);
+            margin-bottom: .25rem;
+        }
+        .login-card p { color: #666; margin-bottom: 1.5rem; font-size: .9rem; }
+        .form-group { margin-bottom: 1rem; }
+        .form-group label { display: block; font-size: .85rem; font-weight: 600; margin-bottom: .35rem; }
+        .form-group input {
+            width: 100%; padding: .65rem .85rem;
+            border: 1.5px solid var(--border); border-radius: 8px;
+            font-size: .95rem; outline: none; transition: border-color .2s;
+        }
+        .form-group input:focus { border-color: var(--green); }
+        .btn-primary {
+            width: 100%; padding: .75rem;
+            background: var(--green); color: var(--white);
+            border: none; border-radius: 8px;
+            font-size: 1rem; font-weight: 600;
+            cursor: pointer; transition: opacity .2s;
+        }
+        .btn-primary:hover { opacity: .88; }
+        .login-error {
+            color: var(--danger); font-size: .85rem;
+            margin-top: .75rem; display: none;
+        }
+
+        /* ── App shell ── */
+        #app { display: none; min-height: 100vh; }
+
+        header.cms-header {
+            background: var(--green);
+            color: var(--white);
+            padding: .9rem 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        header.cms-header h1 { font-size: 1.2rem; letter-spacing: .03em; }
+        .btn-logout {
+            background: rgba(255,255,255,.18);
+            color: var(--white);
+            border: 1px solid rgba(255,255,255,.4);
+            padding: .4rem .9rem;
+            border-radius: 6px; cursor: pointer; font-size: .85rem;
+            transition: background .2s;
+        }
+        .btn-logout:hover { background: rgba(255,255,255,.3); }
+
+        .cms-body {
+            display: flex;
+            min-height: calc(100vh - 56px);
+        }
+
+        /* ── Sidebar ── */
+        .sidebar {
+            width: 280px; min-width: 220px;
+            background: var(--white);
+            border-right: 1px solid var(--border);
+            display: flex; flex-direction: column;
+        }
+        .sidebar-header {
+            padding: 1rem 1.25rem;
+            display: flex; align-items: center; justify-content: space-between;
+            border-bottom: 1px solid var(--border);
+        }
+        .sidebar-header h2 { font-size: .95rem; color: #555; }
+        .btn-new {
+            background: var(--green); color: var(--white);
+            border: none; border-radius: 6px;
+            padding: .4rem .8rem; font-size: .8rem;
+            cursor: pointer; font-weight: 600;
+            transition: opacity .2s;
+        }
+        .btn-new:hover { opacity: .85; }
+
+        #post-list { list-style: none; overflow-y: auto; flex: 1; }
+        #post-list li {
+            padding: .8rem 1.25rem;
+            border-bottom: 1px solid #f0f0f0;
+            cursor: pointer;
+            transition: background .15s;
+            display: flex; align-items: center; justify-content: space-between;
+        }
+        #post-list li:hover { background: #f8f8f8; }
+        #post-list li.active { background: #edf3ef; border-left: 3px solid var(--green); }
+        .post-list-title { font-size: .9rem; font-weight: 500; }
+        .post-list-date { font-size: .75rem; color: #999; margin-top: .15rem; }
+        .btn-delete-list {
+            background: none; border: none; color: #ccc;
+            cursor: pointer; font-size: 1rem; padding: .2rem .4rem;
+            border-radius: 4px; transition: color .15s, background .15s;
+            flex-shrink: 0;
+        }
+        .btn-delete-list:hover { color: var(--danger); background: #fdecea; }
+
+        /* ── Editor panel ── */
+        .editor-panel {
+            flex: 1; padding: 1.5rem 2rem;
+            display: flex; flex-direction: column; gap: 1rem;
+            overflow-y: auto;
+        }
+        .editor-panel .empty-state {
+            margin: auto;
+            text-align: center; color: #bbb;
+        }
+        .editor-panel .empty-state svg { margin-bottom: 1rem; opacity: .4; }
+        .editor-panel .empty-state p { font-size: 1rem; }
+
+        .field-row { display: flex; gap: 1rem; flex-wrap: wrap; }
+        .field-group { display: flex; flex-direction: column; gap: .35rem; flex: 1; min-width: 200px; }
+        .field-group label { font-size: .8rem; font-weight: 600; color: #555; }
+        .field-group input, .field-group select, .field-group textarea {
+            padding: .6rem .8rem;
+            border: 1.5px solid var(--border); border-radius: 7px;
+            font-size: .95rem; outline: none; transition: border-color .2s;
+            font-family: inherit;
+        }
+        .field-group input:focus, .field-group select:focus, .field-group textarea:focus {
+            border-color: var(--green);
+        }
+
+        .quill-wrapper { border: 1.5px solid var(--border); border-radius: 7px; overflow: hidden; }
+        .quill-wrapper .ql-toolbar { border: none; border-bottom: 1px solid var(--border); }
+        .quill-wrapper .ql-container { border: none; font-size: .95rem; }
+        #editor { min-height: 320px; }
+
+        .editor-actions {
+            display: flex; gap: .75rem; align-items: center;
+        }
+        .btn-save {
+            background: var(--green); color: var(--white);
+            border: none; border-radius: 8px;
+            padding: .65rem 1.6rem; font-size: .95rem; font-weight: 600;
+            cursor: pointer; transition: opacity .2s;
+        }
+        .btn-save:hover { opacity: .87; }
+        .btn-discard {
+            background: none; color: #999;
+            border: 1px solid var(--border); border-radius: 8px;
+            padding: .65rem 1.2rem; font-size: .95rem;
+            cursor: pointer; transition: border-color .2s, color .2s;
+        }
+        .btn-discard:hover { border-color: #999; color: var(--dark); }
+        .btn-delete-post {
+            background: none; color: var(--danger);
+            border: 1px solid var(--danger); border-radius: 8px;
+            padding: .65rem 1.2rem; font-size: .95rem;
+            cursor: pointer; margin-left: auto;
+            transition: background .2s, color .2s;
+        }
+        .btn-delete-post:hover { background: var(--danger); color: var(--white); }
+        .save-msg {
+            font-size: .85rem; color: var(--green); display: none; align-items: center; gap: .3rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 640px) {
+            .sidebar { width: 100%; min-width: unset; border-right: none; border-bottom: 1px solid var(--border); }
+            .cms-body { flex-direction: column; }
+            .editor-panel { padding: 1rem; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- ══════════════ LOGIN SCREEN ══════════════ -->
+<div id="login-screen">
+    <div class="login-card">
+        <h1>Umana CMS</h1>
+        <p>Inicia sesión para administrar el blog.</p>
+        <form id="login-form" novalidate>
+            <div class="form-group">
+                <label for="username">Usuario</label>
+                <input type="text" id="username" autocomplete="username" placeholder="usuario" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Contraseña</label>
+                <input type="password" id="password" autocomplete="current-password" placeholder="••••••••" required>
+            </div>
+            <button type="submit" class="btn-primary">Entrar</button>
+            <p class="login-error" id="login-error">Usuario o contraseña incorrectos.</p>
+        </form>
+    </div>
+</div>
+
+<!-- ══════════════ MAIN APP ══════════════ -->
+<div id="app">
+    <header class="cms-header">
+        <h1>✏️ Umana CMS – Administrar Blog</h1>
+        <button class="btn-logout" id="btn-logout">Cerrar sesión</button>
+    </header>
+
+    <div class="cms-body">
+        <!-- Sidebar: post list -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>Artículos</h2>
+                <button class="btn-new" id="btn-new-post">+ Nuevo</button>
+            </div>
+            <ul id="post-list"></ul>
+        </aside>
+
+        <!-- Editor area -->
+        <main class="editor-panel" id="editor-panel">
+            <div class="empty-state" id="empty-state">
+                <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <path d="M12 20h9M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/>
+                </svg>
+                <p>Selecciona un artículo o crea uno nuevo.</p>
+            </div>
+        </main>
+    </div>
+</div>
+
+<script src="https://cdn.quilljs.com/1.3.7/quill.min.js"></script>
+<script>
+// ─────────────────────────────────────────────────────────────
+// ⚠️  IMPORTANT: Change the password below before deploying!
+//
+// NOTE ON SECURITY: This is a purely static site (GitHub Pages)
+// with no server-side runtime, so credentials must live in
+// client-side JS. The login check only prevents casual access —
+// it does NOT protect data from someone who reads the source.
+// For true security, migrate to a backend or a service like
+// Netlify Identity / Supabase Auth.
+//
+// To change the password: edit the 'password' field below and
+// redeploy the site.
+// ─────────────────────────────────────────────────────────────
+const CMS_USERS = [
+    { username: 'admin', password: 'umana2024' }
+];
+const STORAGE_KEY = 'umana_cms_posts';
+const SESSION_KEY = 'umana_cms_session';
+
+// ─────────────────────────────────────────────────────────────
+// Utilities
+// ─────────────────────────────────────────────────────────────
+function loadPosts() {
+    try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || []; }
+    catch { return []; }
+}
+function savePosts(posts) {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(posts));
+}
+function uuid() {
+    return Date.now().toString(36) + Math.random().toString(36).slice(2);
+}
+function formatDate(iso) {
+    if (!iso) return '';
+    return new Date(iso).toLocaleDateString('es-ES', { year: 'numeric', month: 'short', day: 'numeric' });
+}
+
+// ─────────────────────────────────────────────────────────────
+// Auth
+// ─────────────────────────────────────────────────────────────
+function isLoggedIn() {
+    return sessionStorage.getItem(SESSION_KEY) === 'ok';
+}
+function login(user, pass) {
+    return CMS_USERS.some(u => u.username === user && u.password === pass);
+}
+function logout() {
+    sessionStorage.removeItem(SESSION_KEY);
+    location.reload();
+}
+
+document.getElementById('login-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const user = document.getElementById('username').value.trim();
+    const pass = document.getElementById('password').value;
+    if (login(user, pass)) {
+        sessionStorage.setItem(SESSION_KEY, 'ok');
+        showApp();
+    } else {
+        const err = document.getElementById('login-error');
+        err.style.display = 'block';
+        setTimeout(() => err.style.display = 'none', 3000);
+    }
+});
+
+document.getElementById('btn-logout').addEventListener('click', logout);
+
+// ─────────────────────────────────────────────────────────────
+// CMS state
+// ─────────────────────────────────────────────────────────────
+let posts = [];
+let activeId = null;
+let quill = null;
+
+// ─────────────────────────────────────────────────────────────
+// Render sidebar list
+// ─────────────────────────────────────────────────────────────
+function renderList() {
+    const ul = document.getElementById('post-list');
+    ul.innerHTML = '';
+    if (posts.length === 0) {
+        ul.innerHTML = '<li style="padding:1rem;color:#bbb;font-size:.85rem;">Sin artículos aún.</li>';
+        return;
+    }
+    posts.forEach(p => {
+        const li = document.createElement('li');
+        if (p.id === activeId) li.classList.add('active');
+        li.innerHTML = `
+            <div style="flex:1;min-width:0;">
+                <div class="post-list-title" style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${p.title || '(sin título)'}</div>
+                <div class="post-list-date">${formatDate(p.updatedAt || p.createdAt)}</div>
+            </div>
+            <button class="btn-delete-list" data-id="${p.id}" title="Eliminar">×</button>
+        `;
+        li.addEventListener('click', function(e) {
+            if (e.target.closest('.btn-delete-list')) return;
+            openPost(p.id);
+        });
+        li.querySelector('.btn-delete-list').addEventListener('click', function(e) {
+            e.stopPropagation();
+            if (confirm(`¿Eliminar "${p.title || 'este artículo'}"?`)) {
+                deletePost(p.id);
+            }
+        });
+        ul.appendChild(li);
+    });
+}
+
+// ─────────────────────────────────────────────────────────────
+// Editor
+// ─────────────────────────────────────────────────────────────
+function buildEditor(post) {
+    const panel = document.getElementById('editor-panel');
+    panel.innerHTML = `
+        <div class="field-row">
+            <div class="field-group" style="flex:2">
+                <label for="f-title">Título del artículo</label>
+                <input type="text" id="f-title" placeholder="Escribe un título..." value="${escapeAttr(post.title || '')}">
+            </div>
+            <div class="field-group" style="flex:1">
+                <label for="f-category">Categoría</label>
+                <select id="f-category">
+                    ${['Ansiedad','Depresión','Relaciones','Estrés','Autocuidado','Familia','General'].map(c =>
+                        `<option value="${c}"${post.category===c?' selected':''}>${c}</option>`
+                    ).join('')}
+                </select>
+            </div>
+        </div>
+        <div class="field-row">
+            <div class="field-group" style="flex:2">
+                <label for="f-excerpt">Extracto (resumen corto)</label>
+                <textarea id="f-excerpt" rows="2" placeholder="Breve descripción...">${escapeHTML(post.excerpt || '')}</textarea>
+            </div>
+            <div class="field-group" style="flex:1">
+                <label for="f-status">Estado</label>
+                <select id="f-status">
+                    <option value="draft"${post.status==='draft'||!post.status?' selected':''}>Borrador</option>
+                    <option value="published"${post.status==='published'?' selected':''}>Publicado</option>
+                </select>
+            </div>
+        </div>
+        <div class="field-group">
+            <label>Contenido</label>
+            <div class="quill-wrapper">
+                <div id="editor"></div>
+            </div>
+        </div>
+        <div class="editor-actions">
+            <button class="btn-save" id="btn-save">💾 Guardar</button>
+            <button class="btn-discard" id="btn-discard">Cancelar</button>
+            <span class="save-msg" id="save-msg">✓ Guardado</span>
+            <button class="btn-delete-post" id="btn-delete-post">Eliminar artículo</button>
+        </div>
+    `;
+
+    // Init Quill (with graceful fallback to textarea if CDN blocked)
+    if (typeof Quill !== 'undefined') {
+        quill = new Quill('#editor', {
+            theme: 'snow',
+            placeholder: 'Escribe el contenido del artículo aquí...',
+            modules: {
+                toolbar: [
+                    [{ header: [2, 3, false] }],
+                    ['bold', 'italic', 'underline', 'strike'],
+                    [{ color: [] }, { background: [] }],
+                    [{ list: 'ordered' }, { list: 'bullet' }],
+                    [{ align: [] }],
+                    ['blockquote', 'code-block'],
+                    ['link'],
+                    ['clean']
+                ]
+            }
+        });
+        if (post.content) quill.root.innerHTML = post.content;
+    } else {
+        // Fallback: plain textarea
+        document.getElementById('editor').outerHTML =
+            `<textarea id="editor-fallback" style="width:100%;min-height:320px;padding:.75rem;font-size:.95rem;font-family:inherit;border:none;resize:vertical;outline:none;" placeholder="Escribe el contenido del artículo aquí...">${escapeHTML(post.content || '')}</textarea>`;
+        quill = null;
+    }
+
+    document.getElementById('btn-save').addEventListener('click', () => savePost(post.id));
+    document.getElementById('btn-discard').addEventListener('click', () => {
+        activeId = null;
+        renderList();
+        showEmptyState();
+    });
+    document.getElementById('btn-delete-post').addEventListener('click', () => {
+        if (confirm(`¿Eliminar "${post.title || 'este artículo'}"?`)) deletePost(post.id);
+    });
+}
+
+function escapeAttr(s) { return String(s).replace(/"/g,'&quot;').replace(/</g,'&lt;'); }
+function escapeHTML(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+function showEmptyState() {
+    const panel = document.getElementById('editor-panel');
+    panel.innerHTML = `
+        <div class="empty-state" id="empty-state">
+            <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M12 20h9M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/>
+            </svg>
+            <p>Selecciona un artículo o crea uno nuevo.</p>
+        </div>`;
+    quill = null;
+}
+
+function openPost(id) {
+    const post = posts.find(p => p.id === id);
+    if (!post) return;
+    activeId = id;
+    renderList();
+    buildEditor(post);
+}
+
+function savePost(id) {
+    const idx = posts.findIndex(p => p.id === id);
+    if (idx === -1) return;
+    posts[idx].title    = document.getElementById('f-title').value.trim();
+    posts[idx].category = document.getElementById('f-category').value;
+    posts[idx].excerpt  = document.getElementById('f-excerpt').value.trim();
+    posts[idx].status   = document.getElementById('f-status').value;
+    posts[idx].content  = quill ? quill.root.innerHTML
+                        : (document.getElementById('editor-fallback') ? document.getElementById('editor-fallback').value : '');
+    posts[idx].updatedAt = new Date().toISOString();
+    savePosts(posts);
+    renderList();
+    // Flash save message
+    const msg = document.getElementById('save-msg');
+    if (msg) { msg.style.display = 'flex'; setTimeout(() => msg.style.display = 'none', 2000); }
+}
+
+function deletePost(id) {
+    posts = posts.filter(p => p.id !== id);
+    savePosts(posts);
+    if (activeId === id) { activeId = null; showEmptyState(); }
+    renderList();
+}
+
+function newPost() {
+    const post = {
+        id: uuid(),
+        title: '',
+        category: 'General',
+        excerpt: '',
+        status: 'draft',
+        content: '',
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString()
+    };
+    posts.unshift(post);
+    savePosts(posts);
+    activeId = post.id;
+    renderList();
+    buildEditor(post);
+    document.getElementById('f-title').focus();
+}
+
+document.getElementById('btn-new-post').addEventListener('click', newPost);
+
+// ─────────────────────────────────────────────────────────────
+// Boot
+// ─────────────────────────────────────────────────────────────
+function showApp() {
+    document.getElementById('login-screen').style.display = 'none';
+    document.getElementById('app').style.display = 'block';
+    posts = loadPosts();
+    renderList();
+}
+
+if (isLoggedIn()) showApp();
+</script>
+</body>
+</html>
