@@ -1,11 +1,12 @@
 /* ═══════════════════════════════════════════════════════════
    UMANA – Design System 2026
-   Typography : Instrument Serif (display) · Plus Jakarta Sans (UI)
+   Typography : Fraunces (headings) · Instrument Serif (display) · Plus Jakarta Sans (UI)
    Motion     : scroll-reveal · counter · magnetic CTA · tilt card
    ═══════════════════════════════════════════════════════════ */
 
 /* CSS Custom Properties */
 :root {
+  --font-heading: 'Fraunces', Georgia, serif;
   --font-display: 'Instrument Serif', Georgia, serif;
   --font-body:    'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 
@@ -64,21 +65,21 @@ body {
 
 /* ── Global Typography ────────────────────────────────────── */
 h1, h2, h3, h4, h5 {
-    font-family: var(--font-display);
-    font-weight: 400;
+    font-family: var(--font-heading);
+    font-weight: 900;
     line-height: 1.2;
-    letter-spacing: -0.015em;
+    letter-spacing: -0.02em;
     color: var(--color-dark);
 }
 h2 { font-size: clamp(1.9rem, 3.5vw, 2.6rem); }
 h3 { font-size: clamp(1.2rem, 2vw, 1.5rem); }
 
-/* Display-scale headings keep their colour overrides but gain the font */
+/* Display-scale headings keep their colour overrides */
 .about h2, .services h2, .schedule h2, .faq h2, .contact h2,
 .testimonials h2, .como-funciona h2 {
-    font-family: var(--font-display);
+    font-family: var(--font-heading);
     font-size: clamp(1.9rem, 3.5vw, 2.6rem);
-    font-weight: 400;
+    font-weight: 900;
 }
 
 /* ── Scroll-reveal utility ───────────────────────────────── */

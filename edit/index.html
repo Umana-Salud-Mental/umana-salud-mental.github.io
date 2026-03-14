@@ -267,6 +267,10 @@
 
                 <!-- ── BLOG POSTS ── -->
                 <section class="cms-view" id="view-posts">
+                    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.85rem;flex-wrap:wrap;gap:.6rem;">
+                        <h2 style="font-size:1.1rem;font-weight:700;margin:0;">📝 Blog / Artículos</h2>
+                        <button class="btn btn-primary" onclick="openNewPost()">✍️ Nuevo artículo</button>
+                    </div>
                     <div class="list-toolbar">
                         <input type="text" id="search-posts" placeholder="🔍  Buscar artículos..." oninput="renderPostList()">
                         <select id="filter-category" onchange="renderPostList()">
@@ -303,8 +307,8 @@
 
                 <!-- ── SITE CONTENT ── -->
                 <section class="cms-view" id="view-site-content">
-                    <div class="info-banner">
-                        💡 <strong>¿Cómo funciona?</strong> Los cambios que guardes aquí se aplican automáticamente al visitar el sitio desde <em>este mismo navegador</em> (localStorage). Para que todos los usuarios vean los cambios, exporta los datos y actualiza el HTML correspondiente.
+                    <div class="info-banner" id="cms-content-banner">
+                        🔑 <strong>Publicación automática:</strong> Los cambios se guardan en este navegador <em>y</em> se publican en GitHub si tienes el Token configurado en Configuración — todos los usuarios verán los cambios sin pasos adicionales.
                     </div>
                     <div class="content-tabs" id="content-tabs">
                         <button class="content-tab active" data-section="hero">🖼️ Hero</button>
@@ -885,9 +889,21 @@ function savePost() {
 function confirmDel(id) {
     const p = posts.find(x => x.id === id);
     if (confirm(`¿Eliminar "${p?.title||'este artículo'}"?`)) {
+        const staticPath = p?.staticUrl ? p.staticUrl.replace(/^\//, '') : null;
         posts = posts.filter(x => x.id !== id); savePosts();
         if (editId === id) closeEditor();
         renderPostList(); refreshDashboard();
+        // Delete static file + update sitemap on GitHub if token is set
+        if (staticPath && getGHConfig().token) {
+            (async () => {
+                try {
+                    await ghDeleteFile(staticPath, `blog: delete "${p?.title||id}"`);
+                    await ghPutFile('sitemap.xml', buildSitemapXml(), `seo: remove "${p?.title||id}" from sitemap`);
+                } catch(e) {
+                    console.warn('GitHub delete failed:', e.message);
+                }
+            })();
+        }
     }
 }
 function deleteCurrentPost() { if (editId) confirmDel(editId); }
@@ -1008,6 +1024,7 @@ function saveSiteSection(s) {
     if (s === 'branding') data = { logoUrl:v('branding-logo'), siteName:v('branding-name') };
     if (s === 'blogPreview') data = { heading:v('bp-heading'), intro:v('bp-intro') };
     siteContent[s] = data; saveContent(); flash('sf-'+s);
+    pushSiteContentToGitHub();
 }
 
 function resetSiteSection(s) {
@@ -1265,6 +1282,26 @@ async function ghGetFileSHA(path) {
     return null;
 }
 
+async function ghDeleteFile(path, message) {
+    const { token, repo, branch } = getGHConfig();
+    if (!token) return; // no token — silently skip
+    const sha = await ghGetFileSHA(path);
+    if (!sha) return; // file already gone
+    const res = await fetch(`https://api.github.com/repos/${repo}/contents/${path}`, {
+        method: 'DELETE',
+        headers: {
+            'Authorization': 'token ' + token,
+            'Accept': 'application/vnd.github.v3+json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ message, sha, branch })
+    });
+    if (!res.ok) {
+        const d = await res.json();
+        throw new Error(d.message || res.status);
+    }
+}
+
 async function ghPutFile(path, content, message) {
     const { token, repo, branch } = getGHConfig();
     const sha = await ghGetFileSHA(path);
@@ -1284,6 +1321,18 @@ async function ghPutFile(path, content, message) {
         throw new Error(d.message || res.status);
     }
     return res.json();
+}
+
+// ── Push full site-content.json to GitHub so ALL visitors see changes ──
+async function pushSiteContentToGitHub() {
+    const { token } = getGHConfig();
+    if (!token) return; // no token, localStorage-only — silently skip
+    try {
+        const json = JSON.stringify(siteContent, null, 2);
+        await ghPutFile('site-content.json', json, 'cms: update site content');
+    } catch(e) {
+        console.warn('site-content.json push failed:', e.message);
+    }
 }
 
 function buildSitemapXml() {

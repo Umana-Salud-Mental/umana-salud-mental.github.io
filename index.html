@@ -147,7 +147,7 @@
     <!-- ═══ Fonts ══════════════════════════════════════════════════ -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,900;1,9..144,900&family=Instrument+Serif:ital@0;1&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
 
     <!-- ═══ Sitemap reference ══════════════════════════════════════ -->
     <link rel="sitemap" type="application/xml" href="/sitemap.xml">
@@ -852,11 +852,10 @@
         });
     })();
 
-    // ── CMS localStorage integration ──
-    // Reads content stored via the CMS at /edit and applies it to the live page.
+    // ── CMS content integration ──
+    // Priority: 1) /site-content.json (committed via admin GitHub API) 2) localStorage (local browser only)
     (function() {
-        try {
-            const data = JSON.parse(localStorage.getItem('umana_site_content') || '{}');
+        function applyCMSData(data) {
             if (!data || !Object.keys(data).length) return;
 
             // Hero
@@ -1023,7 +1022,22 @@
                 if (bp.heading) { var bpH = document.querySelector('#blog-preview h2'); if (bpH) bpH.textContent = bp.heading; }
                 if (bp.intro)   { var bpI = document.querySelector('#blog-preview .section-intro'); if (bpI) bpI.textContent = bp.intro; }
             }
-        } catch(e) { /* CMS integration: graceful fail */ }
+        } // end applyCMSData
+
+        // Try server-side site-content.json first (written by admin GitHub API)
+        fetch('/site-content.json?v=' + Date.now())
+            .then(function(r) { return r.ok ? r.json() : Promise.reject(); })
+            .then(function(d) {
+                applyCMSData(d);
+                // Also sync to localStorage so admin sees it
+                try { localStorage.setItem('umana_site_content', JSON.stringify(d)); } catch(_) {}
+            })
+            .catch(function() {
+                // Fallback: apply from localStorage (admin's own browser only)
+                try {
+                    applyCMSData(JSON.parse(localStorage.getItem('umana_site_content') || '{}'));
+                } catch(_) {}
+            });
 
         // ── Render CMS blog posts in the homepage preview grid ──
         (function () {

@@ -89,7 +89,7 @@
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,900;1,9..144,900&family=Instrument+Serif:ital@0;1&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
     <!-- Styles -->
     <link rel="stylesheet" href="styles.css">
@@ -133,14 +133,15 @@
 
             <!-- Enhanced Search -->
             <div class="search-wrapper">
-                <div class="search-box-container">
+                <div class="search-box-container" style="position:relative;">
                     <svg class="search-icon" width="20" height="20" viewBox="0 0 20 20" fill="none">
                         <path d="M9 17A8 8 0 1 0 9 1a8 8 0 0 0 0 16zM19 19l-4.35-4.35" stroke="#5D8064" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                     </svg>
                     <input type="text" class="search-input" placeholder="Buscar por tema, palabra clave..." id="searchInput"
-                           data-i18n-placeholder="rec.search.ph">
+                           data-i18n-placeholder="rec.search.ph" autocomplete="off" role="combobox" aria-autocomplete="list" aria-controls="search-suggestions">
                     <button class="search-clear-btn" id="searchClear" type="button" aria-label="Limpiar búsqueda" style="display:none;">&#x2715;</button>
-                    <button class="search-btn" onclick="performSearch()" data-i18n="rec.search.btn">Buscar</button>
+                    <button class="search-btn" onclick="performSearch(); closeSuggestions();" data-i18n="rec.search.btn">Buscar</button>
+                    <ul id="search-suggestions" role="listbox" style="display:none;position:absolute;top:calc(100% + 8px);left:0;right:0;background:#fff;border:1px solid #e0e8e0;border-radius:12px;box-shadow:0 8px 24px rgba(93,128,100,.15);list-style:none;margin:0;padding:.4rem 0;z-index:200;max-height:260px;overflow-y:auto;"></ul>
                 </div>
             </div>
 
@@ -567,7 +568,8 @@
         var searchDebounce = null;
         var activeCategory = 'all';
 
-        function performSearch(termOverride) {
+        function performSearch(termOverride, scrollToResults) {
+            if (scrollToResults === undefined) scrollToResults = true;
             var term = (termOverride !== undefined
                 ? termOverride
                 : document.getElementById('searchInput').value
@@ -597,11 +599,53 @@
                 noMsg.style.display = (matched === 0 && term) ? '' : 'none';
             }
 
-            // Scroll to articles section when the user actively searched
-            if (term) {
+            // Only scroll when explicitly called from button/Enter (not during live typing)
+            if (term && scrollToResults) {
                 var section = document.querySelector('.articles-section');
                 if (section) section.scrollIntoView({ behavior: 'smooth', block: 'start' });
             }
+        }
+
+        // ── Search suggestions dropdown ──────────────────────────────
+        function buildSuggestions(term) {
+            var list = document.getElementById('search-suggestions');
+            if (!list) return;
+            if (!term || term.length < 2) { list.style.display = 'none'; return; }
+            var matches = [];
+            document.querySelectorAll('#articlesGrid .article-card, .featured-card').forEach(function(article) {
+                var el = article.querySelector('h3') || article.querySelector('h2');
+                if (!el) return;
+                var title = el.textContent.trim();
+                if (title.toLowerCase().includes(term) && !matches.includes(title)) matches.push(title);
+            });
+            if (!matches.length) { list.style.display = 'none'; return; }
+            list.innerHTML = matches.slice(0, 8).map(function(t) {
+                var hi = t.replace(new RegExp('(' + term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + ')', 'gi'),
+                    '<strong style="color:#5D8064;">$1</strong>');
+                var safeTitle = t.replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+                return '<li role="option" style="padding:.6rem 1.2rem;cursor:pointer;font-size:.92rem;color:#2F2F2F;transition:background .15s;" ' +
+                    'onmouseenter="this.style.background=\'#f5efe6\'" onmouseleave="this.style.background=\'\'" ' +
+                    'data-title="' + safeTitle + '">' + hi + '</li>';
+            }).join('');
+            // Use event delegation — avoid inline JS with user data
+            list.querySelectorAll('li').forEach(function(li) {
+                li.addEventListener('mousedown', function(e) { e.preventDefault(); selectSuggestion(this.dataset.title); });
+            });
+            list.style.display = 'block';
+        }
+
+        function selectSuggestion(title) {
+            var inp = document.getElementById('searchInput');
+            if (inp) inp.value = title;
+            closeSuggestions();
+            performSearch();
+            var section = document.querySelector('.articles-section');
+            if (section) section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        function closeSuggestions() {
+            var list = document.getElementById('search-suggestions');
+            if (list) list.style.display = 'none';
         }
 
         function clearSearch() {
@@ -609,6 +653,7 @@
             if (inp) inp.value = '';
             var clearBtn = document.getElementById('searchClear');
             if (clearBtn) clearBtn.style.display = 'none';
+            closeSuggestions();
             var noMsg = document.getElementById('no-results-msg');
             if (noMsg) noMsg.style.display = 'none';
             // Re-apply only the category filter
@@ -617,16 +662,23 @@
             });
         }
 
-        // Live search as you type (300 ms debounce)
+        // Live search as you type (300 ms debounce) — no scroll on input
         document.getElementById('searchInput').addEventListener('input', function() {
             clearTimeout(searchDebounce);
             var val = this.value;
-            searchDebounce = setTimeout(function() { performSearch(val.trim().toLowerCase()); }, 300);
+            buildSuggestions(val.trim().toLowerCase());
+            searchDebounce = setTimeout(function() { performSearch(val.trim().toLowerCase(), false); }, 300);
         });
 
-        // Enter key
+        // Enter key — scroll to results
         document.getElementById('searchInput').addEventListener('keydown', function(e) {
-            if (e.key === 'Enter') { clearTimeout(searchDebounce); performSearch(); }
+            if (e.key === 'Enter') { clearTimeout(searchDebounce); closeSuggestions(); performSearch(null, true); }
+            if (e.key === 'Escape') clearSearch();
+        });
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('.search-box-container')) closeSuggestions();
         });
 
         // Clear button (×)

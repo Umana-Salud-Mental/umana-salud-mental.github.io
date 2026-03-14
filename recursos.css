@@ -40,14 +40,14 @@ nav:hover {
 .breadcrumb span    { color: #2F2F2F; }
 
 .recursos-hero h1 {
-    font-family: var(--font-display, 'Instrument Serif', Georgia, serif);
+    font-family: var(--font-heading, 'Fraunces', Georgia, serif);
     font-size: clamp(2.2rem, 5vw, 3.4rem);
     color: #2F2F2F;
     margin-bottom: 1rem;
-    font-weight: 400;
+    font-weight: 900;
     text-align: center;
-    letter-spacing: -0.02em;
-    line-height: 1.15;
+    letter-spacing: -0.025em;
+    line-height: 1.1;
 }
 
 .hero-subtitle {
@@ -201,11 +201,13 @@ nav:hover {
 }
 
 .section-title {
+    font-family: var(--font-heading, 'Fraunces', Georgia, serif);
     font-size: 2.5rem;
     color: #2F2F2F;
     margin-bottom: 3rem;
     text-align: center;
-    font-weight: 700;
+    font-weight: 900;
+    letter-spacing: -0.02em;
 }
 
 .featured-grid {
