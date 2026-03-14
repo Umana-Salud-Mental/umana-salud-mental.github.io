@@ -2827,3 +2827,9 @@ nav .container {
     .outcomes-grid  { grid-template-columns: 1fr; }
     .help-pills     { gap: 0.5rem; }
 }
+
+/* ══════════════════════════════════════════════════════════
+   HIDDEN SECTIONS  (temporarily hidden, not deleted)
+   Re-enable by removing these rules.
+══════════════════════════════════════════════════════════ */
+#terapeutas { display: none !important; }
