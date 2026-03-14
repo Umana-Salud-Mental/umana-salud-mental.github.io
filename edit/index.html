@@ -335,6 +335,16 @@
                             <div class="field-group"><label>Texto botón CTA</label><input type="text" id="hero-cta" placeholder="Comienza tu viaje de bienestar"></div>
                             <div class="field-group"><label>Enlace botón CTA</label><input type="text" id="hero-cta-link" placeholder="#contacto"></div>
                         </div>
+                        <div class="field-group">
+                            <label>Imagen de portada / fondo (opcional)</label>
+                            <input type="url" id="hero-bg-image" placeholder="https://imagen.com/portada.jpg">
+                            <div style="margin-top:.35rem;display:flex;align-items:center;gap:.6rem;">
+                                <input type="file" id="hero-bg-image-file" accept="image/*" onchange="handleSectionImageUpload(this,'hero-bg-image','hero-bg-preview')">
+                                <span id="hero-bg-upload-status" style="font-size:.78rem;color:#5D8064;display:none;">✓ Cargada</span>
+                            </div>
+                            <div id="hero-bg-preview" style="margin-top:.5rem;display:none;"><img style="max-width:100%;max-height:160px;border-radius:8px;object-fit:cover;" alt="Preview portada"></div>
+                            <span class="field-hint">Recomendado: 1920×1080 px · JPG o WebP · máx. 500 KB. Deja vacío para usar el fondo degradado por defecto.</span>
+                        </div>
                         <div class="content-save-bar">
                             <button class="btn btn-primary" onclick="saveSiteSection('hero')">💾 Guardar</button>
                             <button class="btn btn-secondary" onclick="resetSiteSection('hero')">↩ Resetear</button>
@@ -349,6 +359,16 @@
                         <div class="field-group"><label>Subtítulo (h3)</label><input type="text" id="about-subheading" placeholder="Umana - Tu Plataforma..."></div>
                         <div class="field-group"><label>Párrafo 1</label><textarea id="about-p1" rows="3"></textarea></div>
                         <div class="field-group"><label>Párrafo 2</label><textarea id="about-p2" rows="3"></textarea></div>
+                        <div class="field-group">
+                            <label>Foto del equipo / imagen lateral (opcional)</label>
+                            <input type="url" id="about-image" placeholder="https://imagen.com/equipo.jpg">
+                            <div style="margin-top:.35rem;display:flex;align-items:center;gap:.6rem;">
+                                <input type="file" id="about-image-file" accept="image/*" onchange="handleSectionImageUpload(this,'about-image','about-image-preview')">
+                                <span id="about-img-upload-status" style="font-size:.78rem;color:#5D8064;display:none;">✓ Cargada</span>
+                            </div>
+                            <div id="about-image-preview" style="margin-top:.5rem;display:none;"><img style="max-width:100%;max-height:140px;border-radius:8px;object-fit:cover;" alt="Preview equipo"></div>
+                            <span class="field-hint">Recomendado: 600×400 px · JPG o WebP · máx. 300 KB. Se muestra a la derecha del texto de la sección.</span>
+                        </div>
                         <div class="content-save-bar">
                             <button class="btn btn-primary" onclick="saveSiteSection('about')">💾 Guardar</button>
                             <button class="btn btn-secondary" onclick="resetSiteSection('about')">↩ Resetear</button>
@@ -485,7 +505,12 @@
                         <div class="field-group">
                             <label>URL del Logo (imagen)</label>
                             <input type="text" id="branding-logo" placeholder="assets/images/logo.png?v=2">
-                            <span class="field-hint">Ruta relativa (assets/images/logo.png) o URL absoluta. Al guardar se actualiza en todas las páginas de este navegador.</span>
+                            <div style="margin-top:.35rem;display:flex;align-items:center;gap:.6rem;">
+                                <input type="file" id="branding-logo-file" accept="image/*" onchange="handleSectionImageUpload(this,'branding-logo','branding-logo-preview')">
+                                <span id="branding-logo-upload-status" style="font-size:.78rem;color:#5D8064;display:none;">✓ Cargada</span>
+                            </div>
+                            <div id="branding-logo-preview" style="margin-top:.5rem;display:none;"><img style="max-height:60px;object-fit:contain;background:#f5f5f5;padding:6px;border-radius:6px;" alt="Preview logo"></div>
+                            <span class="field-hint">Recomendado: 240×70 px · PNG con fondo transparente · máx. 100 KB. Ruta relativa (assets/images/logo.png) o URL absoluta.</span>
                         </div>
                         <div class="field-group">
                             <label>Nombre del Sitio</label>
@@ -821,6 +846,30 @@ function handleImageUpload(input) {
     };
     reader.readAsDataURL(file);
 }
+
+/* Generic image upload handler for site-content sections.
+   targetEl  – either an element or a string (element id) receiving the data-URL
+   previewEl – either an element or a string (element id) of the preview wrapper */
+function handleSectionImageUpload(input, targetEl, previewEl) {
+    const file = input.files && input.files[0];
+    if (!file) return;
+    // Resolve elements (accept both DOM nodes and string IDs)
+    const tgt     = typeof targetEl  === 'string' ? document.getElementById(targetEl)  : targetEl;
+    const preview = typeof previewEl === 'string' ? document.getElementById(previewEl) : previewEl;
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        if (tgt) tgt.value = e.target.result;
+        if (preview) {
+            const img = preview.querySelector('img');
+            if (img) img.src = e.target.result;
+            preview.style.display = '';
+        }
+        // Show nearest status badge if any
+        const statusBadge = input.parentElement && input.parentElement.querySelector('[id$="-upload-status"],[id$="-status"]');
+        if (statusBadge) { statusBadge.style.display = 'inline'; }
+    };
+    reader.readAsDataURL(file);
+}
 function openNewPost() {
     editId = null;
     document.getElementById('editor-heading').textContent = 'Nuevo artículo';
@@ -934,13 +983,16 @@ function loadSiteContentForms() {
     document.getElementById('hero-desc').value     = h.desc||'';
     document.getElementById('hero-cta').value      = h.cta||'';
     document.getElementById('hero-cta-link').value = h.ctaLink||'';
+    document.getElementById('hero-bg-image').value = h.bgImage||'';
+    if (h.bgImage) { const pw = document.getElementById('hero-bg-preview'); if(pw){ const pi = pw.querySelector('img'); if(pi) pi.src=h.bgImage; pw.style.display=''; } }
 
     const ab = getSection('about');
     document.getElementById('about-heading').value    = ab.heading||'';
     document.getElementById('about-subheading').value = ab.subheading||'';
     document.getElementById('about-p1').value         = ab.p1||'';
     document.getElementById('about-p2').value         = ab.p2||'';
-
+    document.getElementById('about-image').value      = ab.image||'';
+    if (ab.image) { const pw = document.getElementById('about-image-preview'); if(pw){ const pi = pw.querySelector('img'); if(pi) pi.src=ab.image; pw.style.display=''; } }
     const sv = getSection('services');
     document.getElementById('services-heading').value = sv.heading||'';
     document.getElementById('services-intro').value   = sv.intro||'';
@@ -982,6 +1034,7 @@ function loadSiteContentForms() {
     const br = getSection('branding');
     document.getElementById('branding-logo').value = br.logoUrl  || '';
     document.getElementById('branding-name').value = br.siteName || '';
+    if (br.logoUrl) { const pw = document.getElementById('branding-logo-preview'); if(pw){ const pi = pw.querySelector('img'); if(pi) pi.src=br.logoUrl; pw.style.display=''; } }
 
     // Blog Preview section
     const bpSec = getSection('blogPreview');
@@ -991,8 +1044,8 @@ function loadSiteContentForms() {
 
 function saveSiteSection(s) {
     let data = {};
-    if (s === 'hero')     data = { h1:v('hero-h1'), subtitle:v('hero-subtitle'), desc:v('hero-desc'), cta:v('hero-cta'), ctaLink:v('hero-cta-link') };
-    if (s === 'about')    data = { heading:v('about-heading'), subheading:v('about-subheading'), p1:v('about-p1'), p2:v('about-p2') };
+    if (s === 'hero')     data = { h1:v('hero-h1'), subtitle:v('hero-subtitle'), desc:v('hero-desc'), cta:v('hero-cta'), ctaLink:v('hero-cta-link'), bgImage:v('hero-bg-image') };
+    if (s === 'about')    data = { heading:v('about-heading'), subheading:v('about-subheading'), p1:v('about-p1'), p2:v('about-p2'), image:v('about-image') };
     if (s === 'services') {
         const items = [];
         document.querySelectorAll('#services-items .repeatable-item').forEach(el => items.push({ icon:el.querySelector('.si-icon').value, title:el.querySelector('.si-title').value, desc:el.querySelector('.si-desc').value }));
@@ -1005,7 +1058,7 @@ function saveSiteSection(s) {
     }
     if (s === 'testimonials') {
         const items = [];
-        document.querySelectorAll('#testimonials-items .repeatable-item').forEach(el => items.push({ quote:el.querySelector('.tm-quote').value, author:el.querySelector('.tm-author').value, location:el.querySelector('.tm-loc').value, stars:parseInt(el.querySelector('.tm-stars').value)||5 }));
+        document.querySelectorAll('#testimonials-items .repeatable-item').forEach(el => items.push({ quote:el.querySelector('.tm-quote').value, author:el.querySelector('.tm-author').value, location:el.querySelector('.tm-loc').value, stars:parseInt(el.querySelector('.tm-stars').value)||5, avatar:el.querySelector('.tm-avatar') ? el.querySelector('.tm-avatar').value : '' }));
         data = { heading:v('test-heading'), items };
     }
     if (s === 'faq') {
@@ -1089,6 +1142,15 @@ function renderTestimonials(items) {
                 <div class="field-group"><label>Ciudad</label><input class="tm-loc" type="text" value="${esc(t.location||'')}" placeholder="Quito"></div>
                 <div class="field-group" style="flex:0 0 80px"><label>Estrellas</label><input class="tm-stars" type="number" min="1" max="5" value="${t.stars||5}"></div>
             </div>
+            <div class="field-group">
+                <label>Avatar / foto (opcional)</label>
+                <input class="tm-avatar" type="url" value="${esc(t.avatar||'')}" placeholder="https://imagen.com/foto.jpg">
+                <div style="margin-top:.3rem;display:flex;align-items:center;gap:.5rem;">
+                    <input type="file" accept="image/*" onchange="handleSectionImageUpload(this,this.closest('.repeatable-item').querySelector('.tm-avatar'),this.closest('.repeatable-item').querySelector('.tm-avatar-preview'))">
+                </div>
+                <div class="tm-avatar-preview" style="${t.avatar?'':'display:none;'}margin-top:.35rem;"><img src="${esc(t.avatar||'')}" style="width:60px;height:60px;border-radius:50%;object-fit:cover;" alt="Avatar"></div>
+                <span class="field-hint">80×80 px · JPG/PNG · máx. 50 KB. Circular.</span>
+            </div>
         </div>`).join('');
 }
 function addTestimonial() {
@@ -1101,6 +1163,15 @@ function addTestimonial() {
                 <div class="field-group"><label>Nombre</label><input class="tm-author" type="text" value="" placeholder="Ana P."></div>
                 <div class="field-group"><label>Ciudad</label><input class="tm-loc" type="text" value="" placeholder="Quito"></div>
                 <div class="field-group" style="flex:0 0 80px"><label>Estrellas</label><input class="tm-stars" type="number" min="1" max="5" value="5"></div>
+            </div>
+            <div class="field-group">
+                <label>Avatar / foto (opcional)</label>
+                <input class="tm-avatar" type="url" value="" placeholder="https://imagen.com/foto.jpg">
+                <div style="margin-top:.3rem;display:flex;align-items:center;gap:.5rem;">
+                    <input type="file" accept="image/*" onchange="handleSectionImageUpload(this,this.closest('.repeatable-item').querySelector('.tm-avatar'),this.closest('.repeatable-item').querySelector('.tm-avatar-preview'))">
+                </div>
+                <div class="tm-avatar-preview" style="display:none;margin-top:.35rem;"><img src="" style="width:60px;height:60px;border-radius:50%;object-fit:cover;" alt="Avatar"></div>
+                <span class="field-hint">80×80 px · JPG/PNG · máx. 50 KB. Circular.</span>
             </div>
         </div>`);
 }

@@ -253,12 +253,12 @@ nav .container {
 }
 
 .hero-content h1 {
-    font-family: var(--font-display);
+    font-family: var(--font-heading);
     font-size: clamp(2.4rem, 5vw, 3.6rem);
     line-height: 1.15;
     margin-bottom: 1rem;
-    font-weight: 400; /* Instrument Serif is expressive at normal weight */
-    letter-spacing: -0.01em;
+    font-weight: 900;
+    letter-spacing: -0.02em;
     animation: fadeInUp 0.8s ease-out;
     /* Warm gradient: white → cream → soft peach — premium editorial feel */
     background: linear-gradient(135deg, #FFFFFF 0%, #F5EFE6 55%, #D9A88F 100%);
