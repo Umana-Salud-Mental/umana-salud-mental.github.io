@@ -189,7 +189,7 @@
         <form id="login-form" novalidate>
             <div class="form-group">
                 <label for="username">Usuario</label>
-                <input type="text" id="username" autocomplete="username" placeholder="admin" required>
+                <input type="text" id="username" autocomplete="username" placeholder="Usuario" required>
             </div>
             <div class="form-group">
                 <label for="password">Contraseña</label>
@@ -515,7 +515,7 @@
                     <div class="settings-card">
                         <h3>ℹ️ Información</h3>
                         <p class="info-text">
-                            <strong>Credenciales por defecto:</strong> Usuario: <code>admin</code> / Contraseña: <code>umana2024</code><br>
+                            <strong>Credenciales:</strong> Configuradas en el archivo fuente (<code>CMS_USERS</code>).<br>
                             <strong>Blog Posts:</strong> Se guardan en localStorage. Para publicarlos en producción, exporta los datos.<br>
                             <strong>Contenido del Sitio:</strong> Los cambios se aplican en tiempo real al abrir el sitio desde este navegador.
                         </p>
@@ -565,9 +565,11 @@
                 <textarea id="f-excerpt" rows="2" maxlength="160" placeholder="Breve descripción para el listado de artículos..."></textarea>
             </div>
             <div class="field-group">
-                <label>URL imagen de portada (opcional)</label>
-                <input type="url" id="f-image" placeholder="https://imagen.com/foto.jpg">
-                <span class="field-hint">Pega una URL de Unsplash, Pexels u otra fuente libre.</span>
+                <label>Imagen de portada (opcional)</label>
+                <input type="url" id="f-image" placeholder="https://imagen.com/foto.jpg" oninput="document.getElementById('f-image-file').value=''">
+                <span class="field-hint">Pega una URL de Unsplash, Pexels u otra fuente libre, <strong>o sube desde tu computadora:</strong></span>
+                <input type="file" id="f-image-file" accept="image/*" style="margin-top:.4rem;" onchange="handleImageUpload(this)">
+                <span id="f-image-upload-status" style="font-size:.78rem;color:#5D8064;display:none;">✓ Imagen cargada</span>
             </div>
             <div class="toggle-row">
                 <label class="toggle"><input type="checkbox" id="f-featured"><span class="toggle-slider"></span></label>
@@ -598,7 +600,7 @@
 // For production use, implement server-side auth (Netlify Identity, Supabase, Firebase Auth).
 // To permanently change the password, edit CMS_USERS below and redeploy.
 // ───────────────────────────────────────────────────────────────────────────────────────
-const CMS_USERS = [{ username: 'admin', password: 'umana2024' }];
+const CMS_USERS = [{ username: 'adminLPZ', password: 'r4kcagvb16A#v3kX#02X$$@' }];
 const POSTS_KEY   = 'umana_blog_posts';
 const CONTENT_KEY = 'umana_site_content';
 const SESSION_KEY = 'umana_cms_session';
@@ -746,11 +748,28 @@ function renderPostList() {
 }
 
 // ── Post Editor ──
+function clearImageUpload() {
+    const fi = document.getElementById('f-image-file');
+    const st = document.getElementById('f-image-upload-status');
+    if (fi) fi.value = '';
+    if (st) st.style.display = 'none';
+}
+function handleImageUpload(input) {
+    const file = input.files && input.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        document.getElementById('f-image').value = e.target.result;
+        document.getElementById('f-image-upload-status').style.display = 'inline';
+    };
+    reader.readAsDataURL(file);
+}
 function openNewPost() {
     editId = null;
     document.getElementById('editor-heading').textContent = 'Nuevo artículo';
     document.getElementById('btn-del-post').style.display = 'none';
     ['f-title','f-excerpt','f-image'].forEach(id => document.getElementById(id).value = '');
+    clearImageUpload();
     document.getElementById('f-category').value = 'general';
     document.getElementById('f-status').value = 'draft';
     document.getElementById('f-featured').checked = false;
@@ -771,6 +790,7 @@ function openEditPost(id) {
     document.getElementById('f-status').value   = p.status  || 'draft';
     document.getElementById('f-excerpt').value  = p.excerpt || '';
     document.getElementById('f-image').value    = p.image   || '';
+    clearImageUpload();
     document.getElementById('f-featured').checked = !!p.featured;
     if (quill) quill.root.innerHTML = p.content || '';
     updateReadingTime();
