@@ -1228,8 +1228,9 @@
                 var cond = lang === 'en'
                     ? (pill.getAttribute('data-condition-en') || pill.textContent.trim())
                     : (pill.getAttribute('data-condition-es') || pill.textContent.trim());
-                var prefix = window.UMANA_I18N ? window.UMANA_I18N.t('hp.cta.prefix') : (lang === 'en' ? 'We can help you with ' : 'Podemos ayudarte con ');
-                var suffix = window.UMANA_I18N ? window.UMANA_I18N.t('hp.cta.suffix') : (lang === 'en' ? '. Schedule your first session \u2192' : '. Agenda tu primera sesi\u00f3n \u2192');
+                var i18n   = window.UMANA_I18N;
+                var prefix = i18n ? i18n.t('hp.cta.prefix') : '';
+                var suffix = i18n ? i18n.t('hp.cta.suffix') : '';
                 ctaBox.innerHTML = '<a href="#contacto">' + prefix + '<strong>' + cond + '</strong>' + suffix + '</a>';
             });
         });
