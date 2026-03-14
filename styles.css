@@ -743,6 +743,20 @@ nav .container {
     color: #2F2F2F;
 }
 
+.email-link {
+    display: inline-block;
+    color: #5D8064;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.2s ease;
+    word-break: break-all;
+}
+
+.email-link:hover {
+    color: #C86B4A;
+    text-decoration: underline;
+}
+
 .whatsapp-link {
     display: inline-flex;
     align-items: center;

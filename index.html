@@ -326,7 +326,7 @@
                                 <span class="icon">📧</span>
                                 <div>
                                     <strong>Email</strong>
-                                    <p>hey.umana@outlook.com</p>
+                                    <a href="mailto:hey.umana@outlook.com" class="email-link">hey.umana@outlook.com</a>
                                 </div>
                             </div>
                             <div class="contact-item">
@@ -525,7 +525,7 @@
             // Contact
             if (data.contact) {
                 const ct = data.contact;
-                if (ct.email)   { document.querySelectorAll('.contact-details .contact-item').forEach(function(item) { const s = item.querySelector('.icon'); if (s && s.textContent.includes('📧')) { const p = item.querySelector('p'); if (p) p.textContent = ct.email; } }); }
+                if (ct.email)   { document.querySelectorAll('.contact-details .contact-item').forEach(function(item) { const s = item.querySelector('.icon'); if (s && s.textContent.includes('📧')) { const a = item.querySelector('.email-link'); if (a) { a.textContent = ct.email; a.href = 'mailto:' + ct.email; } } }); }
                 if (ct.phone)   { document.querySelectorAll('.contact-details .contact-item').forEach(function(item) { const s = item.querySelector('.icon'); if (s && s.textContent.includes('📱')) { const p = item.querySelector('p'); if (p) p.textContent = ct.phone; } }); }
                 if (ct.address) { document.querySelectorAll('.contact-details .contact-item').forEach(function(item) { const s = item.querySelector('.icon'); if (s && s.textContent.includes('📍')) { const p = item.querySelector('p'); if (p) p.textContent = ct.address; } }); }
                 if (ct.wa) {
