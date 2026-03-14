@@ -264,7 +264,101 @@
       'rec.cta.heading':        '¿Necesitas Apoyo Personalizado?',
       'rec.cta.sub':            'Los artículos son un buen comienzo, pero hablar con un profesional marca la diferencia.',
       'rec.cta.btn':            'Hablar con un terapeuta',
-      'rec.cta.btn2':           'Explorar servicios'
+      'rec.cta.btn2':           'Explorar servicios',
+
+      /* Badge strip */
+      'badge.1': '100% Confidencial',
+      'badge.2': 'Terapeutas Verificados',
+      'badge.3': 'Datos Cifrados',
+      'badge.4': 'Sin Compromiso',
+
+      /* Conditions section */
+      'cond.heading': '¿Qué podemos tratar juntos?',
+      'cond.intro':   'Nuestros especialistas están capacitados para acompañarte en una amplia variedad de desafíos emocionales.',
+      'cond.1.name': 'Ansiedad',     'cond.1.desc': 'Aprende a manejar la preocupación excesiva y los ataques de pánico.',
+      'cond.2.name': 'Depresión',    'cond.2.desc': 'Recupera la energía, el ánimo y las ganas de vivir con apoyo profesional.',
+      'cond.3.name': 'Estrés',       'cond.3.desc': 'Desarrolla herramientas para afrontar las presiones del día a día.',
+      'cond.4.name': 'Burnout',      'cond.4.desc': 'Supera el agotamiento laboral y recupera el equilibrio en tu vida.',
+      'cond.5.name': 'Relaciones',   'cond.5.desc': 'Mejora tus vínculos y aprende a comunicarte con mayor efectividad.',
+      'cond.6.name': 'Autoestima',   'cond.6.desc': 'Construye una relación más sana y compasiva contigo mismo.',
+
+      /* Outcome callout */
+      'oc.stat':  '92%',
+      'oc.desc':  'de nuestros pacientes reportan mejoría en sus primeras 12 semanas',
+      'oc.label': 'Basado en seguimiento de nuestros pacientes',
+
+      /* Service tabs */
+      'svc.tab.all':    'Todos',
+      'svc.tab.ind':    'Individual',
+      'svc.tab.couple': 'Pareja',
+      'svc.tab.family': 'Familia',
+
+      /* Final CTA */
+      'fcta.heading': 'Tu camino hacia el bienestar empieza hoy',
+      'fcta.sub':     'Cientos de personas ya están mejor. Tú puedes ser la siguiente.',
+      'fcta.btn':     'Agenda tu primera sesión',
+      'fcta.wa':      'Escribir por WhatsApp',
+
+      /* Therapists */
+      'th.heading':   'Conoce a nuestros especialistas',
+      'th.intro':     'Profesionales certificados, empáticos y comprometidos con tu bienestar.',
+      'th.1.name':    'Dra. Carolina V.',
+      'th.1.spec':    'Ansiedad y Depresión',
+      'th.1.years':   '8 años de experiencia',
+      'th.1.quote':   '"Mi objetivo es que cada paciente descubra su propia fortaleza interior."',
+      'th.2.name':    'Psic. Andrés M.',
+      'th.2.spec':    'Terapia de Pareja',
+      'th.2.years':   '6 años de experiencia',
+      'th.2.quote':   '"Las relaciones sanas se construyen con empatía, escucha y trabajo conjunto."',
+      'th.3.name':    'Dra. Valentina R.',
+      'th.3.spec':    'Burnout y Estrés',
+      'th.3.years':   '5 años de experiencia',
+      'th.3.quote':   '"El burnout no es debilidad; es una señal de que necesitas apoyo y cuidado."',
+      'th.tag.adults': 'Adultos',
+      'th.tag.rel':    'Relaciones',
+      'th.tag.comm':   'Comunicación',
+      'th.tag.fam':    'Familias',
+      'th.tag.stress': 'Estrés',
+      'th.tag.work':   'Laboral',
+      'th.tag.self':   'Autoestima',
+
+      /* Help picker */
+      'hp.heading':    '¿Con qué necesitas ayuda hoy?',
+      'hp.pill.1': 'Ansiedad',  'hp.pill.2': 'Depresión',
+      'hp.pill.3': 'Estrés',    'hp.pill.4': 'Relaciones',
+      'hp.pill.5': 'Burnout',   'hp.pill.6': 'Autoestima',
+      'hp.pill.7': 'Trauma',    'hp.pill.8': 'Duelo',
+      'hp.default':    'Selecciona un tema para ver cómo podemos ayudarte.',
+      'hp.cta.prefix': 'Podemos ayudarte con ',
+      'hp.cta.suffix': '. Agenda tu primera sesión →',
+
+      /* Clinical outcomes */
+      'out.heading': 'Resultados que importan',
+      'out.intro':   'Números reales de personas reales que confiaron en nuestro proceso.',
+      'out.1.num':   '92%',    'out.1.label': 'Mejora reportada',    'out.1.desc': 'Pacientes que reportan mejoría significativa en su bienestar general.',
+      'out.2.num':   '8 semanas', 'out.2.label': 'Resultado promedio', 'out.2.desc': 'Tiempo promedio para notar cambios positivos y sostenibles.',
+      'out.3.num':   '3x',     'out.3.label': 'Más efectivo',        'out.3.desc': 'Que el abordaje autodidacta sin acompañamiento profesional.',
+      'out.4.num':   '98%',    'out.4.label': 'Satisfacción',        'out.4.desc': 'De pacientes satisfechos con la calidad de su terapeuta asignado.',
+
+      /* Evidence-based approach */
+      'ap.heading': 'Un enfoque basado en evidencia',
+      'ap.intro':   'Combinamos las metodologías más efectivas y respaldadas por la ciencia para garantizar tu progreso.',
+      'ap.1.title': 'Terapia Cognitivo-Conductual (TCC)',
+      'ap.1.desc':  'Identifica y transforma patrones de pensamiento negativos que afectan tu bienestar emocional y conductual.',
+      'ap.2.title': 'Mindfulness y Atención Plena',
+      'ap.2.desc':  'Desarrolla la capacidad de estar presente y gestionar el estrés con técnicas de atención consciente.',
+      'ap.3.title': 'Seguimiento de Progreso',
+      'ap.3.desc':  'Medimos y monitoreamos tu avance con herramientas validadas para asegurar resultados concretos y sostenibles.',
+      'ap.link':    'Evidencia científica →',
+
+      /* Platform features */
+      'pf.heading': 'Todo lo que necesitas, en un solo lugar',
+      'pf.1': 'Video de Alta Calidad',
+      'pf.2': '100% Privado y Seguro',
+      'pf.3': 'Horarios Flexibles',
+      'pf.4': 'Desde Cualquier Dispositivo',
+      'pf.5': 'Comunicación entre Sesiones',
+      'pf.6': 'Seguimiento de tu Progreso'
     },
 
     /* ═══════════════  ENGLISH  ═══════════════ */
@@ -513,7 +607,101 @@
       'rec.cta.heading':        'Need Personalized Support?',
       'rec.cta.sub':            'Articles are a good start, but talking to a professional makes all the difference.',
       'rec.cta.btn':            'Talk to a therapist',
-      'rec.cta.btn2':           'Explore services'
+      'rec.cta.btn2':           'Explore services',
+
+      /* Badge strip */
+      'badge.1': '100% Confidential',
+      'badge.2': 'Verified Therapists',
+      'badge.3': 'Encrypted Data',
+      'badge.4': 'No Commitment',
+
+      /* Conditions section */
+      'cond.heading': 'What can we treat together?',
+      'cond.intro':   'Our specialists are trained to support you through a wide variety of emotional challenges.',
+      'cond.1.name': 'Anxiety',      'cond.1.desc': 'Learn to manage excessive worry and panic attacks.',
+      'cond.2.name': 'Depression',   'cond.2.desc': 'Regain energy, mood and joy with professional support.',
+      'cond.3.name': 'Stress',       'cond.3.desc': 'Develop tools to face everyday pressures.',
+      'cond.4.name': 'Burnout',      'cond.4.desc': 'Overcome work exhaustion and restore balance in your life.',
+      'cond.5.name': 'Relationships','cond.5.desc': 'Improve your bonds and learn to communicate more effectively.',
+      'cond.6.name': 'Self-esteem',  'cond.6.desc': 'Build a healthier, more compassionate relationship with yourself.',
+
+      /* Outcome callout */
+      'oc.stat':  '92%',
+      'oc.desc':  'of our patients report improvement in their first 12 weeks',
+      'oc.label': 'Based on patient follow-up data',
+
+      /* Service tabs */
+      'svc.tab.all':    'All',
+      'svc.tab.ind':    'Individual',
+      'svc.tab.couple': 'Couples',
+      'svc.tab.family': 'Family',
+
+      /* Final CTA */
+      'fcta.heading': 'Your path to wellbeing starts today',
+      'fcta.sub':     'Hundreds of people are already doing better. You can be next.',
+      'fcta.btn':     'Book your first session',
+      'fcta.wa':      'Message on WhatsApp',
+
+      /* Therapists */
+      'th.heading':   'Meet our specialists',
+      'th.intro':     'Certified, empathetic professionals committed to your wellbeing.',
+      'th.1.name':    'Dr. Carolina V.',
+      'th.1.spec':    'Anxiety & Depression',
+      'th.1.years':   '8 years of experience',
+      'th.1.quote':   '"My goal is for every patient to discover their own inner strength."',
+      'th.2.name':    'Psych. Andrés M.',
+      'th.2.spec':    'Couples Therapy',
+      'th.2.years':   '6 years of experience',
+      'th.2.quote':   '"Healthy relationships are built with empathy, listening and joint work."',
+      'th.3.name':    'Dr. Valentina R.',
+      'th.3.spec':    'Burnout & Stress',
+      'th.3.years':   '5 years of experience',
+      'th.3.quote':   '"Burnout is not weakness; it is a signal that you need support and care."',
+      'th.tag.adults': 'Adults',
+      'th.tag.rel':    'Relationships',
+      'th.tag.comm':   'Communication',
+      'th.tag.fam':    'Families',
+      'th.tag.stress': 'Stress',
+      'th.tag.work':   'Work',
+      'th.tag.self':   'Self-esteem',
+
+      /* Help picker */
+      'hp.heading':    'What do you need help with today?',
+      'hp.pill.1': 'Anxiety',      'hp.pill.2': 'Depression',
+      'hp.pill.3': 'Stress',       'hp.pill.4': 'Relationships',
+      'hp.pill.5': 'Burnout',      'hp.pill.6': 'Self-esteem',
+      'hp.pill.7': 'Trauma',       'hp.pill.8': 'Grief',
+      'hp.default':    'Select a topic to see how we can help you.',
+      'hp.cta.prefix': 'We can help you with ',
+      'hp.cta.suffix': '. Schedule your first session →',
+
+      /* Clinical outcomes */
+      'out.heading': 'Results that matter',
+      'out.intro':   'Real numbers from real people who trusted our process.',
+      'out.1.num':   '92%',        'out.1.label': 'Improvement reported', 'out.1.desc': 'Patients who report significant improvement in their overall wellbeing.',
+      'out.2.num':   '8 weeks',    'out.2.label': 'Average result',       'out.2.desc': 'Average time to notice positive and sustainable changes.',
+      'out.3.num':   '3x',         'out.3.label': 'More effective',       'out.3.desc': 'Than self-directed approaches without professional guidance.',
+      'out.4.num':   '98%',        'out.4.label': 'Satisfaction',         'out.4.desc': 'Of patients satisfied with the quality of their assigned therapist.',
+
+      /* Evidence-based approach */
+      'ap.heading': 'An evidence-based approach',
+      'ap.intro':   'We combine the most effective, science-backed methodologies to ensure your progress.',
+      'ap.1.title': 'Cognitive Behavioural Therapy (CBT)',
+      'ap.1.desc':  'Identify and transform negative thinking patterns that affect your emotional and behavioural wellbeing.',
+      'ap.2.title': 'Mindfulness & Mindful Awareness',
+      'ap.2.desc':  'Develop the ability to be present and manage stress with mindful attention techniques.',
+      'ap.3.title': 'Progress Tracking',
+      'ap.3.desc':  'We measure and monitor your progress with validated tools to ensure concrete, sustainable results.',
+      'ap.link':    'Scientific evidence →',
+
+      /* Platform features */
+      'pf.heading': 'Everything you need, in one place',
+      'pf.1': 'High-Quality Video',
+      'pf.2': '100% Private & Secure',
+      'pf.3': 'Flexible Scheduling',
+      'pf.4': 'From Any Device',
+      'pf.5': 'Between-Session Messaging',
+      'pf.6': 'Progress Tracking'
     }
   };
 
