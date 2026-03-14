@@ -11,6 +11,9 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <!-- Scroll progress bar (filled by JS) -->
+    <div id="scroll-progress" role="progressbar" aria-hidden="true"></div>
+
     <header>
         <nav>
             <div class="container">
@@ -551,6 +554,152 @@
             }
         } catch(e) { /* CMS integration: graceful fail */ }
     })();
+    </script>
+
+    <!-- Back to top -->
+    <button id="back-to-top" aria-label="Volver arriba">↑</button>
+
+    <script>
+    /* ═══════════════════════════════════════════════════════════
+       VISUAL ENHANCEMENTS
+       — Scroll progress bar
+       — Back to top button
+       — Header compact on scroll
+       — Scrollspy (active nav link)
+       — Scroll reveal (Intersection Observer, no library)
+       — Animated counters on trust stats
+    ═══════════════════════════════════════════════════════════ */
+    (function () {
+        'use strict';
+
+        var progressBar = document.getElementById('scroll-progress');
+        var btt         = document.getElementById('back-to-top');
+        var header      = document.querySelector('header');
+        var sections    = Array.from(document.querySelectorAll('section[id]'));
+        var navLinks    = Array.from(document.querySelectorAll('.nav-menu a[href^="#"]'));
+
+        // ── Back to top click ────────────────────────────────
+        if (btt) {
+            btt.addEventListener('click', function () {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+        }
+
+        // ── Combined scroll handler (passive) ───────────────
+        function onScroll() {
+            var scrollY = window.scrollY;
+            var docH    = document.documentElement.scrollHeight - window.innerHeight;
+
+            // Progress bar
+            if (progressBar) {
+                progressBar.style.width = (docH > 0 ? (scrollY / docH * 100) : 0) + '%';
+            }
+
+            // Back to top visibility
+            if (btt) {
+                btt.classList.toggle('visible', scrollY > 500);
+            }
+
+            // Header compact state
+            if (header) {
+                header.classList.toggle('scrolled', scrollY > 80);
+            }
+
+            // Scrollspy
+            if (navLinks.length && sections.length) {
+                var current = '';
+                sections.forEach(function (sec) {
+                    if (scrollY >= sec.offsetTop - 150) current = sec.id;
+                });
+                navLinks.forEach(function (link) {
+                    var href = (link.getAttribute('href') || '').replace('#', '');
+                    link.classList.toggle('active', href === current);
+                });
+            }
+        }
+
+        window.addEventListener('scroll', onScroll, { passive: true });
+        onScroll(); // run once on load
+
+        // ── Scroll Reveal ────────────────────────────────────
+        // JS adds .reveal classes so elements stay visible when JS is off.
+        var revealMap = [
+            { sel: '.service-card',      cls: 'reveal',       stagger: true  },
+            { sel: '.step-card',         cls: 'reveal',       stagger: true  },
+            { sel: '.testimonial-card',  cls: 'reveal',       stagger: true  },
+            { sel: '.blog-preview-card', cls: 'reveal',       stagger: true  },
+            { sel: '.schedule-card',     cls: 'reveal',       stagger: true  },
+            { sel: '.faq-item',          cls: 'reveal',       stagger: false },
+            { sel: '.about-text',        cls: 'reveal-left',  stagger: false },
+            { sel: '.contact-info',      cls: 'reveal-left',  stagger: false },
+            { sel: '.contact-form',      cls: 'reveal-right', stagger: false },
+            { sel: '.how-cta',           cls: 'reveal',       stagger: false }
+        ];
+
+        var delayClasses = ['', 'reveal-delay-1', 'reveal-delay-2', 'reveal-delay-3', 'reveal-delay-4'];
+
+        revealMap.forEach(function (entry) {
+            document.querySelectorAll(entry.sel).forEach(function (el, i) {
+                el.classList.add(entry.cls);
+                if (entry.stagger && i > 0) {
+                    el.classList.add(delayClasses[Math.min(i, delayClasses.length - 1)]);
+                }
+            });
+        });
+
+        var revealObs = new IntersectionObserver(function (entries) {
+            entries.forEach(function (entry) {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    revealObs.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+        document.querySelectorAll('.reveal, .reveal-left, .reveal-right').forEach(function (el) {
+            revealObs.observe(el);
+        });
+
+        // ── Animated Counters (trust stats) ─────────────────
+        function easeOutCubic(t) { return 1 - Math.pow(1 - t, 3); }
+
+        function animateCounter(el, targetNum, suffix, duration) {
+            // Hide from assistive technology while numbers are changing rapidly
+            el.setAttribute('aria-hidden', 'true');
+            var startTime = null;
+            function step(ts) {
+                if (!startTime) startTime = ts;
+                var progress = Math.min((ts - startTime) / duration, 1);
+                el.textContent = Math.round(easeOutCubic(progress) * targetNum) + suffix;
+                if (progress < 1) {
+                    requestAnimationFrame(step);
+                } else {
+                    // Restore accessibility with final value
+                    el.removeAttribute('aria-hidden');
+                }
+            }
+            requestAnimationFrame(step);
+        }
+
+        var counterObs = new IntersectionObserver(function (entries) {
+            entries.forEach(function (entry) {
+                if (entry.isIntersecting) {
+                    var el  = entry.target;
+                    var raw = el.dataset.target;
+                    if (!raw) return;
+                    var match = raw.match(/^(\d+)(.*)$/);
+                    if (match) animateCounter(el, parseInt(match[1], 10), match[2], 1800);
+                    counterObs.unobserve(el);
+                }
+            });
+        }, { threshold: 0.6 });
+
+        document.querySelectorAll('.trust-number').forEach(function (el) {
+            el.dataset.target = el.textContent.trim();
+            counterObs.observe(el);
+        });
+
+    }());
     </script>
 </body>
 </html>

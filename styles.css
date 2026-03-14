@@ -1493,3 +1493,153 @@ footer {
         display: none;
     }
 }
+
+/* ══════════════════════════════════════════════════════════
+   SMOOTH SCROLL + SECTION OFFSET (sticky header)
+══════════════════════════════════════════════════════════ */
+html {
+    scroll-behavior: smooth;
+}
+
+section[id] {
+    scroll-margin-top: 72px;
+}
+
+/* ══════════════════════════════════════════════════════════
+   SCROLL REVEAL ANIMATIONS
+   Elements are kept visible if JS is disabled (JS adds the
+   class, so CSS only hides them when JS is active).
+══════════════════════════════════════════════════════════ */
+.reveal {
+    opacity: 0;
+    translate: 0 36px;
+    transition: opacity 0.7s ease, translate 0.65s ease;
+}
+
+.reveal-left {
+    opacity: 0;
+    translate: -40px 0;
+    transition: opacity 0.7s ease, translate 0.65s ease;
+}
+
+.reveal-right {
+    opacity: 0;
+    translate: 40px 0;
+    transition: opacity 0.7s ease, translate 0.65s ease;
+}
+
+.reveal.visible,
+.reveal-left.visible,
+.reveal-right.visible {
+    opacity: 1;
+    translate: 0 0;
+}
+
+.reveal-delay-1 { transition-delay: 0.1s; }
+.reveal-delay-2 { transition-delay: 0.22s; }
+.reveal-delay-3 { transition-delay: 0.34s; }
+.reveal-delay-4 { transition-delay: 0.46s; }
+
+/* Respect user motion preferences */
+@media (prefers-reduced-motion: reduce) {
+    .reveal, .reveal-left, .reveal-right {
+        opacity: 1 !important;
+        translate: 0 0 !important;
+        transition: none !important;
+    }
+}
+
+/* ══════════════════════════════════════════════════════════
+   SCROLL PROGRESS BAR
+══════════════════════════════════════════════════════════ */
+#scroll-progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 3px;
+    background: linear-gradient(90deg, #D9A88F, #5D8064, #B7C6AD, #D9A88F);
+    background-size: 200% 100%;
+    z-index: 9999;
+    width: 0%;
+    will-change: width;
+    pointer-events: none;
+    border-radius: 0 2px 2px 0;
+    animation: progress-shimmer 3s linear infinite;
+}
+
+@keyframes progress-shimmer {
+    0%   { background-position: 0% 50%; }
+    100% { background-position: 200% 50%; }
+}
+
+/* ══════════════════════════════════════════════════════════
+   BACK TO TOP BUTTON
+══════════════════════════════════════════════════════════ */
+#back-to-top {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: #5D8064;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    font-size: 1.3rem;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 16px rgba(93, 128, 100, 0.45);
+    opacity: 0;
+    pointer-events: none;
+    translate: 0 16px;
+    transition: opacity 0.3s ease, translate 0.3s ease,
+                background-color 0.2s ease, box-shadow 0.2s ease;
+    z-index: 998;
+}
+
+#back-to-top.visible {
+    opacity: 1;
+    pointer-events: auto;
+    translate: 0 0;
+}
+
+#back-to-top:hover {
+    background: #C86B4A;
+    translate: 0 -3px;
+    box-shadow: 0 6px 20px rgba(200, 107, 74, 0.45);
+}
+
+#back-to-top:active {
+    translate: 0 0;
+}
+
+/* ══════════════════════════════════════════════════════════
+   HEADER — COMPACT ON SCROLL
+══════════════════════════════════════════════════════════ */
+header {
+    transition: box-shadow 0.35s ease;
+}
+
+header.scrolled nav {
+    padding: 0.5rem 0;
+}
+
+header.scrolled {
+    box-shadow: 0 4px 24px rgba(47, 47, 47, 0.18);
+}
+
+/* ══════════════════════════════════════════════════════════
+   SCROLLSPY — ACTIVE NAV LINK
+══════════════════════════════════════════════════════════ */
+.nav-menu a.active {
+    color: #D9A88F !important;
+    background-color: rgba(217, 168, 143, 0.12);
+}
+
+.nav-menu a.active::after {
+    width: 80%;
+    background-color: #D9A88F !important;
+}

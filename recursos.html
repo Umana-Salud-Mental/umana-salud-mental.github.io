@@ -605,8 +605,10 @@
                         form.reset();
                     } else {
                         const errText = data.msg || 'Ocurrió un error. Intenta de nuevo.';
-                        // Mailchimp returns HTML in msg sometimes — strip tags
-                        showMsg('⚠️ ' + errText.replace(/<[^>]*>/g, ''), 'error');
+                        // Use DOM-based approach to safely strip any HTML tags from the response
+                        const tmp = document.createElement('div');
+                        tmp.innerHTML = errText;
+                        showMsg('⚠️ ' + (tmp.textContent || tmp.innerText || 'Ocurrió un error.'), 'error');
                     }
                 };
 
