@@ -4,7 +4,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Artículo | Umana Salud Mental</title>
-    <meta name="robots" content="noindex">
+    <meta name="description" content="Artículo de salud mental por Umana." id="post-meta-desc">
+    <!-- noindex: content loaded from localStorage — not crawlable by Google.
+         For indexable post pages use /posts/post-[id].html (exported from admin panel). -->
+    <meta name="robots" content="noindex, follow">
+    <!-- OG / Twitter (populated by JS after post loads) -->
+    <meta property="og:type"        content="article">
+    <meta property="og:site_name"   content="Umana Salud Mental">
+    <meta property="og:locale"      content="es_EC">
+    <meta property="og:image"       content="https://umana-salud-mental.github.io/assets/images/og-umana.png">
+    <meta property="og:title"       content="Artículo | Umana Salud Mental" id="og-title">
+    <meta property="og:description" content="" id="og-desc">
+    <meta property="og:url"         content="" id="og-url">
+    <meta name="twitter:card"       content="summary_large_image">
+    <meta name="twitter:site"       content="@umanaterapia">
+    <meta name="twitter:title"      content="Artículo | Umana Salud Mental" id="tw-title">
+    <meta name="twitter:description" content="" id="tw-desc">
+    <meta name="twitter:image"      content="https://umana-salud-mental.github.io/assets/images/og-umana.png" id="tw-img">
     <link rel="stylesheet" href="styles.css">
     <style>
         .post-wrapper { max-width: 780px; margin: 0 auto; padding: 2rem 1.25rem 4rem; }
@@ -138,18 +154,77 @@
         }
 
         // Build the article page
-        document.title = esc(post.title) + ' | Umana Salud Mental';
+        var BASE = 'https://umana-salud-mental.github.io';
+        document.title = post.title + ' | Umana Salud Mental';
 
-        var catLabel = CAT_LABELS[post.category] || '📝 General';
-        var catIcon  = CAT_ICONS[post.category]  || '📝';
-        var mins     = readingTime(post.content || '');
-        var date     = formatDate(post.createdAt);
+        var postUrl   = BASE + '/post.html?id=' + encodeURIComponent(post.id);
+        var imageUrl  = post.image || (BASE + '/assets/images/og-umana.png');
+        var excerpt   = (post.excerpt || '').slice(0, 160);
+        var catLabel  = CAT_LABELS[post.category] || '📝 General';
+        var catLabelClean = catLabel.replace(/\S+\s/, ''); // strip emoji
+        var mins      = readingTime(post.content || '');
+        var date      = formatDate(post.createdAt);
+        var dateISO   = post.createdAt  || new Date().toISOString();
+        var modISO    = post.updatedAt  || dateISO;
+        var keywords  = post.title + ', salud mental, ' + catLabelClean.toLowerCase() + ', terapia online Ecuador, bienestar emocional, mental health, online therapy';
+
+        // ── Populate meta tags for social sharing ──────────────────
+        document.getElementById('post-meta-desc').content = excerpt;
+        document.getElementById('og-title').content  = post.title + ' | Umana Salud Mental';
+        document.getElementById('og-desc').content   = excerpt;
+        document.getElementById('og-url').content    = postUrl;
+        document.getElementById('tw-title').content  = post.title;
+        document.getElementById('tw-desc').content   = excerpt;
+        if (post.image) document.getElementById('tw-img').content = post.image;
+        document.querySelector('meta[property="og:image"]').content = imageUrl;
+
+        // ── Inject JSON-LD Article schema ──────────────────────────
+        var ldJson = {
+            '@context': 'https://schema.org',
+            '@graph': [
+                {
+                    '@type': 'BreadcrumbList',
+                    'itemListElement': [
+                        { '@type': 'ListItem', 'position': 1, 'name': 'Inicio',   'item': BASE + '/' },
+                        { '@type': 'ListItem', 'position': 2, 'name': 'Recursos', 'item': BASE + '/recursos.html' },
+                        { '@type': 'ListItem', 'position': 3, 'name': post.title, 'item': postUrl }
+                    ]
+                },
+                {
+                    '@type': 'Article',
+                    '@id': postUrl,
+                    'headline': post.title,
+                    'description': excerpt,
+                    'articleBody': (post.content || '').replace(/<[^>]*>/g, ' ').slice(0, 3000),
+                    'datePublished': dateISO,
+                    'dateModified':  modISO,
+                    'author': { '@type': 'Organization', 'name': 'Umana Salud Mental', 'url': BASE + '/' },
+                    'publisher': {
+                        '@type': 'Organization',
+                        'name': 'Umana Salud Mental',
+                        'url': BASE + '/',
+                        'logo': { '@type': 'ImageObject', 'url': BASE + '/assets/images/logo.png', 'width': 200, 'height': 60 }
+                    },
+                    'image': { '@type': 'ImageObject', 'url': imageUrl, 'width': 1200, 'height': 630 },
+                    'url': postUrl,
+                    'mainEntityOfPage': postUrl,
+                    'inLanguage': 'es-419',
+                    'articleSection': catLabelClean,
+                    'keywords': keywords,
+                    'isPartOf': { '@type': 'CollectionPage', 'url': BASE + '/recursos.html' }
+                }
+            ]
+        };
+        var ldScript = document.createElement('script');
+        ldScript.type = 'application/ld+json';
+        ldScript.textContent = JSON.stringify(ldJson);
+        document.head.appendChild(ldScript);
 
         var coverHtml = '';
         if (post.image) {
             coverHtml = '<img src="' + esc(post.image) + '" alt="' + esc(post.title) + '" class="post-cover" loading="lazy">';
         } else {
-            coverHtml = '<div class="post-cover-placeholder">' + catIcon + '</div>';
+            coverHtml = '<div class="post-cover-placeholder">' + (CAT_ICONS[post.category] || '📝') + '</div>';
         }
 
         wrap.innerHTML =

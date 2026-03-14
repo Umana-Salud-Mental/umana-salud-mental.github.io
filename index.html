@@ -1044,7 +1044,7 @@
             grid.innerHTML = '';
             posts.slice(0, 3).forEach(function(p) {
                 var a = document.createElement('a');
-                a.href = 'post.html?id=' + encodeURIComponent(p.id);
+                a.href = p.staticUrl || ('post.html?id=' + encodeURIComponent(p.id));
                 a.className = 'blog-preview-card';
                 var cat = CAT_MAP[p.category] || '📝 General';
                 var excerpt = (p.excerpt || '').slice(0, 160);

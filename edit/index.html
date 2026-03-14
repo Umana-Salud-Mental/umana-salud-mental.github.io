@@ -531,6 +531,20 @@
                             <strong>Contenido del Sitio:</strong> Los cambios se aplican en tiempo real al abrir el sitio desde este navegador.
                         </p>
                     </div>
+                    <div class="settings-card">
+                        <h3>🔍 SEO &amp; Google</h3>
+                        <p class="info-text">Para que Google indexe tus artículos, cada post publicado necesita un archivo HTML estático en el repositorio. Flujo:</p>
+                        <ol class="info-text" style="margin-left:1.2rem;line-height:1.9">
+                            <li>Publica un artículo en <strong>Blog / Artículos</strong></li>
+                            <li>Haz clic en <strong>📥</strong> (exportar) junto al artículo</li>
+                            <li>Sube el archivo descargado a la carpeta <code>/posts/</code> en GitHub</li>
+                            <li>Descarga y sube el sitemap actualizado a la raíz del repositorio</li>
+                            <li>Google indexa la URL en 1-4 semanas (envía desde Search Console)</li>
+                        </ol>
+                        <div class="data-btns" style="margin-top:.85rem">
+                            <button class="btn btn-secondary" onclick="generateSitemap()">🗺️ Exportar Sitemap</button>
+                        </div>
+                    </div>
                 </section>
 
             </div><!-- /.cms-body -->
@@ -755,6 +769,11 @@ function renderPostList() {
         editBtn.addEventListener('click', function() { openEditPost(this.dataset.postId); });
         const delBtn = document.createElement('button'); delBtn.className = 'btn btn-danger btn-sm'; delBtn.textContent = '🗑️'; delBtn.dataset.postId = p.id;
         delBtn.addEventListener('click', function() { confirmDel(this.dataset.postId); });
+        if (p.status === 'published') {
+            const expBtn = document.createElement('button'); expBtn.className = 'btn btn-secondary btn-sm'; expBtn.title = 'Exportar página estática (SEO/Google)'; expBtn.textContent = '📥'; expBtn.dataset.postId = p.id;
+            expBtn.addEventListener('click', function() { generateStaticPost(this.dataset.postId); });
+            actDiv.appendChild(expBtn);
+        }
         actDiv.appendChild(editBtn); actDiv.appendChild(delBtn); tdAct.appendChild(actDiv);
         tr.appendChild(tdTitle); tr.appendChild(tdCat); tr.appendChild(tdSt); tr.appendChild(tdDate); tr.appendChild(tdAct);
         tbody.appendChild(tr);
@@ -1153,6 +1172,241 @@ function initQuill() {
 }
 
 // ── Boot ──
+// ── SEO: Generate static HTML page for a published post ──────────
+function toSlug(str) {
+    return (str || '').toLowerCase()
+        .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+        .replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 60);
+}
+
+function generateStaticPost(id) {
+    const p = posts.find(x => x.id === id);
+    if (!p) { alert('Artículo no encontrado.'); return; }
+
+    const BASE    = 'https://umana-salud-mental.github.io';
+    const fname   = `post-${p.id}.html`;
+    const canon   = `${BASE}/posts/${fname}`;
+    const catMap  = { ansiedad:'Ansiedad', depresion:'Depresión', relaciones:'Relaciones', estres:'Estrés', autocuidado:'Autocuidado', familia:'Familia', general:'General' };
+    const catIco  = { ansiedad:'😰', depresion:'😔', relaciones:'💬', estres:'🌿', autocuidado:'🧘', familia:'🏡', general:'📝' };
+    const cat     = catMap[p.category] || 'General';
+    const icon    = catIco[p.category] || '📝';
+    const exc     = (p.excerpt || '').slice(0, 160);
+    const img     = p.image || `${BASE}/assets/images/og-umana.png`;
+    const dpub    = p.createdAt  || new Date().toISOString();
+    const dmod    = p.updatedAt  || dpub;
+    const kw      = `${p.title}, salud mental, ${cat.toLowerCase()}, terapia online Ecuador, bienestar emocional, mental health, online therapy, salud mental latinoamérica`;
+    const words   = (p.content || '').replace(/<[^>]*>/g, ' ').split(/\s+/).filter(Boolean).length;
+    const mins    = Math.max(1, Math.round(words / 200));
+    const dateStr = new Date(dpub).toLocaleDateString('es-EC', { year:'numeric', month:'long', day:'numeric' });
+    const cover   = p.image
+        ? `<img src="${p.image.replace(/"/g,'&quot;')}" alt="${p.title.replace(/"/g,'&quot;')}" class="post-cover" loading="eager">`
+        : `<div class="post-cover-placeholder">${icon}</div>`;
+
+    const ld = JSON.stringify({
+        '@context': 'https://schema.org',
+        '@graph': [
+            { '@type':'BreadcrumbList', 'itemListElement': [
+                { '@type':'ListItem', 'position':1, 'name':'Inicio',   'item': BASE + '/' },
+                { '@type':'ListItem', 'position':2, 'name':'Recursos', 'item': BASE + '/recursos.html' },
+                { '@type':'ListItem', 'position':3, 'name': p.title,   'item': canon }
+            ]},
+            { '@type':'Article', '@id': canon,
+              'headline': p.title, 'description': exc,
+              'articleBody': (p.content || '').replace(/<[^>]*>/g, ' ').slice(0, 3000),
+              'datePublished': dpub, 'dateModified': dmod,
+              'author':    { '@type':'Organization', 'name':'Umana Salud Mental', 'url': BASE + '/' },
+              'publisher': { '@type':'Organization', 'name':'Umana Salud Mental', 'url': BASE + '/',
+                             'logo':{ '@type':'ImageObject', 'url': BASE + '/assets/images/logo.png', 'width':200, 'height':60 } },
+              'image': { '@type':'ImageObject', 'url': img, 'width':1200, 'height':630 },
+              'url': canon, 'mainEntityOfPage': canon, 'inLanguage':'es-419',
+              'articleSection': cat, 'keywords': kw,
+              'isPartOf': { '@type':'CollectionPage', 'url': BASE + '/recursos.html' }
+            }
+        ]
+    }, null, 2);
+
+    const html = `<!DOCTYPE html>
+<html lang="es-419" prefix="og: https://ogp.me/ns#">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>${p.title.replace(/</g,'&lt;')} | Umana Salud Mental</title>
+<meta name="description" content="${exc.replace(/"/g,'&quot;')}">
+<meta name="keywords" content="${kw.replace(/"/g,'&quot;')}">
+<meta name="author" content="Umana Salud Mental">
+<meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
+<link rel="canonical" href="${canon}">
+<link rel="alternate" hreflang="es-419"   href="${canon}">
+<link rel="alternate" hreflang="en"       href="${canon}">
+<link rel="alternate" hreflang="x-default" href="${canon}">
+<meta property="og:type"        content="article">
+<meta property="og:url"         content="${canon}">
+<meta property="og:title"       content="${p.title.replace(/"/g,'&quot;')} | Umana Salud Mental">
+<meta property="og:description" content="${exc.replace(/"/g,'&quot;')}">
+<meta property="og:image"       content="${img}">
+<meta property="og:image:width"  content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:site_name"   content="Umana Salud Mental">
+<meta property="og:locale"      content="es_EC">
+<meta property="og:locale:alternate" content="en_US">
+<meta property="article:published_time" content="${dpub}">
+<meta property="article:modified_time"  content="${dmod}">
+<meta property="article:section" content="${cat}">
+<meta name="twitter:card"        content="summary_large_image">
+<meta name="twitter:site"        content="@umanaterapia">
+<meta name="twitter:title"       content="${p.title.replace(/"/g,'&quot;')}">
+<meta name="twitter:description" content="${exc.replace(/"/g,'&quot;')}">
+<meta name="twitter:image"       content="${img}">
+<script type="application/ld+json">${ld}<\/script>
+<link rel="sitemap" type="application/xml" href="/sitemap.xml">
+<link rel="stylesheet" href="/styles.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+.post-wrapper{max-width:780px;margin:0 auto;padding:2rem 1.25rem 4rem}
+.post-back{display:inline-flex;align-items:center;gap:.4rem;color:var(--green,#5D8064);font-size:.9rem;font-weight:600;text-decoration:none;margin-bottom:1.75rem}
+.post-back:hover{text-decoration:underline}
+.post-cat{display:inline-block;background:var(--light-sage,#B7C6AD);color:var(--green,#5D8064);font-size:.78rem;font-weight:700;padding:.25rem .75rem;border-radius:20px;margin-bottom:.85rem}
+.post-title{font-size:clamp(1.6rem,4vw,2.4rem);font-family:var(--font-display,serif);line-height:1.25;margin:0 0 .75rem}
+.post-meta{display:flex;flex-wrap:wrap;gap:.75rem 1.25rem;color:#888;font-size:.83rem;margin-bottom:1.5rem}
+.post-cover{width:100%;max-height:420px;object-fit:cover;border-radius:12px;margin-bottom:2rem}
+.post-cover-placeholder{width:100%;height:280px;background:linear-gradient(135deg,#B7C6AD 0%,#F5EFE6 100%);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:4rem;margin-bottom:2rem}
+.post-body{font-size:1.05rem;line-height:1.8;color:#2F2F2F}
+.post-body h2,.post-body h3{margin-top:2rem;margin-bottom:.6rem;font-family:var(--font-display,serif)}
+.post-body p{margin-bottom:1.2rem}
+.post-body ul,.post-body ol{padding-left:1.5rem;margin-bottom:1.2rem}
+.post-body li{margin-bottom:.4rem}
+.post-body blockquote{border-left:4px solid #5D8064;margin:1.5rem 0;padding:.75rem 1.25rem;background:#F5EFE6;border-radius:0 8px 8px 0;color:#555;font-style:italic}
+.post-cta-bar{margin-top:3rem;padding:1.5rem;background:#F5EFE6;border-radius:12px;text-align:center}
+.post-cta-bar p{margin:0 0 .85rem;color:#555}
+</style>
+</head>
+<body>
+<header><nav><div class="container">
+  <div class="logo"><a href="/"><img src="/assets/images/logo.png?v=2" alt="Umana" class="logo-img" width="120" height="40"></a></div>
+  <div class="nav-end">
+    <ul class="nav-menu">
+      <li><a href="/">Inicio</a></li>
+      <li><a href="/#quienes-somos">Quiénes Somos</a></li>
+      <li><a href="/#servicios">Servicios</a></li>
+      <li><a href="/recursos.html">Recursos</a></li>
+      <li><a href="/#contacto">Contacto</a></li>
+    </ul>
+    <button class="nav-toggle" id="nav-toggle" aria-label="Menú" aria-expanded="false"><span></span><span></span><span></span></button>
+  </div>
+</div></nav></header>
+<main><div class="container"><div class="post-wrapper">
+  <a href="/recursos.html" class="post-back">← Volver a Recursos</a>
+  <span class="post-cat">${cat}</span>
+  <h1 class="post-title">${p.title.replace(/</g,'&lt;').replace(/>/g,'&gt;')}</h1>
+  <div class="post-meta">
+    <span>📅 ${dateStr}</span>
+    <span>⏱ ${mins} min lectura</span>
+  </div>
+  ${cover}
+  <div class="post-body">${p.content || '<p>Sin contenido.</p>'}</div>
+  <div class="post-cta-bar">
+    <p>¿Te gustaría hablar con un profesional sobre este tema?</p>
+    <a href="/#contacto" class="btn btn-primary">Agenda una sesión →</a>
+  </div>
+</div></div></main>
+<footer><div class="container">
+  <div class="footer-content">
+    <div class="footer-info">
+      <p>© 2026 Umana - Plataforma de Salud Mental. Todos los derechos reservados.</p>
+      <p class="privacy">Tu información es confidencial y está protegida.</p>
+    </div>
+  </div>
+  <div class="footer-bottom"><p>© 2026 Umana - Plataforma de Salud Mental. Todos los derechos reservados.</p></div>
+</div></footer>
+<script>
+var nt=document.getElementById('nav-toggle'),nm=document.querySelector('.nav-menu');
+if(nt&&nm)nt.addEventListener('click',function(){var o=nm.classList.toggle('open');nt.setAttribute('aria-expanded',o);});
+<\/script>
+</body></html>`;
+
+    // Store the static URL on the post so CMS links point to it
+    const idx = posts.findIndex(x => x.id === id);
+    if (idx !== -1) { posts[idx].staticUrl = '/posts/' + fname; savePosts(); }
+
+    // Trigger file download
+    const blob = new Blob([html], { type: 'text/html;charset=utf-8' });
+    const dlUrl = URL.createObjectURL(blob);
+    const a = document.createElement('a'); a.href = dlUrl; a.download = fname;
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    URL.revokeObjectURL(dlUrl);
+
+    alert(`✅ "${fname}" descargado!\n\nPara indexar en Google:\n1. Sube el archivo a la carpeta /posts/ en tu repositorio de GitHub\n2. La URL pública será:\n   ${canon}\n3. Exporta el sitemap actualizado desde Configuración → SEO & Google`);
+}
+
+// ── SEO: Generate sitemap.xml with all static post pages ─────────
+function generateSitemap() {
+    const BASE  = 'https://umana-salud-mental.github.io';
+    const today = new Date().toISOString().split('T')[0];
+    const staticPosts = posts.filter(p => p.status === 'published' && p.staticUrl);
+
+    const staticUrls = staticPosts.map(p => {
+        const lm = (p.updatedAt || p.createdAt || today).split('T')[0];
+        return `
+  <!-- ${(p.title || 'Post').replace(/--/g,'—')} -->
+  <url>
+    <loc>${BASE}${p.staticUrl}</loc>
+    <lastmod>${lm}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="es-419"    href="${BASE}${p.staticUrl}"/>
+    <xhtml:link rel="alternate" hreflang="en"        href="${BASE}${p.staticUrl}"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="${BASE}${p.staticUrl}"/>
+  </url>`;
+    }).join('\n');
+
+    const xml = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+
+  <!-- Home page -->
+  <url>
+    <loc>${BASE}/</loc>
+    <lastmod>${today}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="es" href="${BASE}/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="${BASE}/"/>
+  </url>
+
+  <!-- Recursos / Blog hub -->
+  <url>
+    <loc>${BASE}/recursos.html</loc>
+    <lastmod>${today}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="es-419" href="${BASE}/recursos.html"/>
+    <xhtml:link rel="alternate" hreflang="en"     href="${BASE}/recursos.html"/>
+  </url>
+
+  <!-- Crisis Help -->
+  <url>
+    <loc>${BASE}/ayuda-crisis.html</loc>
+    <lastmod>${today}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="es-419" href="${BASE}/ayuda-crisis.html"/>
+    <xhtml:link rel="alternate" hreflang="en"     href="${BASE}/ayuda-crisis.html"/>
+  </url>
+${staticUrls}
+</urlset>`;
+
+    const blob = new Blob([xml], { type: 'application/xml;charset=utf-8' });
+    const dlUrl = URL.createObjectURL(blob);
+    const a = document.createElement('a'); a.href = dlUrl; a.download = 'sitemap.xml';
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    URL.revokeObjectURL(dlUrl);
+
+    const n = staticPosts.length;
+    alert(`✅ sitemap.xml descargado!\n\n${n > 0 ? `Incluye ${n} artículo(s) estáticos.` : 'Sin artículos estáticos aún.\nExporta cada artículo publicado con el botón 📥 primero.'}\n\nSube este archivo a la raíz del repositorio de GitHub.`);
+}
+
 function bootApp() {
     document.getElementById('login-screen').style.display = 'none';
     document.getElementById('app').style.display = 'block';
