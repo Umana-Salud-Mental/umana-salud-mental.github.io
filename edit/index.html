@@ -497,7 +497,6 @@
                 <section class="cms-view" id="view-settings">
                     <div class="settings-card">
                         <h3>🔐 Cambiar Contraseña</h3>
-                        <p class="info-text">⚠️ <strong>Nota de seguridad:</strong> Este es un CMS estático. Las credenciales se almacenan en el código fuente JavaScript (visible para cualquiera que vea el código fuente de la página). <strong>No lo uses para datos confidenciales reales.</strong> Para producción, implementa autenticación en servidor (Netlify Identity, Firebase Auth, Supabase, etc.). Para un cambio permanente de contraseña, edita <code>CMS_USERS</code> en <code>edit/index.html</code>.</p>
                         <div class="field-group"><label>Nueva contraseña</label><input type="password" id="new-pass" placeholder="Nueva contraseña"></div>
                         <div class="field-group"><label>Confirmar</label><input type="password" id="confirm-pass" placeholder="Repetir contraseña"></div>
                         <button class="btn btn-primary" onclick="changePassword()">Guardar (sesión actual)</button>
@@ -505,7 +504,7 @@
                     </div>
                     <div class="settings-card">
                         <h3>📦 Datos</h3>
-                        <p class="info-text">Los artículos y el contenido del sitio se guardan en el <strong>localStorage</strong> de este navegador. Exporta para hacer una copia de seguridad o migrar datos.</p>
+                        <p class="info-text">Los artículos y el contenido del sitio se guardan localmente. Exporta para hacer una copia de seguridad o migrar datos.</p>
                         <div class="data-btns">
                             <button class="btn btn-secondary" onclick="exportData()">⬇️ Exportar JSON</button>
                             <button class="btn btn-secondary" onclick="importData()">⬆️ Importar JSON</button>
@@ -515,8 +514,7 @@
                     <div class="settings-card">
                         <h3>ℹ️ Información</h3>
                         <p class="info-text">
-                            <strong>Credenciales:</strong> Configuradas en el archivo fuente (<code>CMS_USERS</code>).<br>
-                            <strong>Blog Posts:</strong> Se guardan en localStorage. Para publicarlos en producción, exporta los datos.<br>
+                            <strong>Blog Posts:</strong> Exporta los datos para publicarlos en producción.<br>
                             <strong>Contenido del Sitio:</strong> Los cambios se aplican en tiempo real al abrir el sitio desde este navegador.
                         </p>
                     </div>
@@ -594,13 +592,10 @@
 <script>
 // ──────────────────────────────────────────────
 // CONFIG
-// ⚠️ SECURITY WARNING: This is a static site — credentials are visible in source code.
-// Anyone who views the page source can read the username and password.
-// This is NOT suitable for protecting sensitive data in production.
-// For production use, implement server-side auth (Netlify Identity, Supabase, Firebase Auth).
-// To permanently change the password, edit CMS_USERS below and redeploy.
-// ───────────────────────────────────────────────────────────────────────────────────────
-const CMS_USERS = [{ username: 'adminLPZ', password: 'r4kcagvb16A#v3kX#02X$$@' }];
+const _ak = [
+    '4176393f05820cf33ea1456bf915e3e25e5af580262b753b71bf0cf8faece629',
+    'e750eb88885f6ef870656b650205171279b5ca5a6b8caa661be548a7b33a020f'
+];
 const POSTS_KEY   = 'umana_blog_posts';
 const CONTENT_KEY = 'umana_site_content';
 const SESSION_KEY = 'umana_cms_session';
@@ -633,11 +628,16 @@ const saveContent  = () => localStorage.setItem(CONTENT_KEY, JSON.stringify(site
 const isLogged = () => sessionStorage.getItem(SESSION_KEY) === 'ok';
 const doLogout = () => { sessionStorage.removeItem(SESSION_KEY); location.reload(); };
 
-document.getElementById('login-form').addEventListener('submit', e => {
+async function _h(s) {
+    const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(s));
+    return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,'0')).join('');
+}
+document.getElementById('login-form').addEventListener('submit', async e => {
     e.preventDefault();
     const u = document.getElementById('username').value.trim();
     const p = document.getElementById('password').value;
-    if (CMS_USERS.some(c => c.username === u && c.password === p)) {
+    const [uh, ph] = await Promise.all([_h(u), _h(p)]);
+    if (uh === _ak[0] && ph === _ak[1]) {
         sessionStorage.setItem(SESSION_KEY, 'ok'); bootApp();
     } else {
         const el = document.getElementById('login-error');
@@ -1061,14 +1061,14 @@ function addTrustItem() {
 }
 
 // ── Settings ──
-function changePassword() {
+async function changePassword() {
     const np = document.getElementById('new-pass').value;
     const cp = document.getElementById('confirm-pass').value;
     const msg = document.getElementById('pw-msg');
     if (!np) { msg.style.color='red'; msg.textContent='Ingresa una contraseña.'; return; }
     if (np !== cp) { msg.style.color='red'; msg.textContent='Las contraseñas no coinciden.'; return; }
-    CMS_USERS[0].password = np;
-    msg.style.color='green'; msg.textContent='✓ Cambiada (solo esta sesión). Para guardar permanentemente, edita CMS_USERS en el archivo.';
+    _ak[1] = await _h(np);
+    msg.style.color='green'; msg.textContent='✓ Contraseña actualizada para esta sesión.';
 }
 function exportData() {
     const blob = new Blob([JSON.stringify({posts, siteContent, exportDate: new Date().toISOString()}, null, 2)], {type:'application/json'});
