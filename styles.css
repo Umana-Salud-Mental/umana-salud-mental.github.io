@@ -164,6 +164,16 @@ nav .container {
 .logo a {
     color: inherit;
     text-decoration: none;
+    display: flex;
+    align-items: center;
+}
+
+.logo-img {
+    height: 44px;
+    width: auto;
+    max-width: 160px;
+    object-fit: contain;
+    display: block;
 }
 
 .nav-menu {
