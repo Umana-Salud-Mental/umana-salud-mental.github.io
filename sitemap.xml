@@ -32,4 +32,12 @@
     <xhtml:link rel="alternate" hreflang="en" href="https://umana-salud-mental.github.io/ayuda-crisis.html"/>
   </url>
 
+  <!-- Contact clean URL (redirects to /#contacto) -->
+  <url>
+    <loc>https://umana-salud-mental.github.io/contacto</loc>
+    <lastmod>2026-03-14</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
 </urlset>
