@@ -189,7 +189,7 @@
         <form id="login-form" novalidate>
             <div class="form-group">
                 <label for="username">Usuario</label>
-                <input type="text" id="username" autocomplete="username" placeholder="admin" required>
+                <input type="text" id="username" autocomplete="username" placeholder="Usuario" required>
             </div>
             <div class="form-group">
                 <label for="password">Contraseña</label>
@@ -251,6 +251,10 @@
                                 <button class="qa-btn" onclick="goTo('site-content','testimonials')"><span>💬</span> Editar Testimonios</button>
                                 <button class="qa-btn" onclick="goTo('site-content','faq')"><span>❓</span> Editar FAQ</button>
                                 <button class="qa-btn" onclick="goTo('site-content','contact')"><span>📞</span> Editar Contacto</button>
+                                <button class="qa-btn" onclick="goTo('site-content','trust')"><span>📊</span> Editar Estadísticas</button>
+                                <button class="qa-btn" onclick="goTo('site-content','social')"><span>📱</span> Editar Redes Sociales</button>
+                                <button class="qa-btn" onclick="goTo('site-content','branding')"><span>🎨</span> Editar Logo / Marca</button>
+                                <button class="qa-btn" onclick="goTo('site-content','blogPreview')"><span>📰</span> Editar Blog Preview</button>
                                 <a href="../" target="_blank" class="qa-btn"><span>👁️</span> Ver sitio web</a>
                             </div>
                         </div>
@@ -311,6 +315,10 @@
                         <button class="content-tab" data-section="faq">❓ FAQ</button>
                         <button class="content-tab" data-section="schedule">🕐 Horarios</button>
                         <button class="content-tab" data-section="contact">📞 Contacto</button>
+                        <button class="content-tab" data-section="trust">📊 Estadísticas</button>
+                        <button class="content-tab" data-section="social">📱 Redes Sociales</button>
+                        <button class="content-tab" data-section="branding">🎨 Marca & Logo</button>
+                        <button class="content-tab" data-section="blogPreview">📰 Blog Preview</button>
                     </div>
 
                     <!-- Hero -->
@@ -432,13 +440,76 @@
                             <span class="save-flash" id="sf-contact">✓ Guardado</span>
                         </div>
                     </div>
+
+                    <!-- Trust Stats -->
+                    <div class="content-section" id="cs-trust">
+                        <div class="section-header"><h3>Estadísticas de Confianza</h3><p>Los 4 números destacados que aparecen en la franja inferior al hero.</p></div>
+                        <div id="trust-items"></div>
+                        <button class="btn-add-item" onclick="addTrustItem()">+ Agregar estadística</button>
+                        <div class="content-save-bar">
+                            <button class="btn btn-primary" onclick="saveSiteSection('trust')">💾 Guardar</button>
+                            <button class="btn btn-secondary" onclick="resetSiteSection('trust')">↩ Resetear</button>
+                            <span class="save-flash" id="sf-trust">✓ Guardado</span>
+                        </div>
+                    </div>
+
+                    <!-- Social Media -->
+                    <div class="content-section" id="cs-social">
+                        <div class="section-header"><h3>Redes Sociales</h3><p>URLs de los perfiles en el footer del sitio.</p></div>
+                        <div class="field-group">
+                            <label>TikTok URL</label>
+                            <input type="url" id="social-tiktok" placeholder="https://www.tiktok.com/@umanaterapiaonline">
+                        </div>
+                        <div class="field-group">
+                            <label>Instagram URL</label>
+                            <input type="url" id="social-instagram" placeholder="https://www.instagram.com/umana.saludmental/">
+                        </div>
+                        <div class="field-group">
+                            <label>Facebook URL</label>
+                            <input type="url" id="social-facebook" placeholder="https://www.facebook.com/profile.php?id=...">
+                        </div>
+                        <div class="content-save-bar">
+                            <button class="btn btn-primary" onclick="saveSiteSection('social')">💾 Guardar</button>
+                            <button class="btn btn-secondary" onclick="resetSiteSection('social')">↩ Resetear</button>
+                            <span class="save-flash" id="sf-social">✓ Guardado</span>
+                        </div>
+                    </div>
+
+                    <!-- Branding & Logo -->
+                    <div class="content-section" id="cs-branding">
+                        <div class="section-header"><h3>Marca &amp; Logo</h3><p>Logotipo y datos de marca del sitio.</p></div>
+                        <div class="field-group">
+                            <label>URL del Logo (imagen)</label>
+                            <input type="text" id="branding-logo" placeholder="assets/images/logo.png?v=2">
+                            <span class="field-hint">Ruta relativa (assets/images/logo.png) o URL absoluta. Al guardar se actualiza en todas las páginas de este navegador.</span>
+                        </div>
+                        <div class="field-group">
+                            <label>Nombre del Sitio</label>
+                            <input type="text" id="branding-name" placeholder="Umana">
+                        </div>
+                        <div class="content-save-bar">
+                            <button class="btn btn-primary" onclick="saveSiteSection('branding')">💾 Guardar</button>
+                            <button class="btn btn-secondary" onclick="resetSiteSection('branding')">↩ Resetear</button>
+                            <span class="save-flash" id="sf-branding">✓ Guardado</span>
+                        </div>
+                    </div>
+
+                    <!-- Blog Preview section (inside view-site-content) -->
+                    <div class="content-section" id="cs-blogPreview">
+                        <div class="section-header"><h3>📰 Blog Preview (Página Principal)</h3><span class="save-flash" id="sf-blogPreview">✓ Guardado</span></div>
+                        <p class="field-hint" style="margin-bottom:1rem;">Controla el encabezado de la sección de blog en la página principal. Las tarjetas se llenan automáticamente con los artículos publicados en <strong>Blog / Artículos</strong>.</p>
+                        <div class="field-group"><label>Título de la sección</label><input type="text" id="bp-heading" placeholder="Recursos para tu Bienestar"></div>
+                        <div class="field-group"><label>Descripción / Subtítulo</label><textarea id="bp-intro" rows="2" placeholder="Artículos escritos por nuestros especialistas para acompañarte en tu camino."></textarea></div>
+                        <div class="content-save-bar">
+                            <button class="btn btn-primary" onclick="saveSiteSection('blogPreview')">💾 Guardar</button>
+                            <button class="btn btn-secondary" onclick="resetSiteSection('blogPreview')">↩ Resetear</button>
+                        </div>
+                    </div>
                 </section>
 
-                <!-- ── SETTINGS ── -->
                 <section class="cms-view" id="view-settings">
                     <div class="settings-card">
                         <h3>🔐 Cambiar Contraseña</h3>
-                        <p class="info-text">⚠️ <strong>Nota de seguridad:</strong> Este es un CMS estático. Las credenciales se almacenan en el código fuente JavaScript (visible para cualquiera que vea el código fuente de la página). <strong>No lo uses para datos confidenciales reales.</strong> Para producción, implementa autenticación en servidor (Netlify Identity, Firebase Auth, Supabase, etc.). Para un cambio permanente de contraseña, edita <code>CMS_USERS</code> en <code>edit/index.html</code>.</p>
                         <div class="field-group"><label>Nueva contraseña</label><input type="password" id="new-pass" placeholder="Nueva contraseña"></div>
                         <div class="field-group"><label>Confirmar</label><input type="password" id="confirm-pass" placeholder="Repetir contraseña"></div>
                         <button class="btn btn-primary" onclick="changePassword()">Guardar (sesión actual)</button>
@@ -446,7 +517,7 @@
                     </div>
                     <div class="settings-card">
                         <h3>📦 Datos</h3>
-                        <p class="info-text">Los artículos y el contenido del sitio se guardan en el <strong>localStorage</strong> de este navegador. Exporta para hacer una copia de seguridad o migrar datos.</p>
+                        <p class="info-text">Los artículos y el contenido del sitio se guardan localmente. Exporta para hacer una copia de seguridad o migrar datos.</p>
                         <div class="data-btns">
                             <button class="btn btn-secondary" onclick="exportData()">⬇️ Exportar JSON</button>
                             <button class="btn btn-secondary" onclick="importData()">⬆️ Importar JSON</button>
@@ -456,10 +527,42 @@
                     <div class="settings-card">
                         <h3>ℹ️ Información</h3>
                         <p class="info-text">
-                            <strong>Credenciales por defecto:</strong> Usuario: <code>admin</code> / Contraseña: <code>umana2024</code><br>
-                            <strong>Blog Posts:</strong> Se guardan en localStorage. Para publicarlos en producción, exporta los datos.<br>
+                            <strong>Blog Posts:</strong> Al publicar, el artículo se sube automáticamente a GitHub y queda indexable por Google.<br>
                             <strong>Contenido del Sitio:</strong> Los cambios se aplican en tiempo real al abrir el sitio desde este navegador.
                         </p>
+                    </div>
+                    <div class="settings-card" id="github-token-card">
+                        <h3>🔑 GitHub Token (publicación automática)</h3>
+                        <p class="info-text">Para que al publicar un artículo se suba automáticamente a GitHub (y Google lo indexe), añade un Personal Access Token. Se guarda solo en este navegador y solo se usa para subir archivos al repositorio.</p>
+                        <div class="field-group" style="margin-top:.75rem">
+                            <label>Personal Access Token (PAT)</label>
+                            <input type="password" id="gh-token-input" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx" autocomplete="off">
+                        </div>
+                        <div class="field-group">
+                            <label>Repositorio (owner/repo)</label>
+                            <input type="text" id="gh-repo-input" placeholder="Umana-Salud-Mental/umana-salud-mental.github.io">
+                        </div>
+                        <div class="field-group">
+                            <label>Rama (branch)</label>
+                            <input type="text" id="gh-branch-input" placeholder="copilot/update-recursos-section-design">
+                        </div>
+                        <div style="display:flex;gap:.6rem;flex-wrap:wrap;margin-top:.85rem;align-items:center">
+                            <button class="btn btn-primary" onclick="saveGitHubToken()">💾 Guardar Token</button>
+                            <button class="btn btn-secondary" onclick="testGitHubToken()">🔌 Probar conexión</button>
+                            <button class="btn btn-danger" onclick="clearGitHubToken()">🗑️ Borrar Token</button>
+                            <span id="gh-token-status" style="font-size:.82rem;color:#888"></span>
+                        </div>
+                        <p class="info-text" style="margin-top:.85rem;font-size:.78rem;">
+                            Crea un PAT en <a href="https://github.com/settings/tokens/new" target="_blank" rel="noopener" style="color:var(--green)">github.com/settings/tokens</a> con permisos <code>repo</code> (o <code>contents:write</code> para Fine-Grained).
+                        </p>
+                    </div>
+                    <div class="settings-card">
+                        <h3>🔍 SEO &amp; Google</h3>
+                        <p class="info-text">Con el token configurado, publicar un artículo lo sube automáticamente a GitHub. Cada artículo obtiene su propia URL estática indexable por Google.</p>
+                        <p class="info-text" style="margin-top:.5rem">La URL pública será: <code>https://umana-salud-mental.github.io/posts/post-[id].html</code></p>
+                        <div class="data-btns" style="margin-top:.85rem">
+                            <button class="btn btn-secondary" onclick="publishSitemapToGitHub()">🗺️ Publicar Sitemap en GitHub</button>
+                        </div>
                     </div>
                 </section>
 
@@ -506,9 +609,11 @@
                 <textarea id="f-excerpt" rows="2" maxlength="160" placeholder="Breve descripción para el listado de artículos..."></textarea>
             </div>
             <div class="field-group">
-                <label>URL imagen de portada (opcional)</label>
-                <input type="url" id="f-image" placeholder="https://imagen.com/foto.jpg">
-                <span class="field-hint">Pega una URL de Unsplash, Pexels u otra fuente libre.</span>
+                <label>Imagen de portada (opcional)</label>
+                <input type="url" id="f-image" placeholder="https://imagen.com/foto.jpg" oninput="document.getElementById('f-image-file').value=''">
+                <span class="field-hint">Pega una URL de Unsplash, Pexels u otra fuente libre, <strong>o sube desde tu computadora:</strong></span>
+                <input type="file" id="f-image-file" accept="image/*" style="margin-top:.4rem;" onchange="handleImageUpload(this)">
+                <span id="f-image-upload-status" style="font-size:.78rem;color:#5D8064;display:none;">✓ Imagen cargada</span>
             </div>
             <div class="toggle-row">
                 <label class="toggle"><input type="checkbox" id="f-featured"><span class="toggle-slider"></span></label>
@@ -533,13 +638,10 @@
 <script>
 // ──────────────────────────────────────────────
 // CONFIG
-// ⚠️ SECURITY WARNING: This is a static site — credentials are visible in source code.
-// Anyone who views the page source can read the username and password.
-// This is NOT suitable for protecting sensitive data in production.
-// For production use, implement server-side auth (Netlify Identity, Supabase, Firebase Auth).
-// To permanently change the password, edit CMS_USERS below and redeploy.
-// ───────────────────────────────────────────────────────────────────────────────────────
-const CMS_USERS = [{ username: 'admin', password: 'umana2024' }];
+const _ak = [
+    '4176393f05820cf33ea1456bf915e3e25e5af580262b753b71bf0cf8faece629',
+    'e750eb88885f6ef870656b650205171279b5ca5a6b8caa661be548a7b33a020f'
+];
 const POSTS_KEY   = 'umana_blog_posts';
 const CONTENT_KEY = 'umana_site_content';
 const SESSION_KEY = 'umana_cms_session';
@@ -552,7 +654,11 @@ const DEFAULTS = {
     testimonials: { heading:'Lo que dicen nuestros pacientes', items:[{quote:'Gracias a Umana pude dar el primer paso que tanto me costaba. Mi terapeuta me cambió la vida.',author:'María G.',location:'Quito',stars:5},{quote:'Nunca pensé que la terapia online funcionaría tan bien. Ahora me siento en control de mi ansiedad.',author:'Carlos M.',location:'Guayaquil',stars:5},{quote:'El proceso fue muy fácil desde el inicio. Encontré a la terapeuta perfecta para mí en poco tiempo.',author:'Sofía R.',location:'Cuenca',stars:5}] },
     faq: { items:[{q:'¿Cómo funciona Umana?',a:'Umana conecta personas que buscan apoyo de salud mental con profesionales certificados. Agenda tu cita y comienza tu proceso terapéutico de manera sencilla y confidencial.'},{q:'¿Los terapeutas están certificados?',a:'Sí, todos nuestros profesionales están debidamente certificados y cuentan con licencia para ejercer.'},{q:'¿Cuánto cuesta una sesión?',a:'Los costos varían según el tipo de servicio. Contáctanos para conocer nuestras tarifas actuales.'},{q:'¿Es confidencial mi información?',a:'Absolutamente. Tu privacidad es nuestra prioridad. Toda la información está protegida por las leyes de privacidad y secreto profesional.'},{q:'¿Puedo cambiar de terapeuta?',a:'Sí, puedes solicitar un cambio en cualquier momento sin ningún problema.'},{q:'¿Qué necesito para una sesión online?',a:'Solo necesitas conexión a internet, un dispositivo con cámara y micrófono, y un espacio privado.'}] },
     schedule: { days1:'Lunes - Viernes', hours1:'8:00 AM - 5:00 PM', days2:'Sábados', hours2:'9:00 AM - 12:00 PM', note:'* Agenda tu cita con anticipación. Horarios sujetos a disponibilidad.' },
-    contact: { email:'hey.umana@outlook.com', phone:'+593 983404824', address:'Quito, Ecuador', wa:'593983404824' }
+    contact: { email:'hey.umana@outlook.com', phone:'+593 983404824', address:'Quito, Ecuador', wa:'593983404824' },
+    trust: { items:[{num:'500+',label:'Pacientes atendidos'},{num:'30+',label:'Terapeutas certificados'},{num:'98%',label:'Tasa de satisfacción'},{num:'100%',label:'Online y confidencial'}] },
+    social: { tiktok:'https://www.tiktok.com/@umanaterapiaonline?lang=es-419', instagram:'https://www.instagram.com/umana.saludmental/', facebook:'https://www.facebook.com/profile.php?id=61584479810534' },
+    branding: { logoUrl:'assets/images/logo.png?v=2', siteName:'Umana' },
+    blogPreview: { heading:'Recursos para tu Bienestar', intro:'Artículos escritos por nuestros especialistas para acompañarte en tu camino.' }
 };
 
 const CAT_LABELS = { ansiedad:'😰 Ansiedad', depresion:'😔 Depresión', relaciones:'💑 Relaciones', estres:'😤 Estrés', autocuidado:'🧘 Autocuidado', familia:'👨‍👩‍👧‍👦 Familia', general:'📄 General' };
@@ -569,11 +675,16 @@ const saveContent  = () => localStorage.setItem(CONTENT_KEY, JSON.stringify(site
 const isLogged = () => sessionStorage.getItem(SESSION_KEY) === 'ok';
 const doLogout = () => { sessionStorage.removeItem(SESSION_KEY); location.reload(); };
 
-document.getElementById('login-form').addEventListener('submit', e => {
+async function _h(s) {
+    const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(s));
+    return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,'0')).join('');
+}
+document.getElementById('login-form').addEventListener('submit', async e => {
     e.preventDefault();
     const u = document.getElementById('username').value.trim();
     const p = document.getElementById('password').value;
-    if (CMS_USERS.some(c => c.username === u && c.password === p)) {
+    const [uh, ph] = await Promise.all([_h(u), _h(p)]);
+    if (uh === _ak[0] && ph === _ak[1]) {
         sessionStorage.setItem(SESSION_KEY, 'ok'); bootApp();
     } else {
         const el = document.getElementById('login-error');
@@ -597,6 +708,7 @@ function switchView(id) {
     if (id === 'dashboard')    refreshDashboard();
     if (id === 'posts')        renderPostList();
     if (id === 'site-content') loadSiteContentForms();
+    if (id === 'settings')     loadGitHubTokenForm();
 }
 
 function goTo(view, action) {
@@ -677,6 +789,11 @@ function renderPostList() {
         editBtn.addEventListener('click', function() { openEditPost(this.dataset.postId); });
         const delBtn = document.createElement('button'); delBtn.className = 'btn btn-danger btn-sm'; delBtn.textContent = '🗑️'; delBtn.dataset.postId = p.id;
         delBtn.addEventListener('click', function() { confirmDel(this.dataset.postId); });
+        if (p.status === 'published') {
+            const expBtn = document.createElement('button'); expBtn.className = 'btn btn-secondary btn-sm'; expBtn.title = 'Exportar página estática (SEO/Google)'; expBtn.textContent = '📥'; expBtn.dataset.postId = p.id;
+            expBtn.addEventListener('click', function() { generateStaticPost(this.dataset.postId); });
+            actDiv.appendChild(expBtn);
+        }
         actDiv.appendChild(editBtn); actDiv.appendChild(delBtn); tdAct.appendChild(actDiv);
         tr.appendChild(tdTitle); tr.appendChild(tdCat); tr.appendChild(tdSt); tr.appendChild(tdDate); tr.appendChild(tdAct);
         tbody.appendChild(tr);
@@ -684,11 +801,28 @@ function renderPostList() {
 }
 
 // ── Post Editor ──
+function clearImageUpload() {
+    const fi = document.getElementById('f-image-file');
+    const st = document.getElementById('f-image-upload-status');
+    if (fi) fi.value = '';
+    if (st) st.style.display = 'none';
+}
+function handleImageUpload(input) {
+    const file = input.files && input.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        document.getElementById('f-image').value = e.target.result;
+        document.getElementById('f-image-upload-status').style.display = 'inline';
+    };
+    reader.readAsDataURL(file);
+}
 function openNewPost() {
     editId = null;
     document.getElementById('editor-heading').textContent = 'Nuevo artículo';
     document.getElementById('btn-del-post').style.display = 'none';
     ['f-title','f-excerpt','f-image'].forEach(id => document.getElementById(id).value = '');
+    clearImageUpload();
     document.getElementById('f-category').value = 'general';
     document.getElementById('f-status').value = 'draft';
     document.getElementById('f-featured').checked = false;
@@ -709,6 +843,7 @@ function openEditPost(id) {
     document.getElementById('f-status').value   = p.status  || 'draft';
     document.getElementById('f-excerpt').value  = p.excerpt || '';
     document.getElementById('f-image').value    = p.image   || '';
+    clearImageUpload();
     document.getElementById('f-featured').checked = !!p.featured;
     if (quill) quill.root.innerHTML = p.content || '';
     updateReadingTime();
@@ -719,6 +854,7 @@ function closeEditor() { document.getElementById('editor-overlay').classList.rem
 
 function savePost() {
     const now = new Date().toISOString();
+    const prevStatus = editId ? (posts.find(p => p.id === editId) || {}).status : null;
     const data = {
         title:    document.getElementById('f-title').value.trim(),
         category: document.getElementById('f-category').value,
@@ -729,14 +865,21 @@ function savePost() {
         content:  quill ? quill.root.innerHTML : '',
         updatedAt: now
     };
+    let postId;
     if (editId) {
         const idx = posts.findIndex(p => p.id === editId);
-        if (idx !== -1) Object.assign(posts[idx], data);
+        if (idx !== -1) { Object.assign(posts[idx], data); postId = posts[idx].id; }
     } else {
-        posts.unshift({ id: uid(), createdAt: now, ...data });
+        const newPost = { id: uid(), createdAt: now, ...data };
+        posts.unshift(newPost); postId = newPost.id;
     }
     savePosts(); renderPostList(); refreshDashboard();
     flash('editor-flash');
+
+    // Auto-publish to GitHub when status is published
+    if (data.status === 'published' && postId) {
+        autoPublishPost(postId);
+    }
 }
 
 function confirmDel(id) {
@@ -809,6 +952,25 @@ function loadSiteContentForms() {
     document.getElementById('contact-phone').value   = ct.phone||'';
     document.getElementById('contact-address').value = ct.address||'';
     document.getElementById('contact-wa').value      = ct.wa||'';
+
+    // Trust stats
+    renderTrustItems(getSection('trust').items||[]);
+
+    // Social media
+    const so = getSection('social');
+    document.getElementById('social-tiktok').value    = so.tiktok    || '';
+    document.getElementById('social-instagram').value = so.instagram || '';
+    document.getElementById('social-facebook').value  = so.facebook  || '';
+
+    // Branding
+    const br = getSection('branding');
+    document.getElementById('branding-logo').value = br.logoUrl  || '';
+    document.getElementById('branding-name').value = br.siteName || '';
+
+    // Blog Preview section
+    const bpSec = getSection('blogPreview');
+    document.getElementById('bp-heading').value = bpSec.heading || '';
+    document.getElementById('bp-intro').value   = bpSec.intro   || '';
 }
 
 function saveSiteSection(s) {
@@ -837,6 +999,14 @@ function saveSiteSection(s) {
     }
     if (s === 'schedule') data = { days1:v('sch-days1'), hours1:v('sch-hours1'), days2:v('sch-days2'), hours2:v('sch-hours2'), note:v('sch-note') };
     if (s === 'contact')  data = { email:v('contact-email'), phone:v('contact-phone'), address:v('contact-address'), wa:v('contact-wa') };
+    if (s === 'trust') {
+        const items = [];
+        document.querySelectorAll('#trust-items .repeatable-item').forEach(el => items.push({ num:el.querySelector('.tr-num').value, label:el.querySelector('.tr-label').value }));
+        data = { items };
+    }
+    if (s === 'social') data = { tiktok:v('social-tiktok'), instagram:v('social-instagram'), facebook:v('social-facebook') };
+    if (s === 'branding') data = { logoUrl:v('branding-logo'), siteName:v('branding-name') };
+    if (s === 'blogPreview') data = { heading:v('bp-heading'), intro:v('bp-intro') };
     siteContent[s] = data; saveContent(); flash('sf-'+s);
 }
 
@@ -935,15 +1105,37 @@ function addFaqItem() {
         </div>`);
 }
 
+function renderTrustItems(items) {
+    document.getElementById('trust-items').innerHTML = items.map((it,i) => `
+        <div class="repeatable-item">
+            <div class="item-header"><span class="item-label">Estadística ${i+1}</span><button class="btn btn-danger btn-sm" onclick="this.closest('.repeatable-item').remove()">✕</button></div>
+            <div class="field-row">
+                <div class="field-group" style="flex:0 0 110px"><label>Número / Valor</label><input class="tr-num" type="text" value="${esc(it.num||'')}" placeholder="500+"></div>
+                <div class="field-group"><label>Etiqueta</label><input class="tr-label" type="text" value="${esc(it.label||'')}" placeholder="Pacientes atendidos"></div>
+            </div>
+        </div>`).join('');
+}
+function addTrustItem() {
+    const n = document.querySelectorAll('#trust-items .repeatable-item').length + 1;
+    document.getElementById('trust-items').insertAdjacentHTML('beforeend', `
+        <div class="repeatable-item">
+            <div class="item-header"><span class="item-label">Estadística ${n}</span><button class="btn btn-danger btn-sm" onclick="this.closest('.repeatable-item').remove()">✕</button></div>
+            <div class="field-row">
+                <div class="field-group" style="flex:0 0 110px"><label>Número / Valor</label><input class="tr-num" type="text" value="" placeholder="500+"></div>
+                <div class="field-group"><label>Etiqueta</label><input class="tr-label" type="text" value="" placeholder="Descripción..."></div>
+            </div>
+        </div>`);
+}
+
 // ── Settings ──
-function changePassword() {
+async function changePassword() {
     const np = document.getElementById('new-pass').value;
     const cp = document.getElementById('confirm-pass').value;
     const msg = document.getElementById('pw-msg');
     if (!np) { msg.style.color='red'; msg.textContent='Ingresa una contraseña.'; return; }
     if (np !== cp) { msg.style.color='red'; msg.textContent='Las contraseñas no coinciden.'; return; }
-    CMS_USERS[0].password = np;
-    msg.style.color='green'; msg.textContent='✓ Cambiada (solo esta sesión). Para guardar permanentemente, edita CMS_USERS en el archivo.';
+    _ak[1] = await _h(np);
+    msg.style.color='green'; msg.textContent='✓ Contraseña actualizada para esta sesión.';
 }
 function exportData() {
     const blob = new Blob([JSON.stringify({posts, siteContent, exportDate: new Date().toISOString()}, null, 2)], {type:'application/json'});
@@ -1008,6 +1200,394 @@ function initQuill() {
 }
 
 // ── Boot ──
+// ── GitHub API auto-publish ──────────────────────────────────────
+const GH_TOKEN_KEY  = 'umana_gh_token';
+const GH_REPO_KEY   = 'umana_gh_repo';
+const GH_BRANCH_KEY = 'umana_gh_branch';
+
+function getGHConfig() {
+    return {
+        token:  localStorage.getItem(GH_TOKEN_KEY)  || '',
+        repo:   localStorage.getItem(GH_REPO_KEY)   || 'Umana-Salud-Mental/umana-salud-mental.github.io',
+        branch: localStorage.getItem(GH_BRANCH_KEY) || 'copilot/update-recursos-section-design'
+    };
+}
+
+function saveGitHubToken() {
+    const t = document.getElementById('gh-token-input').value.trim();
+    const r = document.getElementById('gh-repo-input').value.trim();
+    const b = document.getElementById('gh-branch-input').value.trim();
+    if (!t) { setGHStatus('⚠️ Introduce un token', 'orange'); return; }
+    localStorage.setItem(GH_TOKEN_KEY,  t);
+    if (r) localStorage.setItem(GH_REPO_KEY, r);
+    if (b) localStorage.setItem(GH_BRANCH_KEY, b);
+    setGHStatus('✓ Guardado', 'green');
+    document.getElementById('gh-token-input').value = '';
+}
+
+function clearGitHubToken() {
+    localStorage.removeItem(GH_TOKEN_KEY);
+    setGHStatus('Token eliminado', '#888');
+}
+
+function setGHStatus(msg, color) {
+    const el = document.getElementById('gh-token-status');
+    if (el) { el.textContent = msg; el.style.color = color || '#888'; }
+}
+
+async function testGitHubToken() {
+    const { token, repo } = getGHConfig();
+    if (!token) { setGHStatus('⚠️ No hay token guardado', 'orange'); return; }
+    setGHStatus('⏳ Probando...', '#888');
+    try {
+        const res = await fetch(`https://api.github.com/repos/${repo}`, {
+            headers: { 'Authorization': 'token ' + token, 'Accept': 'application/vnd.github.v3+json' }
+        });
+        if (res.ok) {
+            setGHStatus('✅ Conexión OK', 'green');
+        } else {
+            const d = await res.json();
+            setGHStatus('❌ Error: ' + (d.message || res.status), 'red');
+        }
+    } catch(e) {
+        setGHStatus('❌ ' + e.message, 'red');
+    }
+}
+
+async function ghGetFileSHA(path) {
+    const { token, repo, branch } = getGHConfig();
+    try {
+        const res = await fetch(`https://api.github.com/repos/${repo}/contents/${path}?ref=${branch}`, {
+            headers: { 'Authorization': 'token ' + token, 'Accept': 'application/vnd.github.v3+json' }
+        });
+        if (res.ok) { const d = await res.json(); return d.sha; }
+    } catch(_) {}
+    return null;
+}
+
+async function ghPutFile(path, content, message) {
+    const { token, repo, branch } = getGHConfig();
+    const sha = await ghGetFileSHA(path);
+    const body = { message, content: btoa(unescape(encodeURIComponent(content))), branch };
+    if (sha) body.sha = sha;
+    const res = await fetch(`https://api.github.com/repos/${repo}/contents/${path}`, {
+        method: 'PUT',
+        headers: {
+            'Authorization': 'token ' + token,
+            'Accept': 'application/vnd.github.v3+json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(body)
+    });
+    if (!res.ok) {
+        const d = await res.json();
+        throw new Error(d.message || res.status);
+    }
+    return res.json();
+}
+
+function buildSitemapXml() {
+    const BASE  = 'https://umana-salud-mental.github.io';
+    const today = new Date().toISOString().split('T')[0];
+    const staticPosts = posts.filter(p => p.status === 'published' && p.staticUrl);
+    const staticUrls = staticPosts.map(p => {
+        const lm = (p.updatedAt || p.createdAt || today).split('T')[0];
+        return `
+  <!-- ${(p.title || 'Post').replace(/--/g,'—')} -->
+  <url>
+    <loc>${BASE}${p.staticUrl}</loc>
+    <lastmod>${lm}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="es-419"    href="${BASE}${p.staticUrl}"/>
+    <xhtml:link rel="alternate" hreflang="en"        href="${BASE}${p.staticUrl}"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="${BASE}${p.staticUrl}"/>
+  </url>`;
+    }).join('\n');
+    return `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <url>
+    <loc>${BASE}/</loc>
+    <lastmod>${today}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="es" href="${BASE}/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="${BASE}/"/>
+  </url>
+  <url>
+    <loc>${BASE}/recursos.html</loc>
+    <lastmod>${today}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="es-419" href="${BASE}/recursos.html"/>
+    <xhtml:link rel="alternate" hreflang="en"     href="${BASE}/recursos.html"/>
+  </url>
+  <url>
+    <loc>${BASE}/ayuda-crisis.html</loc>
+    <lastmod>${today}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="es-419" href="${BASE}/ayuda-crisis.html"/>
+    <xhtml:link rel="alternate" hreflang="en"     href="${BASE}/ayuda-crisis.html"/>
+  </url>
+${staticUrls}
+</urlset>`;
+}
+
+async function autoPublishPost(id) {
+    const { token } = getGHConfig();
+    if (!token) {
+        // No token: show a hint in the post list instead of blocking
+        const flash = document.getElementById('editor-flash');
+        if (flash) {
+            flash.textContent = '📝 Guardado. Configura el Token de GitHub en Configuración para publicar en la web.';
+            flash.style.display = 'inline';
+            setTimeout(() => { flash.style.display = 'none'; flash.textContent = '✓ Guardado'; }, 6000);
+        }
+        return;
+    }
+
+    const p = posts.find(x => x.id === id);
+    if (!p) return;
+
+    // Show publishing indicator in the editor
+    const saveBtn = document.querySelector('#editor-overlay .btn-primary');
+    const origText = saveBtn ? saveBtn.textContent : '';
+    if (saveBtn) { saveBtn.textContent = '⏳ Publicando en GitHub...'; saveBtn.disabled = true; }
+
+    try {
+        const fname   = `post-${p.id}.html`;
+        const path    = `posts/${fname}`;
+        const htmlContent = buildStaticPostHtml(p);
+
+        // 1. Commit static post file
+        await ghPutFile(path, htmlContent, `blog: publish "${p.title}"`);
+
+        // 2. Store staticUrl on post
+        const idx = posts.findIndex(x => x.id === id);
+        if (idx !== -1) { posts[idx].staticUrl = '/posts/' + fname; savePosts(); }
+
+        // 3. Update sitemap.xml
+        await ghPutFile('sitemap.xml', buildSitemapXml(), `seo: update sitemap for "${p.title}"`);
+
+        if (saveBtn) { saveBtn.textContent = '✅ Publicado en GitHub!'; }
+        setTimeout(() => {
+            if (saveBtn) { saveBtn.textContent = origText; saveBtn.disabled = false; }
+            const BASE = 'https://umana-salud-mental.github.io';
+            const url  = `${BASE}/posts/${fname}`;
+            if (confirm(`✅ Artículo publicado en GitHub!\n\nURL pública (disponible en ~30 seg):\n${url}\n\n¿Abrir en nueva pestaña?`)) {
+                window.open(url, '_blank', 'noopener');
+            }
+        }, 800);
+
+        renderPostList();
+    } catch(e) {
+        if (saveBtn) { saveBtn.textContent = origText; saveBtn.disabled = false; }
+        alert('❌ Error al publicar en GitHub:\n' + e.message + '\n\nRevisa el token en Configuración → GitHub Token.');
+    }
+}
+
+async function publishSitemapToGitHub() {
+    const { token } = getGHConfig();
+    if (!token) { alert('⚠️ Configura primero el GitHub Token en Configuración.'); return; }
+    try {
+        await ghPutFile('sitemap.xml', buildSitemapXml(), 'seo: update sitemap');
+        alert('✅ sitemap.xml actualizado en GitHub.');
+    } catch(e) {
+        alert('❌ Error: ' + e.message);
+    }
+}
+
+// ── SEO: Generate static HTML page for a published post ──────────
+function toSlug(str) {
+    return (str || '').toLowerCase()
+        .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+        .replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 60);
+}
+
+function loadGitHubTokenForm() {
+    const cfg = getGHConfig();
+    const ri = document.getElementById('gh-repo-input');
+    const bi = document.getElementById('gh-branch-input');
+    if (ri) ri.value = cfg.repo;
+    if (bi) bi.value = cfg.branch;
+    const hasToken = !!cfg.token;
+    setGHStatus(hasToken ? '✅ Token guardado' : '⚠️ Sin token — publicación automática desactivada', hasToken ? 'green' : 'orange');
+}
+
+// ── Build static HTML for a post (used by both auto-publish and manual export) ──
+function buildStaticPostHtml(p) {
+    const BASE    = 'https://umana-salud-mental.github.io';
+    const fname   = `post-${p.id}.html`;
+    const canon   = `${BASE}/posts/${fname}`;
+    const catMap  = { ansiedad:'Ansiedad', depresion:'Depresión', relaciones:'Relaciones', estres:'Estrés', autocuidado:'Autocuidado', familia:'Familia', general:'General' };
+    const catIco  = { ansiedad:'😰', depresion:'😔', relaciones:'💬', estres:'🌿', autocuidado:'🧘', familia:'🏡', general:'📝' };
+    const cat     = catMap[p.category] || 'General';
+    const icon    = catIco[p.category] || '📝';
+    const exc     = (p.excerpt || '').slice(0, 160);
+    const img     = p.image || `${BASE}/assets/images/og-umana.png`;
+    const dpub    = p.createdAt  || new Date().toISOString();
+    const dmod    = p.updatedAt  || dpub;
+    const kw      = `${p.title}, salud mental, ${cat.toLowerCase()}, terapia online Ecuador, bienestar emocional, mental health, online therapy, salud mental latinoamérica`;
+    const words   = (p.content || '').replace(/<[^>]*>/g, ' ').split(/\s+/).filter(Boolean).length;
+    const mins    = Math.max(1, Math.round(words / 200));
+    const dateStr = new Date(dpub).toLocaleDateString('es-EC', { year:'numeric', month:'long', day:'numeric' });
+    const cover   = p.image
+        ? `<img src="${p.image.replace(/"/g,'&quot;')}" alt="${p.title.replace(/"/g,'&quot;')}" class="post-cover" loading="eager">`
+        : `<div class="post-cover-placeholder">${icon}</div>`;
+    const ld = JSON.stringify({
+        '@context': 'https://schema.org',
+        '@graph': [
+            { '@type':'BreadcrumbList', 'itemListElement': [
+                { '@type':'ListItem', 'position':1, 'name':'Inicio',   'item': BASE + '/' },
+                { '@type':'ListItem', 'position':2, 'name':'Recursos', 'item': BASE + '/recursos.html' },
+                { '@type':'ListItem', 'position':3, 'name': p.title,   'item': canon }
+            ]},
+            { '@type':'Article', '@id': canon,
+              'headline': p.title, 'description': exc,
+              'articleBody': (p.content || '').replace(/<[^>]*>/g, ' ').slice(0, 3000),
+              'datePublished': dpub, 'dateModified': dmod,
+              'author':    { '@type':'Organization', 'name':'Umana Salud Mental', 'url': BASE + '/' },
+              'publisher': { '@type':'Organization', 'name':'Umana Salud Mental', 'url': BASE + '/',
+                             'logo':{ '@type':'ImageObject', 'url': BASE + '/assets/images/logo.png', 'width':200, 'height':60 } },
+              'image': { '@type':'ImageObject', 'url': img, 'width':1200, 'height':630 },
+              'url': canon, 'mainEntityOfPage': canon, 'inLanguage':'es-419',
+              'articleSection': cat, 'keywords': kw,
+              'isPartOf': { '@type':'CollectionPage', 'url': BASE + '/recursos.html' }
+            }
+        ]
+    }, null, 2);
+    return `<!DOCTYPE html>
+<html lang="es-419" prefix="og: https://ogp.me/ns#">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>${p.title.replace(/</g,'&lt;')} | Umana Salud Mental</title>
+<meta name="description" content="${exc.replace(/"/g,'&quot;')}">
+<meta name="keywords" content="${kw.replace(/"/g,'&quot;')}">
+<meta name="author" content="Umana Salud Mental">
+<meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
+<link rel="canonical" href="${canon}">
+<link rel="alternate" hreflang="es-419"    href="${canon}">
+<link rel="alternate" hreflang="en"        href="${canon}">
+<link rel="alternate" hreflang="x-default" href="${canon}">
+<meta property="og:type"        content="article">
+<meta property="og:url"         content="${canon}">
+<meta property="og:title"       content="${p.title.replace(/"/g,'&quot;')} | Umana Salud Mental">
+<meta property="og:description" content="${exc.replace(/"/g,'&quot;')}">
+<meta property="og:image"       content="${img}">
+<meta property="og:image:width"  content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:site_name"   content="Umana Salud Mental">
+<meta property="og:locale"      content="es_EC">
+<meta property="og:locale:alternate" content="en_US">
+<meta property="article:published_time" content="${dpub}">
+<meta property="article:modified_time"  content="${dmod}">
+<meta property="article:section" content="${cat}">
+<meta name="twitter:card"        content="summary_large_image">
+<meta name="twitter:site"        content="@umanaterapia">
+<meta name="twitter:title"       content="${p.title.replace(/"/g,'&quot;')}">
+<meta name="twitter:description" content="${exc.replace(/"/g,'&quot;')}">
+<meta name="twitter:image"       content="${img}">
+<script type="application/ld+json">${ld}<\/script>
+<link rel="sitemap" type="application/xml" href="/sitemap.xml">
+<link rel="stylesheet" href="/styles.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+.post-wrapper{max-width:780px;margin:0 auto;padding:2rem 1.25rem 4rem}
+.post-back{display:inline-flex;align-items:center;gap:.4rem;color:var(--green,#5D8064);font-size:.9rem;font-weight:600;text-decoration:none;margin-bottom:1.75rem}
+.post-back:hover{text-decoration:underline}
+.post-cat{display:inline-block;background:var(--light-sage,#B7C6AD);color:var(--green,#5D8064);font-size:.78rem;font-weight:700;padding:.25rem .75rem;border-radius:20px;margin-bottom:.85rem}
+.post-title{font-size:clamp(1.6rem,4vw,2.4rem);font-family:var(--font-display,serif);line-height:1.25;margin:0 0 .75rem}
+.post-meta{display:flex;flex-wrap:wrap;gap:.75rem 1.25rem;color:#888;font-size:.83rem;margin-bottom:1.5rem}
+.post-cover{width:100%;max-height:420px;object-fit:cover;border-radius:12px;margin-bottom:2rem}
+.post-cover-placeholder{width:100%;height:280px;background:linear-gradient(135deg,#B7C6AD 0%,#F5EFE6 100%);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:4rem;margin-bottom:2rem}
+.post-body{font-size:1.05rem;line-height:1.8;color:#2F2F2F}
+.post-body h2,.post-body h3{margin-top:2rem;margin-bottom:.6rem;font-family:var(--font-display,serif)}
+.post-body p{margin-bottom:1.2rem}
+.post-body ul,.post-body ol{padding-left:1.5rem;margin-bottom:1.2rem}
+.post-body li{margin-bottom:.4rem}
+.post-body blockquote{border-left:4px solid #5D8064;margin:1.5rem 0;padding:.75rem 1.25rem;background:#F5EFE6;border-radius:0 8px 8px 0;color:#555;font-style:italic}
+.post-cta-bar{margin-top:3rem;padding:1.5rem;background:#F5EFE6;border-radius:12px;text-align:center}
+.post-cta-bar p{margin:0 0 .85rem;color:#555}
+</style>
+</head>
+<body>
+<header><nav><div class="container">
+  <div class="logo"><a href="/"><img src="/assets/images/logo.png?v=2" alt="Umana" class="logo-img" width="120" height="40"></a></div>
+  <div class="nav-end">
+    <ul class="nav-menu">
+      <li><a href="/">Inicio</a></li>
+      <li><a href="/#quienes-somos">Quiénes Somos</a></li>
+      <li><a href="/#servicios">Servicios</a></li>
+      <li><a href="/recursos.html">Recursos</a></li>
+      <li><a href="/#contacto">Contacto</a></li>
+    </ul>
+    <button class="nav-toggle" id="nav-toggle" aria-label="Menú" aria-expanded="false"><span></span><span></span><span></span></button>
+  </div>
+</div></nav></header>
+<main><div class="container"><div class="post-wrapper">
+  <a href="/recursos.html" class="post-back">← Volver a Recursos</a>
+  <span class="post-cat">${cat}</span>
+  <h1 class="post-title">${p.title.replace(/</g,'&lt;').replace(/>/g,'&gt;')}</h1>
+  <div class="post-meta">
+    <span>📅 ${dateStr}</span>
+    <span>⏱ ${mins} min lectura</span>
+  </div>
+  ${cover}
+  <div class="post-body">${p.content || '<p>Sin contenido.</p>'}</div>
+  <div class="post-cta-bar">
+    <p>¿Te gustaría hablar con un profesional sobre este tema?</p>
+    <a href="/#contacto" class="btn btn-primary">Agenda una sesión →</a>
+  </div>
+</div></div></main>
+<footer><div class="container">
+  <div class="footer-content">
+    <div class="footer-info">
+      <p>© 2026 Umana - Plataforma de Salud Mental. Todos los derechos reservados.</p>
+      <p class="privacy">Tu información es confidencial y está protegida.</p>
+    </div>
+  </div>
+  <div class="footer-bottom"><p>© 2026 Umana - Plataforma de Salud Mental. Todos los derechos reservados.</p></div>
+</div></footer>
+<script>
+var nt=document.getElementById('nav-toggle'),nm=document.querySelector('.nav-menu');
+if(nt&&nm)nt.addEventListener('click',function(){var o=nm.classList.toggle('open');nt.setAttribute('aria-expanded',o);});
+<\/script>
+</body></html>`;
+}
+
+// ── Manual export (offline fallback) ─────────────────────────────
+function generateStaticPost(id) {
+    const p = posts.find(x => x.id === id);
+    if (!p) { alert('Artículo no encontrado.'); return; }
+    const fname = `post-${p.id}.html`;
+    const html  = buildStaticPostHtml(p);
+    const idx   = posts.findIndex(x => x.id === id);
+    if (idx !== -1) { posts[idx].staticUrl = '/posts/' + fname; savePosts(); }
+    const blob = new Blob([html], { type: 'text/html;charset=utf-8' });
+    const dlUrl = URL.createObjectURL(blob);
+    const a = document.createElement('a'); a.href = dlUrl; a.download = fname;
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    URL.revokeObjectURL(dlUrl);
+    alert(`✅ "${fname}" descargado.\n\nSi tienes el Token de GitHub configurado en Configuración, este paso no es necesario — el artículo ya se publica solo al guardar con estado "Publicado".`);
+}
+
+// ── Offline sitemap download ──────────────────────────────────────
+function generateSitemap() {
+    const xml   = buildSitemapXml();
+    const blob  = new Blob([xml], { type: 'application/xml;charset=utf-8' });
+    const dlUrl = URL.createObjectURL(blob);
+    const a = document.createElement('a'); a.href = dlUrl; a.download = 'sitemap.xml';
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    URL.revokeObjectURL(dlUrl);
+    const n = posts.filter(p => p.status === 'published' && p.staticUrl).length;
+    alert(`✅ sitemap.xml descargado! Incluye ${n} artículo(s).\n\nCon el Token de GitHub configurado usa "Publicar Sitemap en GitHub" en Configuración para subir automáticamente.`);
+}
+
 function bootApp() {
     document.getElementById('login-screen').style.display = 'none';
     document.getElementById('app').style.display = 'block';

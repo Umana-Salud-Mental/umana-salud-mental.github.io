@@ -1,0 +1,11 @@
+# robots.txt – Umana Salud Mental
+# https://umana-salud-mental.github.io/
+
+User-agent: *
+Allow: /
+
+# Disallow private areas
+Disallow: /edit/
+
+# Sitemap location
+Sitemap: https://umana-salud-mental.github.io/sitemap.xml
