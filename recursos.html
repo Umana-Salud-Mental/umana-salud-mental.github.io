@@ -1,16 +1,19 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es-419" data-i18n-title="rec.meta.title">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Recursos de salud mental, consejos y artículos de terapia - Umana">
+    <meta name="description" content="Recursos de salud mental, consejos y artículos de terapia - Umana" data-i18n-content="rec.meta.desc">
     <title>Recursos de Salud Mental | Umana</title>
-    
+
+    <!-- i18n must load before render to avoid flicker on EN sessions -->
+    <script src="translations.js"></script>
+
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
     <!-- Styles -->
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="recursos.css">
@@ -23,12 +26,19 @@
                 <a href="index.html#inicio">Umana</a>
             </div>
             <ul class="nav-menu">
-                <li><a href="index.html">Inicio</a></li>
-                <li><a href="index.html#quienes-somos">Quiénes Somos</a></li>
-                <li><a href="index.html#servicios">Servicios</a></li>
-                <li><a href="recursos.html" class="active">Recursos</a></li>
-                <li><a href="index.html#contacto">Contacto</a></li>
+                <li><a href="index.html" data-i18n="nav.home">Inicio</a></li>
+                <li><a href="index.html#quienes-somos" data-i18n="nav.about">Quiénes Somos</a></li>
+                <li><a href="index.html#servicios" data-i18n="nav.services">Servicios</a></li>
+                <li><a href="recursos.html" class="active" data-i18n="nav.resources">Recursos</a></li>
+                <li><a href="index.html#contacto" data-i18n="nav.contact">Contacto</a></li>
             </ul>
+            <button id="lang-toggle" class="lang-toggle" aria-label="Switch to English" data-i18n-aria="nav.lang.aria">
+                <span class="lang-globe">🌐</span>
+                <span id="lang-toggle-text" data-i18n="nav.lang">EN</span>
+            </button>
+            <button class="nav-toggle" id="nav-toggle" aria-label="Menú" aria-expanded="false">
+                <span></span><span></span><span></span>
+            </button>
         </div>
     </nav>
 
@@ -36,32 +46,33 @@
     <section class="recursos-hero">
         <div class="container">
             <div class="breadcrumb">
-                <a href="index.html">Inicio</a> / <span>Recursos</span>
+                <a href="index.html" data-i18n="rec.breadcrumb.home">Inicio</a> / <span data-i18n="rec.breadcrumb.cur">Recursos</span>
             </div>
-            
-            <h1>Recursos de Salud Mental</h1>
-            <p class="hero-subtitle">Encuentra artículos, consejos y guías para tu bienestar emocional</p>
-            
+
+            <h1 data-i18n="rec.hero.h1">Recursos de Salud Mental</h1>
+            <p class="hero-subtitle" data-i18n="rec.hero.sub">Encuentra artículos, consejos y guías para tu bienestar emocional</p>
+
             <!-- Enhanced Search -->
             <div class="search-wrapper">
                 <div class="search-box-container">
                     <svg class="search-icon" width="20" height="20" viewBox="0 0 20 20" fill="none">
                         <path d="M9 17A8 8 0 1 0 9 1a8 8 0 0 0 0 16zM19 19l-4.35-4.35" stroke="#5D8064" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                     </svg>
-                    <input type="text" class="search-input" placeholder="Buscar por tema, palabra clave..." id="searchInput">
-                    <button class="search-btn" onclick="performSearch()">Buscar</button>
+                    <input type="text" class="search-input" placeholder="Buscar por tema, palabra clave..." id="searchInput"
+                           data-i18n-placeholder="rec.search.ph">
+                    <button class="search-btn" onclick="performSearch()" data-i18n="rec.search.btn">Buscar</button>
                 </div>
             </div>
-            
+
             <!-- Category Pills/Tabs -->
             <div class="category-pills">
-                <button class="pill active" data-category="all" onclick="filterByCategory('all')">Todo</button>
-                <button class="pill" data-category="ansiedad" onclick="filterByCategory('ansiedad')">Ansiedad</button>
-                <button class="pill" data-category="depresion" onclick="filterByCategory('depresion')">Depresión</button>
-                <button class="pill" data-category="relaciones" onclick="filterByCategory('relaciones')">Relaciones</button>
-                <button class="pill" data-category="estres" onclick="filterByCategory('estres')">Estrés</button>
-                <button class="pill" data-category="autocuidado" onclick="filterByCategory('autocuidado')">Autocuidado</button>
-                <button class="pill" data-category="familia" onclick="filterByCategory('familia')">Familia</button>
+                <button class="pill active" data-category="all" onclick="filterByCategory('all')" data-i18n="rec.pill.all">Todo</button>
+                <button class="pill" data-category="ansiedad" onclick="filterByCategory('ansiedad')" data-i18n="rec.pill.ansiedad">Ansiedad</button>
+                <button class="pill" data-category="depresion" onclick="filterByCategory('depresion')" data-i18n="rec.pill.depresion">Depresión</button>
+                <button class="pill" data-category="relaciones" onclick="filterByCategory('relaciones')" data-i18n="rec.pill.relaciones">Relaciones</button>
+                <button class="pill" data-category="estres" onclick="filterByCategory('estres')" data-i18n="rec.pill.estres">Estrés</button>
+                <button class="pill" data-category="autocuidado" onclick="filterByCategory('autocuidado')" data-i18n="rec.pill.autocuidado">Autocuidado</button>
+                <button class="pill" data-category="familia" onclick="filterByCategory('familia')" data-i18n="rec.pill.familia">Familia</button>
             </div>
         </div>
     </section>
@@ -69,56 +80,56 @@
     <!-- Featured Articles -->
     <section class="featured-section">
         <div class="container">
-            <h2 class="section-title">Artículos Destacados</h2>
+            <h2 class="section-title" data-i18n="rec.feat.heading">Artículos Destacados</h2>
             <div class="featured-grid">
                 <!-- Featured Article 1 -->
                 <article class="article-card featured" data-category="ansiedad">
                     <div class="article-image img-ansiedad">
-                        <div class="article-badge">Destacado</div>
+                        <div class="article-badge" data-i18n="rec.badge.feat">Destacado</div>
                         <div class="article-img-icon">🧘</div>
                     </div>
                     <div class="article-content">
                         <div class="article-meta">
-                            <span class="category">Ansiedad</span>
-                            <span class="read-time">7 min lectura</span>
+                            <span class="category" data-i18n="rec.cat.ansiedad">Ansiedad</span>
+                            <span class="read-time" data-i18n="rec.time.7">7 min lectura</span>
                         </div>
-                        <h3>10 Técnicas Efectivas para Manejar la Ansiedad</h3>
-                        <p>Descubre estrategias comprobadas para reducir la ansiedad y recuperar el control de tus emociones en momentos difíciles.</p>
-                        <a href="#" class="article-link">Leer más →</a>
+                        <h3 data-i18n="rec.feat.a1.h">10 Técnicas Efectivas para Manejar la Ansiedad</h3>
+                        <p data-i18n="rec.feat.a1.p">Descubre estrategias comprobadas para reducir la ansiedad y recuperar el control de tus emociones en momentos difíciles.</p>
+                        <a href="#" class="article-link" data-i18n="rec.link">Leer más →</a>
                     </div>
                 </article>
 
                 <!-- Featured Article 2 -->
                 <article class="article-card featured" data-category="depresion">
                     <div class="article-image img-depresion">
-                        <div class="article-badge">Destacado</div>
+                        <div class="article-badge" data-i18n="rec.badge.feat">Destacado</div>
                         <div class="article-img-icon">🌱</div>
                     </div>
                     <div class="article-content">
                         <div class="article-meta">
-                            <span class="category">Depresión</span>
-                            <span class="read-time">10 min lectura</span>
+                            <span class="category" data-i18n="rec.cat.depresion">Depresión</span>
+                            <span class="read-time" data-i18n="rec.time.10">10 min lectura</span>
                         </div>
-                        <h3>Señales de Depresión y Cuándo Buscar Ayuda</h3>
-                        <p>Aprende a reconocer los síntomas de la depresión y descubre por qué buscar apoyo profesional es un paso valiente.</p>
-                        <a href="#" class="article-link">Leer más →</a>
+                        <h3 data-i18n="rec.feat.a2.h">Señales de Depresión y Cuándo Buscar Ayuda</h3>
+                        <p data-i18n="rec.feat.a2.p">Aprende a reconocer los síntomas de la depresión y descubre por qué buscar apoyo profesional es un paso valiente.</p>
+                        <a href="#" class="article-link" data-i18n="rec.link">Leer más →</a>
                     </div>
                 </article>
 
                 <!-- Featured Article 3 -->
                 <article class="article-card featured" data-category="relaciones">
                     <div class="article-image img-relaciones">
-                        <div class="article-badge">Destacado</div>
+                        <div class="article-badge" data-i18n="rec.badge.feat">Destacado</div>
                         <div class="article-img-icon">💬</div>
                     </div>
                     <div class="article-content">
                         <div class="article-meta">
-                            <span class="category">Relaciones</span>
-                            <span class="read-time">8 min lectura</span>
+                            <span class="category" data-i18n="rec.cat.relaciones">Relaciones</span>
+                            <span class="read-time" data-i18n="rec.time.8">8 min lectura</span>
                         </div>
-                        <h3>Comunicación Asertiva en las Relaciones</h3>
-                        <p>Mejora tus relaciones personales aprendiendo a comunicarte de manera clara, respetuosa y efectiva.</p>
-                        <a href="#" class="article-link">Leer más →</a>
+                        <h3 data-i18n="rec.feat.a3.h">Comunicación Asertiva en las Relaciones</h3>
+                        <p data-i18n="rec.feat.a3.p">Mejora tus relaciones personales aprendiendo a comunicarte de manera clara, respetuosa y efectiva.</p>
+                        <a href="#" class="article-link" data-i18n="rec.link">Leer más →</a>
                     </div>
                 </article>
             </div>
@@ -129,13 +140,13 @@
     <section class="articles-section">
         <div class="container">
             <div class="section-header">
-                <h2 class="section-title">Todos los Artículos</h2>
+                <h2 class="section-title" data-i18n="rec.all.heading">Todos los Artículos</h2>
                 <div class="sort-options">
-                    <label for="sortSelect">Ordenar por:</label>
+                    <label for="sortSelect" data-i18n="rec.sort.label">Ordenar por:</label>
                     <select id="sortSelect" onchange="sortArticles(this.value)">
-                        <option value="recent">Más recientes</option>
-                        <option value="popular">Más populares</option>
-                        <option value="title">Título A-Z</option>
+                        <option value="recent" data-i18n="rec.sort.recent">Más recientes</option>
+                        <option value="popular" data-i18n="rec.sort.popular">Más populares</option>
+                        <option value="title" data-i18n="rec.sort.title">Título A-Z</option>
                     </select>
                 </div>
             </div>
@@ -148,12 +159,12 @@
                     </div>
                     <div class="article-content">
                         <div class="article-meta">
-                            <span class="category">Estrés</span>
-                            <span class="read-time">5 min</span>
+                            <span class="category" data-i18n="rec.cat.estres">Estrés</span>
+                            <span class="read-time" data-i18n="rec.time.5">5 min</span>
                         </div>
-                        <h3>Mindfulness: Reduce el Estrés Diario</h3>
-                        <p>Técnicas simples de mindfulness que puedes practicar en cualquier momento del día.</p>
-                        <a href="#" class="article-link">Leer más →</a>
+                        <h3 data-i18n="rec.a1.h">Mindfulness: Reduce el Estrés Diario</h3>
+                        <p data-i18n="rec.a1.p">Técnicas simples de mindfulness que puedes practicar en cualquier momento del día.</p>
+                        <a href="#" class="article-link" data-i18n="rec.link">Leer más →</a>
                     </div>
                 </article>
 
@@ -164,12 +175,12 @@
                     </div>
                     <div class="article-content">
                         <div class="article-meta">
-                            <span class="category">Autocuidado</span>
-                            <span class="read-time">6 min</span>
+                            <span class="category" data-i18n="rec.cat.autocuidado">Autocuidado</span>
+                            <span class="read-time" data-i18n="rec.time.6">6 min</span>
                         </div>
-                        <h3>La Importancia del Autocuidado Mental</h3>
-                        <p>Por qué cuidar tu salud mental debe ser una prioridad en tu vida diaria.</p>
-                        <a href="#" class="article-link">Leer más →</a>
+                        <h3 data-i18n="rec.a2.h">La Importancia del Autocuidado Mental</h3>
+                        <p data-i18n="rec.a2.p">Por qué cuidar tu salud mental debe ser una prioridad en tu vida diaria.</p>
+                        <a href="#" class="article-link" data-i18n="rec.link">Leer más →</a>
                     </div>
                 </article>
 
@@ -180,12 +191,12 @@
                     </div>
                     <div class="article-content">
                         <div class="article-meta">
-                            <span class="category">Familia</span>
-                            <span class="read-time">9 min</span>
+                            <span class="category" data-i18n="rec.cat.familia">Familia</span>
+                            <span class="read-time" data-i18n="rec.time.9">9 min</span>
                         </div>
-                        <h3>Sanando Relaciones Familiares</h3>
-                        <p>Estrategias para mejorar la dinámica familiar y fortalecer los vínculos.</p>
-                        <a href="#" class="article-link">Leer más →</a>
+                        <h3 data-i18n="rec.a3.h">Sanando Relaciones Familiares</h3>
+                        <p data-i18n="rec.a3.p">Estrategias para mejorar la dinámica familiar y fortalecer los vínculos.</p>
+                        <a href="#" class="article-link" data-i18n="rec.link">Leer más →</a>
                     </div>
                 </article>
 
@@ -196,28 +207,28 @@
                     </div>
                     <div class="article-content">
                         <div class="article-meta">
-                            <span class="category">Ansiedad</span>
-                            <span class="read-time">4 min</span>
+                            <span class="category" data-i18n="rec.cat.ansiedad">Ansiedad</span>
+                            <span class="read-time" data-i18n="rec.time.4">4 min</span>
                         </div>
-                        <h3>Ejercicios de Respiración para la Ansiedad</h3>
-                        <p>Aprende técnicas de respiración que te ayudarán a calmarte en momentos de ansiedad.</p>
-                        <a href="#" class="article-link">Leer más →</a>
+                        <h3 data-i18n="rec.a4.h">Respiración para Controlar la Ansiedad</h3>
+                        <p data-i18n="rec.a4.p">Aprende técnicas de respiración que calman el sistema nervioso en minutos.</p>
+                        <a href="#" class="article-link" data-i18n="rec.link">Leer más →</a>
                     </div>
                 </article>
 
                 <!-- Article 5 -->
-                <article class="article-card" data-category="depresion">
-                    <div class="article-image img-depresion">
-                        <div class="article-img-icon">☀️</div>
+                <article class="article-card" data-category="autocuidado">
+                    <div class="article-image img-autocuidado">
+                        <div class="article-img-icon">🌙</div>
                     </div>
                     <div class="article-content">
                         <div class="article-meta">
-                            <span class="category">Depresión</span>
-                            <span class="read-time">7 min</span>
+                            <span class="category" data-i18n="rec.cat.autocuidado">Autocuidado</span>
+                            <span class="read-time" data-i18n="rec.time.7m">7 min</span>
                         </div>
-                        <h3>Creando Rutinas que Combaten la Depresión</h3>
-                        <p>Cómo establecer hábitos diarios que apoyen tu salud mental y bienestar.</p>
-                        <a href="#" class="article-link">Leer más →</a>
+                        <h3 data-i18n="rec.a5.h">Dormir Bien: Clave para tu Salud Mental</h3>
+                        <p data-i18n="rec.a5.p">La conexión entre el sueño y la salud emocional, y cómo mejorar tu descanso.</p>
+                        <a href="#" class="article-link" data-i18n="rec.link">Leer más →</a>
                     </div>
                 </article>
 
@@ -228,72 +239,62 @@
                     </div>
                     <div class="article-content">
                         <div class="article-meta">
-                            <span class="category">Relaciones</span>
-                            <span class="read-time">6 min</span>
+                            <span class="category" data-i18n="rec.cat.relaciones">Relaciones</span>
+                            <span class="read-time" data-i18n="rec.time.6">6 min</span>
                         </div>
-                        <h3>Cómo Establecer Límites Saludables</h3>
-                        <p>Aprende a proteger tu bienestar estableciendo límites claros y respetuosos.</p>
-                        <a href="#" class="article-link">Leer más →</a>
+                        <h3 data-i18n="rec.a6.h">Límites Saludables en las Relaciones</h3>
+                        <p data-i18n="rec.a6.p">Aprende a poner límites sin culpa y construir relaciones más sanas.</p>
+                        <a href="#" class="article-link" data-i18n="rec.link">Leer más →</a>
                     </div>
                 </article>
 
                 <!-- Article 7 -->
-                <article class="article-card" data-category="estres">
-                    <div class="article-image img-estres">
-                        <div class="article-img-icon">💼</div>
+                <article class="article-card" data-category="depresion">
+                    <div class="article-image img-depresion">
+                        <div class="article-img-icon">🌈</div>
                     </div>
                     <div class="article-content">
                         <div class="article-meta">
-                            <span class="category">Estrés</span>
-                            <span class="read-time">8 min</span>
+                            <span class="category" data-i18n="rec.cat.depresion">Depresión</span>
+                            <span class="read-time" data-i18n="rec.time.9">9 min</span>
                         </div>
-                        <h3>Manejo del Estrés Laboral</h3>
-                        <p>Técnicas efectivas para mantener el equilibrio entre vida personal y profesional.</p>
-                        <a href="#" class="article-link">Leer más →</a>
+                        <h3 data-i18n="rec.a7.h">Superar el Duelo: Un Proceso Personal</h3>
+                        <p data-i18n="rec.a7.p">Entender las etapas del duelo y cómo transitar este proceso con apoyo.</p>
+                        <a href="#" class="article-link" data-i18n="rec.link">Leer más →</a>
                     </div>
                 </article>
 
                 <!-- Article 8 -->
-                <article class="article-card" data-category="autocuidado">
-                    <div class="article-image img-autocuidado">
-                        <div class="article-img-icon">🌙</div>
+                <article class="article-card" data-category="ansiedad">
+                    <div class="article-image img-ansiedad">
+                        <div class="article-img-icon">👥</div>
                     </div>
                     <div class="article-content">
                         <div class="article-meta">
-                            <span class="category">Autocuidado</span>
-                            <span class="read-time">5 min</span>
+                            <span class="category" data-i18n="rec.cat.ansiedad">Ansiedad</span>
+                            <span class="read-time" data-i18n="rec.time.5">5 min</span>
                         </div>
-                        <h3>Mejora tu Higiene del Sueño</h3>
-                        <p>Consejos prácticos para dormir mejor y despertar más descansado cada día.</p>
-                        <a href="#" class="article-link">Leer más →</a>
+                        <h3 data-i18n="rec.a8.h">Ansiedad Social: Cómo Enfrentarla</h3>
+                        <p data-i18n="rec.a8.p">Estrategias prácticas para manejar el miedo a las situaciones sociales.</p>
+                        <a href="#" class="article-link" data-i18n="rec.link">Leer más →</a>
                     </div>
                 </article>
 
                 <!-- Article 9 -->
-                <article class="article-card" data-category="familia">
-                    <div class="article-image img-familia">
-                        <div class="article-img-icon">👨‍👩‍👧</div>
+                <article class="article-card" data-category="autocuidado">
+                    <div class="article-image img-autocuidado">
+                        <div class="article-img-icon">💎</div>
                     </div>
                     <div class="article-content">
                         <div class="article-meta">
-                            <span class="category">Familia</span>
-                            <span class="read-time">10 min</span>
+                            <span class="category" data-i18n="rec.cat.autocuidado">Autocuidado</span>
+                            <span class="read-time" data-i18n="rec.time.8">8 min</span>
                         </div>
-                        <h3>Crianza Positiva y Salud Mental</h3>
-                        <p>Cómo criar hijos emocionalmente sanos y resilientes.</p>
-                        <a href="#" class="article-link">Leer más →</a>
+                        <h3 data-i18n="rec.a9.h">Autoestima: Fundamento del Bienestar</h3>
+                        <p data-i18n="rec.a9.p">Cómo construir una relación sana contigo mismo y fortalecer tu autoestima.</p>
+                        <a href="#" class="article-link" data-i18n="rec.link">Leer más →</a>
                     </div>
                 </article>
-            </div>
-
-            <!-- Load More Button -->
-            <div class="load-more-container">
-                <button class="load-more-btn" onclick="loadMoreArticles()">
-                    Cargar más artículos
-                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                        <path d="M8 12V4M4 8l4 4 4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
-                </button>
             </div>
         </div>
     </section>
@@ -301,7 +302,8 @@
     <!-- Topics/Categories Overview -->
     <section class="topics-section">
         <div class="container">
-            <h2 class="section-title">Explora por Tema</h2>
+            <h2 class="section-title" data-i18n="rec.topics.heading">Explora por Temas</h2>
+            <p class="section-intro" data-i18n="rec.topics.intro">Encuentra recursos específicos para lo que más te importa hoy</p>
             <div class="topics-grid">
                 <div class="topic-card" onclick="filterByCategory('ansiedad')">
                     <div class="topic-icon">
@@ -310,9 +312,10 @@
                             <path d="M24 16v12M24 32h.01" stroke="#5D8064" stroke-width="2" stroke-linecap="round"/>
                         </svg>
                     </div>
-                    <h3>Ansiedad</h3>
-                    <p>Técnicas y consejos para manejar la ansiedad</p>
-                    <span class="topic-count">12 artículos</span>
+                    <h3 data-i18n="rec.topic.ansiedad.h">Ansiedad</h3>
+                    <p data-i18n="rec.topic.ansiedad.p">Técnicas, guías y consejos para manejar la ansiedad en el día a día.</p>
+                    <span class="topic-count" data-i18n="rec.topic.ansiedad.n">8 artículos</span>
+                    <button class="topic-btn" data-i18n="rec.topic.btn">Explorar</button>
                 </div>
 
                 <div class="topic-card" onclick="filterByCategory('depresion')">
@@ -322,9 +325,10 @@
                             <path d="M16 28c2.5 2.5 5.5 4 8 4s5.5-1.5 8-4" stroke="#B7C6AD" stroke-width="2" stroke-linecap="round"/>
                         </svg>
                     </div>
-                    <h3>Depresión</h3>
-                    <p>Comprende y supera la depresión</p>
-                    <span class="topic-count">15 artículos</span>
+                    <h3 data-i18n="rec.topic.depresion.h">Depresión</h3>
+                    <p data-i18n="rec.topic.depresion.p">Información, señales y caminos hacia la recuperación.</p>
+                    <span class="topic-count" data-i18n="rec.topic.depresion.n">6 artículos</span>
+                    <button class="topic-btn" data-i18n="rec.topic.btn">Explorar</button>
                 </div>
 
                 <div class="topic-card" onclick="filterByCategory('relaciones')">
@@ -333,9 +337,10 @@
                             <path d="M24 36s8-6 8-14c0-4.4-3.6-8-8-8s-8 3.6-8 8c0 8 8 14 8 14z" stroke="#D9A88F" stroke-width="2"/>
                         </svg>
                     </div>
-                    <h3>Relaciones</h3>
-                    <p>Mejora tus relaciones interpersonales</p>
-                    <span class="topic-count">18 artículos</span>
+                    <h3 data-i18n="rec.topic.relaciones.h">Relaciones</h3>
+                    <p data-i18n="rec.topic.relaciones.p">Comunicación, límites y vínculos saludables.</p>
+                    <span class="topic-count" data-i18n="rec.topic.relaciones.n">7 artículos</span>
+                    <button class="topic-btn" data-i18n="rec.topic.btn">Explorar</button>
                 </div>
 
                 <div class="topic-card" onclick="filterByCategory('estres')">
@@ -345,9 +350,10 @@
                             <circle cx="24" cy="24" r="10" stroke="#5D8064" stroke-width="2"/>
                         </svg>
                     </div>
-                    <h3>Estrés</h3>
-                    <p>Técnicas para reducir el estrés</p>
-                    <span class="topic-count">14 artículos</span>
+                    <h3 data-i18n="rec.topic.estres.h">Estrés</h3>
+                    <p data-i18n="rec.topic.estres.p">Estrategias de manejo del estrés y equilibrio emocional.</p>
+                    <span class="topic-count" data-i18n="rec.topic.estres.n">5 artículos</span>
+                    <button class="topic-btn" data-i18n="rec.topic.btn">Explorar</button>
                 </div>
 
                 <div class="topic-card" onclick="filterByCategory('autocuidado')">
@@ -356,9 +362,10 @@
                             <path d="M24 12L28 20L36 22L30 28L32 36L24 32L16 36L18 28L12 22L20 20L24 12Z" stroke="#B7C6AD" stroke-width="2"/>
                         </svg>
                     </div>
-                    <h3>Autocuidado</h3>
-                    <p>Cuida tu bienestar mental y físico</p>
-                    <span class="topic-count">20 artículos</span>
+                    <h3 data-i18n="rec.topic.autocuidado.h">Autocuidado</h3>
+                    <p data-i18n="rec.topic.autocuidado.p">Hábitos y prácticas para cuidar tu bienestar integral.</p>
+                    <span class="topic-count" data-i18n="rec.topic.autocuidado.n">9 artículos</span>
+                    <button class="topic-btn" data-i18n="rec.topic.btn">Explorar</button>
                 </div>
 
                 <div class="topic-card" onclick="filterByCategory('familia')">
@@ -369,10 +376,29 @@
                             <path d="M12 36c0-4.4 3.6-8 8-8s8 3.6 8 8M24 36c0-4.4 3.6-8 8-8s8 3.6 8 8" stroke="#D9A88F" stroke-width="2"/>
                         </svg>
                     </div>
-                    <h3>Familia</h3>
-                    <p>Fortalece tus relaciones familiares</p>
-                    <span class="topic-count">16 artículos</span>
+                    <h3 data-i18n="rec.topic.familia.h">Familia</h3>
+                    <p data-i18n="rec.topic.familia.p">Dinámicas familiares, crianza y comunicación en el hogar.</p>
+                    <span class="topic-count" data-i18n="rec.topic.familia.n">4 artículos</span>
+                    <button class="topic-btn" data-i18n="rec.topic.btn">Explorar</button>
                 </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Newsletter -->
+    <section class="newsletter-section">
+        <div class="container">
+            <div class="newsletter-card">
+                <h2 data-i18n="rec.news.heading">Recibe Recursos Semanales</h2>
+                <p data-i18n="rec.news.sub">Artículos, tips y recordatorios de bienestar directo a tu bandeja</p>
+                <form class="newsletter-form" id="newsletter-form" novalidate>
+                    <input type="email" id="newsletter-email" name="email"
+                           placeholder="Tu correo electrónico" required autocomplete="email"
+                           data-i18n-placeholder="rec.news.ph">
+                    <button type="submit" id="newsletter-btn" data-i18n="rec.news.btn">Suscribirme</button>
+                </form>
+                <div id="newsletter-msg" class="newsletter-msg" aria-live="polite" hidden></div>
+                <p class="newsletter-privacy" data-i18n="rec.news.privacy">Sin spam. Puedes darte de baja cuando quieras.</p>
             </div>
         </div>
     </section>
@@ -381,47 +407,12 @@
     <section class="cta-section">
         <div class="container">
             <div class="cta-card">
-                <h2>¿Necesitas Apoyo Profesional?</h2>
-                <p>Nuestros terapeutas certificados están listos para ayudarte en tu camino hacia el bienestar</p>
-                <a href="index.html#contacto" class="cta-btn">Hablar con un Terapeuta</a>
-            </div>
-        </div>
-    </section>
-
-    <!-- Newsletter -->
-    <!--
-    ═══════════════════════════════════════════════════════════════
-    CONFIGURACIÓN MAILCHIMP — CÓMO ACTIVAR LA SUSCRIPCIÓN REAL
-    ═══════════════════════════════════════════════════════════════
-    1. Regístrate en https://mailchimp.com (gratis hasta 500 contactos)
-    2. Crea una "Audience" (lista de suscriptores)
-    3. Ve a Audience → Signup forms → Embedded forms
-    4. Copia la URL del campo "action" del formulario generado.
-       Tiene este formato:
-       https://yourdomain.us1.list-manage.com/subscribe/post?u=XXXXXXXX&amp;id=YYYYYYYY
-    5. Cambia el valor de MAILCHIMP_ACTION_URL justo abajo de esta nota.
-    6. ¡Listo! Cada nuevo suscriptor quedará guardado en tu lista de Mailchimp.
-
-    CÓMO FUNCIONA EL NEWSLETTER:
-    - Cada persona que se suscriba aparecerá en tu lista de Mailchimp.
-    - Tú decides qué les envías y cuándo desde mailchimp.com → Campaigns.
-    - Puedes enviar: nuevos artículos del blog, tips de bienestar, anuncios,
-      recordatorios de servicios, etc.
-    - También puedes crear automatizaciones (por ejemplo, enviar un artículo
-      de bienvenida automáticamente cuando alguien se suscribe).
-    ═══════════════════════════════════════════════════════════════
-    -->
-    <section class="newsletter-section">
-        <div class="container">
-            <div class="newsletter-card">
-                <h2>Mantente Informado</h2>
-                <p>Recibe artículos y consejos de salud mental directamente en tu correo</p>
-                <form class="newsletter-form" id="newsletter-form" novalidate>
-                    <input type="email" id="newsletter-email" name="email" placeholder="Tu correo electrónico" required autocomplete="email">
-                    <button type="submit" id="newsletter-btn">Suscribirse</button>
-                </form>
-                <div id="newsletter-msg" class="newsletter-msg" aria-live="polite" hidden></div>
-                <p class="newsletter-privacy">Respetamos tu privacidad. Sin spam.</p>
+                <h2 data-i18n="rec.cta.heading">¿Necesitas Apoyo Personalizado?</h2>
+                <p data-i18n="rec.cta.sub">Los artículos son un buen comienzo, pero hablar con un profesional marca la diferencia.</p>
+                <div class="cta-buttons">
+                    <a href="index.html#contacto" class="cta-btn" data-i18n="rec.cta.btn">Hablar con un terapeuta</a>
+                    <a href="index.html#servicios" class="cta-btn cta-btn--outline" data-i18n="rec.cta.btn2">Explorar servicios</a>
+                </div>
             </div>
         </div>
     </section>
@@ -430,9 +421,9 @@
     <section class="crisis-section">
         <div class="container">
             <p class="crisis-text">
-                Si estás en crisis o alguien puede estar en peligro, 
-                <a href="ayuda-crisis.html" class="crisis-link">estos recursos</a> 
-                pueden brindarte ayuda inmediata.
+                <span data-i18n="crisis.before">Si estás en crisis o cualquier otra persona puede estar en peligro - no uses este sitio.</span>
+                <a href="ayuda-crisis.html" class="crisis-link" data-i18n="crisis.link">Estos recursos</a>
+                <span data-i18n="crisis.after">pueden brindarte ayuda inmediata.</span>
             </p>
         </div>
     </section>
@@ -445,19 +436,19 @@
                     <h3>Umana</h3>
                     <p>Tu plataforma de salud mental online</p>
                 </div>
-                
+
                 <div class="footer-section">
-                    <h4>Enlaces Rápidos</h4>
+                    <h4 data-i18n="nav.home">Inicio</h4>
                     <ul>
-                        <li><a href="index.html">Inicio</a></li>
-                        <li><a href="index.html#servicios">Servicios</a></li>
-                        <li><a href="recursos.html">Recursos</a></li>
+                        <li><a href="index.html" data-i18n="nav.home">Inicio</a></li>
+                        <li><a href="index.html#servicios" data-i18n="nav.services">Servicios</a></li>
+                        <li><a href="recursos.html" data-i18n="nav.resources">Recursos</a></li>
                         <li><a href="ayuda-crisis.html">Ayuda en Crisis</a></li>
                     </ul>
                 </div>
-                
+
                 <div class="footer-section">
-                    <h4>Síguenos</h4>
+                    <h4 data-i18n="footer.social">Síguenos</h4>
                     <div class="social-links">
                         <a href="https://www.tiktok.com/@umanaterapiaonline?lang=es-419" target="_blank" rel="noopener noreferrer" aria-label="TikTok">
                             <svg width="24" height="24" viewBox="0 0 24 24" fill="#FFFFFF">
@@ -477,160 +468,126 @@
                     </div>
                 </div>
             </div>
-            
+
             <div class="footer-bottom">
-                <p>&copy; 2024 Umana. Todos los derechos reservados.</p>
+                <p data-i18n="footer.copy">© 2026 Umana - Plataforma de Salud Mental. Todos los derechos reservados.</p>
             </div>
         </div>
     </footer>
 
     <!-- JavaScript -->
     <script>
-        // Search functionality
+        // ── Search ──────────────────────────────────────────────────
         function performSearch() {
             const searchTerm = document.getElementById('searchInput').value.toLowerCase();
-            const articles = document.querySelectorAll('.article-card');
-            
-            articles.forEach(article => {
+            document.querySelectorAll('.article-card').forEach(article => {
                 const title = article.querySelector('h3').textContent.toLowerCase();
-                const description = article.querySelector('p').textContent.toLowerCase();
-                
-                if (title.includes(searchTerm) || description.includes(searchTerm)) {
-                    article.style.display = 'block';
-                } else {
-                    article.style.display = 'none';
-                }
+                const desc  = article.querySelector('p').textContent.toLowerCase();
+                article.style.display = (title.includes(searchTerm) || desc.includes(searchTerm)) ? '' : 'none';
             });
         }
+        document.getElementById('searchInput').addEventListener('keypress', e => {
+            if (e.key === 'Enter') performSearch();
+        });
 
-        // Category filter
+        // ── Category filter ─────────────────────────────────────────
         function filterByCategory(category) {
-            const articles = document.querySelectorAll('.article-card');
-            const pills = document.querySelectorAll('.pill');
-            
-            // Update active pill
-            pills.forEach(pill => {
-                if (pill.dataset.category === category) {
-                    pill.classList.add('active');
-                } else {
-                    pill.classList.remove('active');
-                }
-            });
-            
-            // Filter articles
-            articles.forEach(article => {
-                if (category === 'all' || article.dataset.category === category) {
-                    article.style.display = 'block';
-                } else {
-                    article.style.display = 'none';
-                }
-            });
+            document.querySelectorAll('.pill').forEach(p =>
+                p.classList.toggle('active', p.dataset.category === category));
+            document.querySelectorAll('.article-card').forEach(a =>
+                a.style.display = (category === 'all' || a.dataset.category === category) ? '' : 'none');
+            // scroll up to articles
+            document.querySelector('.articles-section').scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
 
-        // Sort articles
+        // ── Sort ────────────────────────────────────────────────────
         function sortArticles(sortBy) {
-            const grid = document.getElementById('articlesGrid');
-            const articles = Array.from(grid.querySelectorAll('.article-card:not(.featured)'));
-            
-            articles.sort((a, b) => {
-                if (sortBy === 'title') {
-                    const titleA = a.querySelector('h3').textContent;
-                    const titleB = b.querySelector('h3').textContent;
-                    return titleA.localeCompare(titleB);
-                }
-                // Add more sorting logic as needed
-                return 0;
-            });
-            
-            articles.forEach(article => grid.appendChild(article));
+            const grid     = document.getElementById('articlesGrid');
+            const articles = Array.from(grid.querySelectorAll('.article-card'));
+            if (sortBy === 'title') {
+                articles.sort((a, b) =>
+                    a.querySelector('h3').textContent.localeCompare(b.querySelector('h3').textContent));
+            }
+            articles.forEach(a => grid.appendChild(a));
         }
 
-        // Load more articles
-        function loadMoreArticles() {
-            alert('Función de cargar más artículos - Conectar con backend');
-        }
-
-        // ─────────────────────────────────────────────────────────────
-        // NEWSLETTER — Integración Mailchimp JSONP
-        // Reemplaza MAILCHIMP_ACTION_URL con la URL de tu formulario Mailchimp.
-        // Instrucciones completas en el comentario HTML de la sección newsletter.
-        // ─────────────────────────────────────────────────────────────
+        // ── Newsletter ──────────────────────────────────────────────
         const MAILCHIMP_ACTION_URL = 'REPLACE_WITH_YOUR_MAILCHIMP_URL';
-
         (function () {
-            const form = document.getElementById('newsletter-form');
-            const emailInput = document.getElementById('newsletter-email');
-            const btn = document.getElementById('newsletter-btn');
-            const msg = document.getElementById('newsletter-msg');
-
+            const form  = document.getElementById('newsletter-form');
+            const email = document.getElementById('newsletter-email');
+            const btn   = document.getElementById('newsletter-btn');
+            const msg   = document.getElementById('newsletter-msg');
             if (!form) return;
 
             function showMsg(text, type) {
                 msg.textContent = text;
-                msg.className = 'newsletter-msg newsletter-msg--' + type;
-                msg.hidden = false;
+                msg.className   = 'newsletter-msg newsletter-msg--' + type;
+                msg.hidden      = false;
             }
 
             form.addEventListener('submit', function (e) {
                 e.preventDefault();
-
-                const email = emailInput.value.trim();
-                if (!email) return;
-
-                // If Mailchimp URL not configured, show setup reminder
+                const val = email.value.trim();
+                if (!val) return;
                 if (!MAILCHIMP_ACTION_URL || MAILCHIMP_ACTION_URL === 'REPLACE_WITH_YOUR_MAILCHIMP_URL') {
-                    showMsg('⚙️ Newsletter pendiente de configuración. Consulta las instrucciones en el código fuente.', 'pending');
+                    showMsg('⚙️ Newsletter pendiente de configuración.', 'pending');
                     return;
                 }
-
                 btn.disabled = true;
-                btn.textContent = 'Enviando…';
-                msg.hidden = true;
-
-                // Build JSONP callback name unique per call
+                msg.hidden   = true;
                 const cbName = 'mc_cb_' + Date.now();
-                const url = MAILCHIMP_ACTION_URL.replace('/post?', '/post-json?') +
-                            '&EMAIL=' + encodeURIComponent(email) +
-                            '&c=' + cbName;
-
-                // JSONP request (required for cross-origin Mailchimp)
+                const url    = MAILCHIMP_ACTION_URL.replace('/post?', '/post-json?') +
+                               '&EMAIL=' + encodeURIComponent(val) + '&c=' + cbName;
                 window[cbName] = function (data) {
                     delete window[cbName];
                     document.body.removeChild(script);
                     btn.disabled = false;
-                    btn.textContent = 'Suscribirse';
-
                     if (data.result === 'success') {
-                        showMsg('✅ ¡Gracias! Revisa tu correo para confirmar tu suscripción.', 'success');
+                        showMsg('✅ ¡Gracias! Revisa tu correo.', 'success');
                         form.reset();
                     } else {
-                        const errText = data.msg || 'Ocurrió un error. Intenta de nuevo.';
-                        // Use DOM-based approach to safely strip any HTML tags from the response
                         const tmp = document.createElement('div');
-                        tmp.innerHTML = errText;
-                        showMsg('⚠️ ' + (tmp.textContent || tmp.innerText || 'Ocurrió un error.'), 'error');
+                        tmp.innerHTML = data.msg || 'Error';
+                        showMsg('⚠️ ' + (tmp.textContent || 'Error'), 'error');
                     }
                 };
-
                 const script = document.createElement('script');
-                script.src = url;
+                script.src    = url;
                 script.onerror = function () {
-                    delete window[cbName];
-                    document.body.removeChild(script);
+                    delete window[cbName]; document.body.removeChild(script);
                     btn.disabled = false;
-                    btn.textContent = 'Suscribirse';
-                    showMsg('⚠️ No se pudo conectar. Revisa tu conexión e intenta de nuevo.', 'error');
+                    showMsg('⚠️ No se pudo conectar.', 'error');
                 };
                 document.body.appendChild(script);
             });
         }());
 
-        // Search on Enter key
-        document.getElementById('searchInput').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                performSearch();
-            }
-        });
+        // ── Lang toggle ─────────────────────────────────────────────
+        (function () {
+            var i18n   = window.UMANA_I18N;
+            var toggle = document.getElementById('lang-toggle');
+            if (!i18n || !toggle) return;
+
+            /* Apply saved language on page load */
+            i18n.init();
+
+            toggle.addEventListener('click', function () {
+                var next = i18n.current === 'es' ? 'en' : 'es';
+                i18n.apply(next);
+            });
+        }());
+
+        // ── Mobile nav ──────────────────────────────────────────────
+        (function () {
+            var navToggle = document.getElementById('nav-toggle');
+            var navMenu   = document.querySelector('.nav-menu');
+            if (!navToggle || !navMenu) return;
+            navToggle.addEventListener('click', function () {
+                var open = navMenu.classList.toggle('open');
+                navToggle.setAttribute('aria-expanded', open);
+            });
+        }());
     </script>
 </body>
 </html>

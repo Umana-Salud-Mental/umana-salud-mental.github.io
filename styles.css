@@ -1,15 +1,59 @@
+/* ═══════════════════════════════════════════════════════════
+   UMANA – Design System 2026
+   Typography : Instrument Serif (display) · Plus Jakarta Sans (UI)
+   Motion     : scroll-reveal · counter · magnetic CTA · tilt card
+   ═══════════════════════════════════════════════════════════ */
+
+/* CSS Custom Properties */
+:root {
+  --font-display: 'Instrument Serif', Georgia, serif;
+  --font-body:    'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+
+  --color-primary:   #5D8064;
+  --color-primary-d: #4a6a51;
+  --color-cream:     #F5EFE6;
+  --color-dark:      #2F2F2F;
+  --color-peach:     #D9A88F;
+  --color-sage:      #B7C6AD;
+  --color-terracotta:#C86B4A;
+  --color-white:     #FFFFFF;
+  --color-bg-muted:  #E9E4DE;
+
+  --radius-sm: 8px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+  --radius-xl: 40px;
+
+  --shadow-sm: 0 2px 8px rgba(93,128,100,.12);
+  --shadow-md: 0 8px 32px rgba(93,128,100,.16);
+  --shadow-lg: 0 20px 60px rgba(93,128,100,.20);
+
+  --ease-spring: cubic-bezier(.34,1.56,.64,1);
+  --ease-smooth: cubic-bezier(.25,.46,.45,.94);
+}
+
 /* Reset and Base Styles */
-* {
+*, *::before, *::after {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
+/* Focus-visible ring — accessibility */
+*:focus-visible {
+    outline: 2.5px solid var(--color-primary);
+    outline-offset: 3px;
+    border-radius: 4px;
+}
+*:focus:not(:focus-visible) { outline: none; }
+
 body {
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    line-height: 1.6;
-    color: #2F2F2F;
-    background-color: #F5EFE6;
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.7;
+    color: var(--color-dark);
+    background-color: var(--color-cream);
+    overflow-x: hidden;
 }
 
 .container {
@@ -17,6 +61,73 @@ body {
     margin: 0 auto;
     padding: 0 20px;
 }
+
+/* ── Global Typography ────────────────────────────────────── */
+h1, h2, h3, h4, h5 {
+    font-family: var(--font-display);
+    font-weight: 400;
+    line-height: 1.2;
+    letter-spacing: -0.015em;
+    color: var(--color-dark);
+}
+h2 { font-size: clamp(1.9rem, 3.5vw, 2.6rem); }
+h3 { font-size: clamp(1.2rem, 2vw, 1.5rem); }
+
+/* Display-scale headings keep their colour overrides but gain the font */
+.about h2, .services h2, .schedule h2, .faq h2, .contact h2,
+.testimonials h2, .como-funciona h2 {
+    font-family: var(--font-display);
+    font-size: clamp(1.9rem, 3.5vw, 2.6rem);
+    font-weight: 400;
+}
+
+/* ── Scroll-reveal utility ───────────────────────────────── */
+.reveal {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.65s var(--ease-smooth),
+                transform 0.65s var(--ease-smooth);
+}
+.reveal.visible {
+    opacity: 1;
+    transform: none;
+}
+/* Stagger siblings */
+.reveal:nth-child(2) { transition-delay: 0.1s; }
+.reveal:nth-child(3) { transition-delay: 0.2s; }
+.reveal:nth-child(4) { transition-delay: 0.3s; }
+.reveal:nth-child(5) { transition-delay: 0.4s; }
+.reveal:nth-child(6) { transition-delay: 0.5s; }
+
+/* ── Grain texture overlay (warmth, 2026 trend) ─────────── */
+.grain-overlay::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+    border-radius: inherit;
+}
+
+/* ── Magnetic CTA (enhanced pulse ring) ─────────────────── */
+.cta-button, .whatsapp-button {
+    will-change: transform;
+    transition: transform 0.15s var(--ease-spring),
+                box-shadow 0.15s ease;
+}
+.cta-button:hover, .whatsapp-button:hover {
+    box-shadow: var(--shadow-lg);
+}
+
+/* ── Testimonial / service card tilt ─────────────────────── */
+.tilt-card {
+    transform-style: preserve-3d;
+    transition: transform 0.25s var(--ease-smooth),
+                box-shadow 0.25s ease;
+    will-change: transform;
+}
+.tilt-card:hover { box-shadow: var(--shadow-lg); }
 
 /* Header and Navigation */
 header {
@@ -131,9 +242,12 @@ nav .container {
 }
 
 .hero-content h1 {
-    font-size: 2.8rem;
+    font-family: var(--font-display);
+    font-size: clamp(2.4rem, 5vw, 3.6rem);
+    line-height: 1.15;
     margin-bottom: 1rem;
-    font-weight: 700;
+    font-weight: 400; /* Instrument Serif is expressive at normal weight */
+    letter-spacing: -0.01em;
     animation: fadeInUp 0.8s ease-out;
 }
 

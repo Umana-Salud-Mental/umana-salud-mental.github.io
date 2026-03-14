@@ -7,7 +7,7 @@
     <title>Umana - Tu Plataforma de Salud Mental Online</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
     <script src="translations.js"></script>
 </head>
@@ -815,6 +815,131 @@
                 }
             };
         }
+
+    }());
+
+    /* ═══════════════════════════════════════════════════════════
+       2026 DESIGN ENHANCEMENTS
+       1. Scroll-reveal (IntersectionObserver)
+       2. Counter animation (trust stats)
+       3. Magnetic CTA buttons
+       4. 3-D tilt on cards
+       ═══════════════════════════════════════════════════════════ */
+    (function () {
+        'use strict';
+
+        /* ── 1. Scroll-reveal ──────────────────────────────────── */
+        var revealTargets = [
+            '.service-card', '.step', '.testimonial-card',
+            '.faq-item', '.blog-card', '.schedule-card',
+            '.about-content', '.contact-wrapper'
+        ];
+        revealTargets.forEach(function (sel) {
+            document.querySelectorAll(sel).forEach(function (el) {
+                el.classList.add('reveal');
+            });
+        });
+
+        if ('IntersectionObserver' in window) {
+            var revealObs = new IntersectionObserver(function (entries) {
+                entries.forEach(function (e) {
+                    if (e.isIntersecting) {
+                        e.target.classList.add('visible');
+                        revealObs.unobserve(e.target);
+                    }
+                });
+            }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+
+            document.querySelectorAll('.reveal').forEach(function (el) {
+                revealObs.observe(el);
+            });
+        } else {
+            /* Fallback: show everything */
+            document.querySelectorAll('.reveal').forEach(function (el) {
+                el.classList.add('visible');
+            });
+        }
+
+        /* ── 2. Counter animation (trust stats) ────────────────── */
+        function animateCounter(el) {
+            var target = parseFloat(el.dataset.target || el.textContent);
+            var suffix = el.dataset.suffix || '';
+            var isFloat = String(target).includes('.');
+            var duration = 1800;
+            var start = null;
+
+            function step(ts) {
+                if (!start) start = ts;
+                var progress = Math.min((ts - start) / duration, 1);
+                /* Ease-out cubic */
+                var eased = 1 - Math.pow(1 - progress, 3);
+                var val   = target * eased;
+                el.textContent = (isFloat ? val.toFixed(1) : Math.floor(val)) + suffix;
+                if (progress < 1) requestAnimationFrame(step);
+                else el.textContent = target + suffix;
+            }
+            requestAnimationFrame(step);
+        }
+
+        if ('IntersectionObserver' in window) {
+            var counterObs = new IntersectionObserver(function (entries) {
+                entries.forEach(function (e) {
+                    if (e.isIntersecting) {
+                        animateCounter(e.target);
+                        counterObs.unobserve(e.target);
+                    }
+                });
+            }, { threshold: 0.5 });
+
+            document.querySelectorAll('.trust-number').forEach(function (el) {
+                /* Store original value before first observe */
+                el.dataset.target = el.dataset.target || el.textContent.replace(/[^0-9.]/g, '');
+                el.dataset.suffix = el.dataset.suffix || el.textContent.replace(/[0-9.]/g, '');
+                el.textContent    = '0' + el.dataset.suffix;
+                counterObs.observe(el);
+            });
+        }
+
+        /* ── 3. Magnetic CTA (subtle cursor pull) ──────────────── */
+        function addMagnetic(selector) {
+            document.querySelectorAll(selector).forEach(function (btn) {
+                btn.addEventListener('mousemove', function (e) {
+                    var rect  = btn.getBoundingClientRect();
+                    var cx    = rect.left + rect.width  / 2;
+                    var cy    = rect.top  + rect.height / 2;
+                    var dx    = (e.clientX - cx) * 0.22;
+                    var dy    = (e.clientY - cy) * 0.22;
+                    btn.style.transform = 'translate(' + dx + 'px,' + dy + 'px) scale(1.03)';
+                });
+                btn.addEventListener('mouseleave', function () {
+                    btn.style.transform = '';
+                });
+            });
+        }
+        addMagnetic('.cta-button');
+        addMagnetic('.whatsapp-button');
+        addMagnetic('.wa-contact-btn');
+
+        /* ── 4. 3-D tilt on cards ──────────────────────────────── */
+        function addTilt(selector) {
+            document.querySelectorAll(selector).forEach(function (card) {
+                card.classList.add('tilt-card');
+                card.addEventListener('mousemove', function (e) {
+                    var rect  = card.getBoundingClientRect();
+                    var x     = (e.clientX - rect.left) / rect.width  - 0.5;
+                    var y     = (e.clientY - rect.top)  / rect.height - 0.5;
+                    var rotX  = (-y * 8).toFixed(2);
+                    var rotY  = ( x * 8).toFixed(2);
+                    card.style.transform =
+                        'perspective(700px) rotateX(' + rotX + 'deg) rotateY(' + rotY + 'deg) scale(1.02)';
+                });
+                card.addEventListener('mouseleave', function () {
+                    card.style.transform = '';
+                });
+            });
+        }
+        addTilt('.testimonial-card');
+        addTilt('.service-card');
 
     }());
     </script>
