@@ -2833,3 +2833,33 @@ nav .container {
    Re-enable by removing these rules.
 ══════════════════════════════════════════════════════════ */
 #terapeutas { display: none !important; }
+
+/* ══════════════════════════════════════════════════════════
+   CONTACT FORM – SUCCESS STATE
+══════════════════════════════════════════════════════════ */
+.form-success {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+    padding: 2rem;
+    background: #f0f7f1;
+    border: 1px solid var(--color-primary, #5D8064);
+    border-radius: var(--radius-lg, 1rem);
+    animation: fadeInUp 0.4s ease;
+}
+.form-success-icon { font-size: 2.5rem; line-height: 1; }
+.form-success-title {
+    margin: 0;
+    font-size: 1.25rem;
+    color: var(--color-primary, #5D8064);
+}
+.form-success-msg {
+    margin: 0;
+    color: var(--color-text, #2F2F2F);
+    line-height: 1.6;
+}
+.form-success-msg a {
+    color: var(--color-primary, #5D8064);
+    font-weight: 600;
+}

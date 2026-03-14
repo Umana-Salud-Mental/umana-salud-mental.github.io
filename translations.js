@@ -757,16 +757,7 @@
       var form = document.querySelector('.contact-form form');
       if (form) {
         form.dataset.submitMsg = self.t('ct.form.ok');
-        /* If not yet wired, add once */
-        if (!form.dataset.i18nWired) {
-          form.dataset.i18nWired = '1';
-          form.addEventListener('submit', function (e) {
-            e.preventDefault();
-            alert(form.dataset.submitMsg || 'Gracias');
-          });
-          /* Remove the inline onsubmit to avoid double-firing */
-          form.removeAttribute('onsubmit');
-        }
+        /* submit is handled by the mailto handler in index.html */
       }
 
       /* persist */

@@ -741,7 +741,7 @@
                     </div>
                     <div class="contact-form">
                         <h3 data-i18n="ct.form.h">Envíanos un mensaje</h3>
-                        <form action="#" method="POST" onsubmit="alert('¡Gracias por contactarnos! Te responderemos pronto.'); return false;">
+                        <form id="contact-form" action="#" method="POST" novalidate>
                             <div class="form-group">
                                 <label for="nombre" data-i18n="ct.form.nm">Nombre completo</label>
                                 <input type="text" id="nombre" name="nombre" required>
@@ -1376,6 +1376,54 @@
                 var suffix = i18n ? i18n.t('hp.cta.suffix') : '';
                 ctaBox.innerHTML = '<a href="#contacto">' + prefix + '<strong>' + cond + '</strong>' + suffix + '</a>';
             });
+        });
+    }());
+    </script>
+
+    <script>
+    /* Contact form – mailto submission */
+    (function () {
+        var CONTACT_EMAIL = 'hey.umana@outlook.com';
+        var CONTACT_WA    = 'https://wa.me/593983404824?text=Hola%2C%20quisiera%20informaci%C3%B3n%20sobre%20las%20sesiones%20de%20terapia';
+
+        var form = document.getElementById('contact-form');
+        if (!form) return;
+
+        form.addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            var nombre   = (document.getElementById('nombre').value   || '').trim();
+            var email    = (document.getElementById('email').value    || '').trim();
+            var telefono = (document.getElementById('telefono').value || '').trim();
+            var mensaje  = (document.getElementById('mensaje').value  || '').trim();
+
+            var subject = 'Consulta de ' + nombre;
+            var body    = 'Nombre: ' + nombre + '\n' +
+                          'Email: '  + email  + '\n' +
+                          (telefono ? 'Teléfono: ' + telefono + '\n' : '') +
+                          '\nMensaje:\n' + mensaje;
+
+            var mailtoUrl = 'mailto:' + CONTACT_EMAIL +
+                            '?subject=' + encodeURIComponent(subject) +
+                            '&body='    + encodeURIComponent(body);
+
+            /* Open the mail client */
+            window.location.href = mailtoUrl;
+
+            /* Replace form with a success panel */
+            var wrapper = form.parentNode;
+            wrapper.innerHTML =
+                '<div class="form-success" role="status">' +
+                    '<div class="form-success-icon">✅</div>' +
+                    '<h4 class="form-success-title">¡Listo!</h4>' +
+                    '<p class="form-success-msg">Tu cliente de correo se abrió con tu mensaje listo para enviar.<br>' +
+                    'Si no se abrió automáticamente, escríbenos directamente a<br>' +
+                    '<a href="mailto:' + CONTACT_EMAIL + '">' + CONTACT_EMAIL + '</a></p>' +
+                    '<a href="' + CONTACT_WA + '" ' +
+                       'class="whatsapp-link" target="_blank" rel="noopener noreferrer">' +
+                       '💬 O contáctanos por WhatsApp' +
+                    '</a>' +
+                '</div>';
         });
     }());
     </script>
