@@ -249,6 +249,11 @@ nav .container {
     font-weight: 400; /* Instrument Serif is expressive at normal weight */
     letter-spacing: -0.01em;
     animation: fadeInUp 0.8s ease-out;
+    /* Warm gradient: white → cream → soft peach — premium editorial feel */
+    background: linear-gradient(135deg, #FFFFFF 0%, #F5EFE6 55%, #D9A88F 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
 }
 
 @keyframes fadeInUp {
