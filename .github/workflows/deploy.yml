@@ -1,0 +1,55 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main
+      - copilot/update-recursos-section-design
+  workflow_dispatch:
+
+# Only contents:write needed — avoids GitHub Pages environment protection approval
+permissions:
+  contents: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout current branch
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Configure git
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}
+
+      - name: Push site files to pages source branch
+        run: |
+          CURRENT_BRANCH="${GITHUB_REF_NAME}"
+          echo "Deploying from branch: $CURRENT_BRANCH"
+
+          # Snapshot current files (exclude .git and .github)
+          TMPDIR=$(mktemp -d)
+          rsync -a --exclude='.git' --exclude='.github' . "$TMPDIR/"
+
+          # Switch to (or create) the pages source branch
+          git fetch origin copilot/add-landing-page-es 2>/dev/null && \
+            git checkout -B deploy-pages origin/copilot/add-landing-page-es || \
+            git checkout -B deploy-pages
+
+          # Overlay updated files and commit
+          rsync -a --exclude='.git' --exclude='.github' "$TMPDIR/" .
+          git add -A
+          git diff --cached --quiet || \
+            git commit -m "deploy: sync from $CURRENT_BRANCH [skip ci]"
+          git push origin deploy-pages:copilot/add-landing-page-es --force
+          echo "✅ Successfully deployed to copilot/add-landing-page-es"
+
