@@ -12,6 +12,9 @@
     <script src="translations.js"></script>
 </head>
 <body>
+    <!-- Skip to main content (accessibility-first: keyboard users) -->
+    <a href="#inicio" class="skip-to-content" data-i18n="a11y.skip">Saltar al contenido principal</a>
+
     <!-- Scroll progress bar (filled by JS) -->
     <div id="scroll-progress" role="progressbar" aria-hidden="true"></div>
 
@@ -45,7 +48,7 @@
         <section id="inicio" class="hero">
             <div class="container">
                 <div class="hero-content">
-                    <h1 id="hero-title">Tu salud mental importa</h1>
+                    <h1 id="hero-title"><span id="tw-text">Tu salud mental importa</span></h1>
                     <p class="hero-subtitle" data-i18n="hero.subtitle">Terapia 100% online con profesionales certificados</p>
                     <p data-i18n="hero.desc">En Umana, creemos que cuidar tu bienestar emocional es fundamental. Accede a terapia profesional, confidencial y personalizada desde cualquier lugar, cuando más lo necesitas.</p>
                     <div class="urgency-strip" aria-live="polite">
@@ -567,15 +570,6 @@
     })();
     </script>
 
-    <!-- Social proof toast (FOMO notification) -->
-    <div id="sp-toast" class="sp-toast" role="status" aria-live="polite" aria-atomic="true">
-        <div class="sp-avatar" id="sp-avatar">A</div>
-        <div class="sp-body">
-            <div class="sp-dot"></div>
-            <p id="sp-text" class="sp-text"></p>
-        </div>
-    </div>
-
     <!-- Back to top -->
     <button id="back-to-top" aria-label="Volver arriba">↑</button>
 
@@ -747,14 +741,15 @@
 
         /* ── Typewriter hero h1 ────────────────────────────────── */
         var heroTitle  = document.getElementById('hero-title');
-        var TWcursor   = null;
+        var twCursor   = null;
 
         if (heroTitle) {
-            /* Inject cursor span next to title text */
-            TWcursor = document.createElement('span');
-            TWcursor.id = 'tw-cursor';
-            TWcursor.setAttribute('aria-hidden', 'true');
-            heroTitle.after(TWcursor);
+            var twText = document.getElementById('tw-text');
+            /* Inject cursor span INSIDE h1 (after the text span) so it renders inline */
+            twCursor = document.createElement('span');
+            twCursor.id = 'tw-cursor';
+            twCursor.setAttribute('aria-hidden', 'true');
+            heroTitle.appendChild(twCursor);
 
             var twState = {
                 lang: I18N.current,
@@ -775,7 +770,7 @@
 
                 if (twState.deleting) {
                     twState.charIdx--;
-                    heroTitle.textContent = cur.slice(0, twState.charIdx);
+                    twText.textContent = cur.slice(0, twState.charIdx);
                     if (twState.charIdx === 0) {
                         twState.deleting  = false;
                         twState.phraseIdx = (twState.phraseIdx + 1) % phrases.length;
@@ -785,7 +780,7 @@
                     twState.timer = setTimeout(twTick, 42);
                 } else {
                     twState.charIdx++;
-                    heroTitle.textContent = cur.slice(0, twState.charIdx);
+                    twText.textContent = cur.slice(0, twState.charIdx);
                     if (twState.charIdx === cur.length) {
                         twState.paused = true;
                         twState.timer  = setTimeout(function () {
@@ -812,42 +807,13 @@
                 },
                 restart: function () {
                     clearTimeout(twState.timer);
-                    var phrases     = twPhrases();
                     twState.phraseIdx = 0;
                     twState.charIdx   = 0;
                     twState.deleting  = false;
-                    heroTitle.textContent = '';
+                    twText.textContent = '';
                     twState.timer = setTimeout(twTick, 200);
                 }
             };
-        }
-
-        /* ── Social proof FOMO toast ───────────────────────────── */
-        var toast   = document.getElementById('sp-toast');
-        var spText  = document.getElementById('sp-text');
-        var spAvatar= document.getElementById('sp-avatar');
-
-        if (toast && spText && spAvatar) {
-            function rnd(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
-
-            function showSP() {
-                var name   = rnd(I18N.spNames);
-                var city   = rnd(I18N.spCities);
-                var tpl    = I18N.spTemplate[I18N.current] || I18N.spTemplate['es'];
-                var msg    = tpl.replace('{name}', name).replace('{city}', city);
-
-                spAvatar.textContent = name[0].toUpperCase();
-                spText.textContent   = msg;
-
-                toast.classList.add('sp-visible');
-                setTimeout(function () { toast.classList.remove('sp-visible'); }, 5000);
-            }
-
-            /* Show first toast after 12s, then every 38–55s */
-            setTimeout(function () {
-                showSP();
-                setInterval(showSP, 38000 + Math.random() * 17000);
-            }, 12000);
         }
 
     }());

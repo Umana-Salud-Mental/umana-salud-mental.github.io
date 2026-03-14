@@ -15,14 +15,6 @@
     en: ['Your mental health matters', 'Your wellbeing is our mission', 'Take the first step today']
   };
 
-  /* Social-proof notification template */
-  var SP_TEMPLATE = {
-    es: '{name} de {city} acaba de agendar su primera sesión 🌿',
-    en: '{name} from {city} just booked their first session 🌿'
-  };
-  var SP_NAMES  = ['Ana', 'Carlos', 'María', 'Sofía', 'Diego', 'Valentina', 'Andrés', 'Luisa', 'Sebastián', 'Camila'];
-  var SP_CITIES = ['Quito', 'Guayaquil', 'Cuenca', 'Ambato', 'Loja', 'Manta', 'Riobamba'];
-
   /* ── Full string dictionary ──────────────────────────────── */
   var STRINGS = {
 
@@ -36,6 +28,7 @@
       'nav.contact':   'Contacto',
       'nav.lang':      'EN',
       'nav.lang.aria': 'Switch to English',
+      'a11y.skip':     'Saltar al contenido principal',
 
       /* Hero */
       'hero.subtitle': 'Terapia 100% online con profesionales certificados',
@@ -187,6 +180,7 @@
       'nav.contact':   'Contact',
       'nav.lang':      'ES',
       'nav.lang.aria': 'Cambiar a Español',
+      'a11y.skip':     'Skip to main content',
 
       /* Hero */
       'hero.subtitle': '100% online therapy with certified professionals',
@@ -333,9 +327,6 @@
   var I18N = {
     current: 'es',
     typewriterPhrases: TYPEWRITER,
-    spTemplate: SP_TEMPLATE,
-    spNames:    SP_NAMES,
-    spCities:   SP_CITIES,
 
     t: function (key) {
       var s = STRINGS[this.current];
