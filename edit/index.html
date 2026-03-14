@@ -492,6 +492,15 @@
                             <label>Facebook URL</label>
                             <input type="url" id="social-facebook" placeholder="https://www.facebook.com/profile.php?id=...">
                         </div>
+                        <div class="field-group">
+                            <label>Feed ID Instagram <small style="font-weight:400;color:#888">(Behold.so — automático)</small></label>
+                            <input type="text" id="social-behold-id" placeholder="xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx">
+                            <p style="font-size:.8rem;color:#888;margin-top:.35rem;line-height:1.5">
+                                📸 Las publicaciones de Instagram aparecen automáticamente en el sitio.<br>
+                                1. Ve a <a href="https://behold.so" target="_blank" rel="noopener" style="color:var(--green)">behold.so</a> → crea cuenta gratis → conecta <strong>@umana.saludmental</strong>.<br>
+                                2. Crea un feed → copia el <strong>Feed ID</strong> y pégalo aquí → Guardar.
+                            </p>
+                        </div>
                         <div class="content-save-bar">
                             <button class="btn btn-primary" onclick="saveSiteSection('social')">💾 Guardar</button>
                             <button class="btn btn-secondary" onclick="resetSiteSection('social')">↩ Resetear</button>
@@ -1029,6 +1038,7 @@ function loadSiteContentForms() {
     document.getElementById('social-tiktok').value    = so.tiktok    || '';
     document.getElementById('social-instagram').value = so.instagram || '';
     document.getElementById('social-facebook').value  = so.facebook  || '';
+    document.getElementById('social-behold-id').value = so.beholdFeedId || '';
 
     // Branding
     const br = getSection('branding');
@@ -1073,7 +1083,7 @@ function saveSiteSection(s) {
         document.querySelectorAll('#trust-items .repeatable-item').forEach(el => items.push({ num:el.querySelector('.tr-num').value, label:el.querySelector('.tr-label').value }));
         data = { items };
     }
-    if (s === 'social') data = { tiktok:v('social-tiktok'), instagram:v('social-instagram'), facebook:v('social-facebook') };
+    if (s === 'social') data = { tiktok:v('social-tiktok'), instagram:v('social-instagram'), facebook:v('social-facebook'), beholdFeedId:v('social-behold-id') };
     if (s === 'branding') data = { logoUrl:v('branding-logo'), siteName:v('branding-name') };
     if (s === 'blogPreview') data = { heading:v('bp-heading'), intro:v('bp-intro') };
     siteContent[s] = data; saveContent(); flash('sf-'+s);

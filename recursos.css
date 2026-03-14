@@ -44,7 +44,7 @@ nav:hover {
     font-size: clamp(2.2rem, 5vw, 3.4rem);
     color: #2F2F2F;
     margin-bottom: 1rem;
-    font-weight: 900;
+    font-weight: 600;
     text-align: center;
     letter-spacing: -0.025em;
     line-height: 1.1;
@@ -206,7 +206,7 @@ nav:hover {
     color: #2F2F2F;
     margin-bottom: 3rem;
     text-align: center;
-    font-weight: 900;
+    font-weight: 600;
     letter-spacing: -0.02em;
 }
 
