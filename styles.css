@@ -1643,3 +1643,221 @@ header.scrolled {
     width: 80%;
     background-color: #D9A88F !important;
 }
+
+/* ══════════════════════════════════════════════════════════
+   LANGUAGE TOGGLE (nav top-right)
+   Inspired by Derek Siu's frosted-glass pill approach
+══════════════════════════════════════════════════════════ */
+.nav-end {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+/* Push nav-end to the right */
+nav .container {
+    justify-content: flex-start;
+}
+
+.nav-end .nav-menu {
+    margin-left: 0;
+}
+
+/* The logo pushes nav-end to the right */
+.logo {
+    flex: 1;
+}
+
+#lang-toggle {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    background: rgba(255,255,255,0.15);
+    border: 1.5px solid rgba(255,255,255,0.35);
+    border-radius: 20px;
+    color: #fff;
+    padding: 0.28rem 0.7rem;
+    font-size: 0.78rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    letter-spacing: 0.07em;
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    white-space: nowrap;
+    font-family: inherit;
+    flex-shrink: 0;
+}
+
+.lang-globe {
+    font-size: 0.85rem;
+    line-height: 1;
+}
+
+#lang-toggle:hover {
+    background: rgba(255,255,255,0.28);
+    border-color: rgba(255,255,255,0.6);
+    transform: translateY(-1px);
+}
+
+#lang-toggle:active {
+    transform: translateY(0);
+}
+
+/* Mobile: lang toggle always visible alongside hamburger */
+@media (max-width: 768px) {
+    nav .container {
+        /* revert to space-between on mobile for logo | nav-end */
+        justify-content: space-between;
+        flex-direction: row;    /* override old column stacking */
+        gap: 0;
+    }
+    .logo {
+        flex: unset;
+    }
+    .nav-end {
+        gap: 0.5rem;
+    }
+    #lang-toggle {
+        font-size: 0.72rem;
+        padding: 0.24rem 0.6rem;
+    }
+}
+
+/* ══════════════════════════════════════════════════════════
+   URGENCY STRIP  (hero — psychology: availability cue)
+══════════════════════════════════════════════════════════ */
+.urgency-strip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: rgba(255,255,255,0.12);
+    border: 1.5px solid rgba(255,255,255,0.28);
+    border-radius: 50px;
+    padding: 0.32rem 1rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: rgba(255,255,255,0.92);
+    margin-bottom: 1.5rem;
+    letter-spacing: 0.03em;
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    animation: fadeInUp 0.8s ease-out 0.15s backwards;
+}
+
+/* ══════════════════════════════════════════════════════════
+   TYPEWRITER CURSOR
+══════════════════════════════════════════════════════════ */
+#tw-cursor {
+    display: inline-block;
+    width: 3px;
+    height: 0.85em;
+    background: #D9A88F;
+    margin-left: 3px;
+    vertical-align: middle;
+    border-radius: 2px;
+    animation: blink-cursor 0.75s step-end infinite;
+    position: relative;
+    top: -1px;
+}
+
+@keyframes blink-cursor {
+    0%, 100% { opacity: 1; }
+    50%       { opacity: 0; }
+}
+
+/* ══════════════════════════════════════════════════════════
+   SOCIAL PROOF TOAST  (FOMO notification, bottom-left)
+══════════════════════════════════════════════════════════ */
+.sp-toast {
+    position: fixed;
+    bottom: 2rem;
+    left: 2rem;
+    background: rgba(255,255,255,0.97);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border-radius: 16px;
+    padding: 0.9rem 1.1rem;
+    box-shadow: 0 8px 32px rgba(93,128,100,0.18), 0 2px 8px rgba(0,0,0,0.06);
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    max-width: 296px;
+    z-index: 997;
+    opacity: 0;
+    translate: 0 12px;
+    pointer-events: none;
+    transition: opacity 0.4s ease, translate 0.4s ease;
+    border: 1px solid rgba(93,128,100,0.1);
+}
+
+.sp-toast.sp-visible {
+    opacity: 1;
+    translate: 0 0;
+    pointer-events: auto;
+}
+
+.sp-avatar {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #5D8064, #B7C6AD);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-weight: 700;
+    font-size: 1rem;
+    flex-shrink: 0;
+    font-family: inherit;
+}
+
+.sp-body {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+    min-width: 0;
+}
+
+.sp-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #25D366;
+    flex-shrink: 0;
+    margin-top: 4px;
+    animation: pulse-dot 1.6s ease-in-out infinite;
+}
+
+@keyframes pulse-dot {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50%       { opacity: 0.55; transform: scale(0.75); }
+}
+
+.sp-text {
+    font-size: 0.8rem;
+    color: #2F2F2F;
+    line-height: 1.45;
+    margin: 0;
+}
+
+@media (max-width: 480px) {
+    .sp-toast { left: 1rem; right: 1rem; max-width: unset; bottom: 1.5rem; }
+}
+
+/* ══════════════════════════════════════════════════════════
+   GRADIENT TEXT  (section headings — 2026 trend)
+══════════════════════════════════════════════════════════ */
+.about h2,
+.services h2,
+.how-it-works h2,
+.faq h2,
+.blog-preview-header h2,
+.testimonials h2,
+.schedule h2,
+.contact h2 {
+    background: linear-gradient(130deg, #3d5e43 0%, #5D8064 45%, #b07a60 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}

@@ -9,6 +9,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
+    <script src="translations.js"></script>
 </head>
 <body>
     <!-- Scroll progress bar (filled by JS) -->
@@ -20,16 +21,22 @@
                 <div class="logo">
                     <a href="#inicio">Umana</a>
                 </div>
-                <button class="nav-toggle" id="nav-toggle" aria-label="Menú" aria-expanded="false">
-                    <span></span><span></span><span></span>
-                </button>
-                <ul class="nav-menu" id="nav-menu">
-                    <li><a href="#inicio">Inicio</a></li>
-                    <li><a href="#quienes-somos">Quiénes Somos</a></li>
-                    <li><a href="#servicios">Servicios</a></li>
-                    <li><a href="recursos.html">Recursos</a></li>
-                    <li><a href="#contacto">Contacto</a></li>
-                </ul>
+                <div class="nav-end">
+                    <ul class="nav-menu" id="nav-menu">
+                        <li><a href="#inicio" data-i18n="nav.home">Inicio</a></li>
+                        <li><a href="#quienes-somos" data-i18n="nav.about">Quiénes Somos</a></li>
+                        <li><a href="#servicios" data-i18n="nav.services">Servicios</a></li>
+                        <li><a href="recursos.html" data-i18n="nav.resources">Recursos</a></li>
+                        <li><a href="#contacto" data-i18n="nav.contact">Contacto</a></li>
+                    </ul>
+                    <button id="lang-toggle" class="lang-toggle" aria-label="Switch to English" data-i18n-aria="nav.lang.aria">
+                        <span class="lang-globe">🌐</span>
+                        <span id="lang-toggle-text" data-i18n="nav.lang">EN</span>
+                    </button>
+                    <button class="nav-toggle" id="nav-toggle" aria-label="Menú" aria-expanded="false">
+                        <span></span><span></span><span></span>
+                    </button>
+                </div>
             </div>
         </nav>
     </header>
@@ -38,16 +45,19 @@
         <section id="inicio" class="hero">
             <div class="container">
                 <div class="hero-content">
-                    <h1>Tu salud mental importa</h1>
-                    <p class="hero-subtitle">Terapia 100% online con profesionales certificados</p>
-                    <p>En Umana, creemos que cuidar tu bienestar emocional es fundamental. Accede a terapia profesional, confidencial y personalizada desde cualquier lugar, cuando más lo necesitas.</p>
+                    <h1 id="hero-title">Tu salud mental importa</h1>
+                    <p class="hero-subtitle" data-i18n="hero.subtitle">Terapia 100% online con profesionales certificados</p>
+                    <p data-i18n="hero.desc">En Umana, creemos que cuidar tu bienestar emocional es fundamental. Accede a terapia profesional, confidencial y personalizada desde cualquier lugar, cuando más lo necesitas.</p>
+                    <div class="urgency-strip" aria-live="polite">
+                        <span data-i18n="hero.urgency">🟢 Sesiones disponibles esta semana</span>
+                    </div>
                     <div class="hero-buttons">
-                        <a href="#contacto" class="cta-button">Comienza tu viaje de bienestar</a>
+                        <a href="#contacto" class="cta-button" data-i18n="hero.cta">Comienza tu viaje de bienestar</a>
                         <a href="https://wa.me/593983404824?text=Hola%2C%20quisiera%20informaci%C3%B3n%20sobre%20las%20sesiones%20de%20terapia" target="_blank" rel="noopener noreferrer" class="whatsapp-button">
                             <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
                                 <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
                             </svg>
-                            Contactar por WhatsApp
+                            <span data-i18n="hero.whatsapp">Contactar por WhatsApp</span>
                         </a>
                     </div>
                 </div>
@@ -60,22 +70,22 @@
                 <div class="stats-bar">
                     <div class="trust-stat">
                         <span class="trust-number">500+</span>
-                        <span class="trust-label">Pacientes atendidos</span>
+                        <span class="trust-label" data-i18n="stats.patients">Pacientes atendidos</span>
                     </div>
                     <div class="trust-divider"></div>
                     <div class="trust-stat">
                         <span class="trust-number">30+</span>
-                        <span class="trust-label">Terapeutas certificados</span>
+                        <span class="trust-label" data-i18n="stats.therapists">Terapeutas certificados</span>
                     </div>
                     <div class="trust-divider"></div>
                     <div class="trust-stat">
                         <span class="trust-number">98%</span>
-                        <span class="trust-label">Tasa de satisfacción</span>
+                        <span class="trust-label" data-i18n="stats.satisfaction">Tasa de satisfacción</span>
                     </div>
                     <div class="trust-divider"></div>
                     <div class="trust-stat">
                         <span class="trust-number">100%</span>
-                        <span class="trust-label">Online y confidencial</span>
+                        <span class="trust-label" data-i18n="stats.online">Online y confidencial</span>
                     </div>
                 </div>
             </div>
@@ -84,57 +94,57 @@
         <!-- Cómo Funciona -->
         <section id="como-funciona" class="how-it-works">
             <div class="container">
-                <h2 id="cms-how-heading">¿Cómo Funciona Umana?</h2>
-                <p class="section-intro">Comenzar es más fácil de lo que crees. Solo tres pasos te separan del bienestar.</p>
+                <h2 id="cms-how-heading" data-i18n="how.heading">¿Cómo Funciona Umana?</h2>
+                <p class="section-intro" data-i18n="how.intro">Comenzar es más fácil de lo que crees. Solo tres pasos te separan del bienestar.</p>
                 <div class="steps-grid" id="cms-how-steps">
                     <div class="step-card">
                         <div class="step-number">01</div>
                         <div class="step-icon">📋</div>
-                        <h3>Agenda tu sesión</h3>
-                        <p>Contáctanos por WhatsApp o llena nuestro formulario. Rápido, fácil y sin compromiso.</p>
+                        <h3 data-i18n="how.s1.title">Agenda tu sesión</h3>
+                        <p data-i18n="how.s1.desc">Contáctanos por WhatsApp o llena nuestro formulario. Rápido, fácil y sin compromiso.</p>
                     </div>
                     <div class="step-connector"></div>
                     <div class="step-card">
                         <div class="step-number">02</div>
                         <div class="step-icon">🤝</div>
-                        <h3>Conoce a tu terapeuta</h3>
-                        <p>Te conectamos con el profesional más adecuado para tus necesidades y objetivos.</p>
+                        <h3 data-i18n="how.s2.title">Conoce a tu terapeuta</h3>
+                        <p data-i18n="how.s2.desc">Te conectamos con el profesional más adecuado para tus necesidades y objetivos.</p>
                     </div>
                     <div class="step-connector"></div>
                     <div class="step-card">
                         <div class="step-number">03</div>
                         <div class="step-icon">🌱</div>
-                        <h3>Comienza tu proceso</h3>
-                        <p>Sesiones 100% online desde la comodidad de tu hogar, a tu ritmo y horario.</p>
+                        <h3 data-i18n="how.s3.title">Comienza tu proceso</h3>
+                        <p data-i18n="how.s3.desc">Sesiones 100% online desde la comodidad de tu hogar, a tu ritmo y horario.</p>
                     </div>
                 </div>
                 <div class="how-cta">
-                    <a href="#contacto" class="cta-button">Agenda tu primera sesión</a>
-                    <span class="how-cta-note">Sin compromiso · Primera consulta orientativa gratuita</span>
+                    <a href="#contacto" class="cta-button" data-i18n="how.cta">Agenda tu primera sesión</a>
+                    <span class="how-cta-note" data-i18n="how.cta.note">Sin compromiso · Primera consulta orientativa gratuita</span>
                 </div>
             </div>
         </section>
 
         <section id="quienes-somos" class="about">
             <div class="container">
-                <h2>Quiénes Somos</h2>
+                <h2 data-i18n="about.heading">Quiénes Somos</h2>
                 <div class="about-content">
                     <div class="about-text">
-                        <h3>Umana - Tu Plataforma de Salud Mental Online</h3>
-                        <p>Umana es una plataforma digital 100% online dedicada a hacer la salud mental accesible para todos. Conectamos a personas que buscan apoyo emocional con profesionales de salud mental certificados y con experiencia.</p>
-                        <p>Nuestra misión es eliminar las barreras que impiden a las personas buscar ayuda. Ofrecemos sesiones online desde la comodidad de tu hogar, estamos aquí para acompañarte en cada paso de tu camino hacia el bienestar.</p>
+                        <h3 data-i18n="about.sub">Umana - Tu Plataforma de Salud Mental Online</h3>
+                        <p data-i18n="about.p1">Umana es una plataforma digital 100% online dedicada a hacer la salud mental accesible para todos. Conectamos a personas que buscan apoyo emocional con profesionales de salud mental certificados y con experiencia.</p>
+                        <p data-i18n="about.p2">Nuestra misión es eliminar las barreras que impiden a las personas buscar ayuda. Ofrecemos sesiones online desde la comodidad de tu hogar, estamos aquí para acompañarte en cada paso de tu camino hacia el bienestar.</p>
                         
-                        <h3 class="values-title">Nuestros Valores</h3>
+                        <h3 class="values-title" data-i18n="about.values">Nuestros Valores</h3>
                         <ul class="credentials">
-                            <li>✓ <strong>Accesibilidad:</strong> Hacemos la terapia disponible para todos</li>
-                            <li>✓ <strong>Confidencialidad:</strong> Tu privacidad es nuestra prioridad</li>
-                            <li>✓ <strong>Profesionalismo:</strong> Solo trabajamos con especialistas certificados</li>
-                            <li>✓ <strong>Empatía:</strong> Entendemos que dar el primer paso puede ser difícil</li>
-                            <li>✓ <strong>Innovación:</strong> Utilizamos tecnología para mejorar tu experiencia</li>
+                            <li data-i18n-html="about.v1">✓ <strong>Accesibilidad:</strong> Hacemos la terapia disponible para todos</li>
+                            <li data-i18n-html="about.v2">✓ <strong>Confidencialidad:</strong> Tu privacidad es nuestra prioridad</li>
+                            <li data-i18n-html="about.v3">✓ <strong>Profesionalismo:</strong> Solo trabajamos con especialistas certificados</li>
+                            <li data-i18n-html="about.v4">✓ <strong>Empatía:</strong> Entendemos que dar el primer paso puede ser difícil</li>
+                            <li data-i18n-html="about.v5">✓ <strong>Innovación:</strong> Utilizamos tecnología para mejorar tu experiencia</li>
                         </ul>
 
-                        <h3 class="team-title">Nuestro Equipo</h3>
-                        <p>Contamos con un equipo multidisciplinario de psicólogos, terapeutas y especialistas en salud mental, todos comprometidos con tu bienestar. Cada profesional en nuestra plataforma ha sido cuidadosamente seleccionado y verificado para garantizar la más alta calidad de atención.</p>
+                        <h3 class="team-title" data-i18n="about.team">Nuestro Equipo</h3>
+                        <p data-i18n="about.team.p">Contamos con un equipo multidisciplinario de psicólogos, terapeutas y especialistas en salud mental, todos comprometidos con tu bienestar. Cada profesional en nuestra plataforma ha sido cuidadosamente seleccionado y verificado para garantizar la más alta calidad de atención.</p>
                     </div>
                 </div>
             </div>
@@ -142,28 +152,28 @@
 
         <section id="servicios" class="services">
             <div class="container">
-                <h2>Nuestros Servicios</h2>
-                <p class="services-intro">Ofrecemos servicios 100% online de salud mental para apoyarte en lo que necesites</p>
+                <h2 data-i18n="svc.heading">Nuestros Servicios</h2>
+                <p class="services-intro" data-i18n="svc.intro">Ofrecemos servicios 100% online de salud mental para apoyarte en lo que necesites</p>
                 <div class="services-grid">
                     <div class="service-card">
                         <div class="service-icon">🧠</div>
-                        <h3>Terapia Individual Online</h3>
-                        <p>Sesiones personalizadas para trabajar en ansiedad, depresión, estrés y otros desafíos emocionales con profesionales especializados.</p>
+                        <h3 data-i18n="svc.1.title">Terapia Individual Online</h3>
+                        <p data-i18n="svc.1.desc">Sesiones personalizadas para trabajar en ansiedad, depresión, estrés y otros desafíos emocionales con profesionales especializados.</p>
                     </div>
                     <div class="service-card">
                         <div class="service-icon">👥</div>
-                        <h3>Terapia de Pareja Online</h3>
-                        <p>Fortalece tu relación, mejora la comunicación y resuelve conflictos con terapeutas especializados en relaciones.</p>
+                        <h3 data-i18n="svc.2.title">Terapia de Pareja Online</h3>
+                        <p data-i18n="svc.2.desc">Fortalece tu relación, mejora la comunicación y resuelve conflictos con terapeutas especializados en relaciones.</p>
                     </div>
                     <div class="service-card">
                         <div class="service-icon">👨‍👩‍👧‍👦</div>
-                        <h3>Terapia Familiar Online</h3>
-                        <p>Mejora la dinámica familiar, resuelve conflictos y construye relaciones más saludables entre todos los miembros.</p>
+                        <h3 data-i18n="svc.3.title">Terapia Familiar Online</h3>
+                        <p data-i18n="svc.3.desc">Mejora la dinámica familiar, resuelve conflictos y construye relaciones más saludables entre todos los miembros.</p>
                     </div>
                     <div class="service-card">
                         <div class="service-icon">🎯</div>
-                        <h3>Orientación Profesional Online</h3>
-                        <p>Descubre tu camino profesional, toma decisiones de carrera informadas y alcanza tus metas laborales.</p>
+                        <h3 data-i18n="svc.4.title">Orientación Profesional Online</h3>
+                        <p data-i18n="svc.4.desc">Descubre tu camino profesional, toma decisiones de carrera informadas y alcanza tus metas laborales.</p>
                     </div>
                 </div>
             </div>
@@ -171,61 +181,61 @@
 
         <section id="horarios" class="schedule">
             <div class="container">
-                <h2>Horarios de Atención</h2>
+                <h2 data-i18n="sch.heading">Horarios de Atención</h2>
                 <div class="schedule-grid">
                     <div class="schedule-card">
                         <div class="schedule-icon">📅</div>
-                        <h3>Lunes - Viernes</h3>
-                        <p class="schedule-time">8:00 AM - 5:00 PM</p>
-                        <p class="schedule-desc">Atención 100% online</p>
+                        <h3 data-i18n="sch.days1">Lunes - Viernes</h3>
+                        <p class="schedule-time" data-i18n="sch.time1">8:00 AM - 5:00 PM</p>
+                        <p class="schedule-desc" data-i18n="sch.desc1">Atención 100% online</p>
                     </div>
                     <div class="schedule-card">
                         <div class="schedule-icon">🗓️</div>
-                        <h3>Sábados</h3>
-                        <p class="schedule-time">9:00 AM - 12:00 PM</p>
-                        <p class="schedule-desc">Horario especial de fin de semana</p>
+                        <h3 data-i18n="sch.days2">Sábados</h3>
+                        <p class="schedule-time" data-i18n="sch.time2">9:00 AM - 12:00 PM</p>
+                        <p class="schedule-desc" data-i18n="sch.desc2">Horario especial de fin de semana</p>
                     </div>
                 </div>
-                <p class="schedule-note">* Agenda tu cita con anticipación. Horarios sujetos a disponibilidad de profesionales.</p>
+                <p class="schedule-note" data-i18n="sch.note">* Agenda tu cita con anticipación. Horarios sujetos a disponibilidad de profesionales.</p>
             </div>
         </section>
 
         <section id="faq" class="faq">
             <div class="container">
-                <h2>Preguntas Frecuentes</h2>
-                <p class="section-intro">Todo lo que necesitas saber antes de dar el primer paso.</p>
+                <h2 data-i18n="faq.heading">Preguntas Frecuentes</h2>
+                <p class="section-intro" data-i18n="faq.intro">Todo lo que necesitas saber antes de dar el primer paso.</p>
                 <div class="faq-list">
                     <details class="faq-item">
-                        <summary class="faq-question">¿Cómo funciona Umana?</summary>
-                        <div class="faq-answer"><p>Umana es una plataforma que conecta a personas que buscan apoyo de salud mental con profesionales certificados. Agenda tu cita, conoce a tu terapeuta y comienza tu proceso terapéutico de manera sencilla y confidencial, 100% desde tu hogar.</p></div>
+                        <summary class="faq-question" data-i18n="faq.q1">¿Cómo funciona Umana?</summary>
+                        <div class="faq-answer"><p data-i18n="faq.a1">Umana es una plataforma que conecta a personas que buscan apoyo de salud mental con profesionales certificados. Agenda tu cita, conoce a tu terapeuta y comienza tu proceso terapéutico de manera sencilla y confidencial, 100% desde tu hogar.</p></div>
                     </details>
                     <details class="faq-item">
-                        <summary class="faq-question">¿Los terapeutas están certificados?</summary>
-                        <div class="faq-answer"><p>Sí, todos nuestros profesionales están debidamente certificados y cuentan con licencia para ejercer. Cada terapeuta pasa por un riguroso proceso de verificación antes de unirse a nuestra plataforma.</p></div>
+                        <summary class="faq-question" data-i18n="faq.q2">¿Los terapeutas están certificados?</summary>
+                        <div class="faq-answer"><p data-i18n="faq.a2">Sí, todos nuestros profesionales están debidamente certificados y cuentan con licencia para ejercer. Cada terapeuta pasa por un riguroso proceso de verificación antes de unirse a nuestra plataforma.</p></div>
                     </details>
                     <details class="faq-item">
-                        <summary class="faq-question">¿Cuánto cuesta una sesión?</summary>
-                        <div class="faq-answer"><p>Los costos varían según el tipo de servicio y el profesional. Contáctanos para conocer nuestras tarifas actuales y planes disponibles. Trabajamos para hacer la terapia accesible para todos.</p></div>
+                        <summary class="faq-question" data-i18n="faq.q3">¿Cuánto cuesta una sesión?</summary>
+                        <div class="faq-answer"><p data-i18n="faq.a3">Los costos varían según el tipo de servicio y el profesional. Contáctanos para conocer nuestras tarifas actuales y planes disponibles. Trabajamos para hacer la terapia accesible para todos.</p></div>
                     </details>
                     <details class="faq-item">
-                        <summary class="faq-question">¿Es confidencial mi información?</summary>
-                        <div class="faq-answer"><p>Absolutamente. La confidencialidad es fundamental para nosotros. Toda la información compartida en las sesiones está protegida por las leyes de privacidad y secreto profesional. Usamos tecnología de encriptación para proteger tus datos.</p></div>
+                        <summary class="faq-question" data-i18n="faq.q4">¿Es confidencial mi información?</summary>
+                        <div class="faq-answer"><p data-i18n="faq.a4">Absolutamente. La confidencialidad es fundamental para nosotros. Toda la información compartida en las sesiones está protegida por las leyes de privacidad y secreto profesional. Usamos tecnología de encriptación para proteger tus datos.</p></div>
                     </details>
                     <details class="faq-item">
-                        <summary class="faq-question">¿Puedo cambiar de terapeuta?</summary>
-                        <div class="faq-answer"><p>Sí, sabemos que la conexión con tu terapeuta es importante. Si sientes que no es el adecuado para ti, puedes solicitar un cambio sin ningún problema ni costo adicional.</p></div>
+                        <summary class="faq-question" data-i18n="faq.q5">¿Puedo cambiar de terapeuta?</summary>
+                        <div class="faq-answer"><p data-i18n="faq.a5">Sí, sabemos que la conexión con tu terapeuta es importante. Si sientes que no es el adecuado para ti, puedes solicitar un cambio sin ningún problema ni costo adicional.</p></div>
                     </details>
                     <details class="faq-item">
-                        <summary class="faq-question">¿Qué necesito para una sesión online?</summary>
-                        <div class="faq-answer"><p>Solo necesitas una conexión a internet estable, un dispositivo (computadora, tablet o smartphone) con cámara y micrófono, y un espacio privado donde te sientas cómodo hablando.</p></div>
+                        <summary class="faq-question" data-i18n="faq.q6">¿Qué necesito para una sesión online?</summary>
+                        <div class="faq-answer"><p data-i18n="faq.a6">Solo necesitas una conexión a internet estable, un dispositivo (computadora, tablet o smartphone) con cámara y micrófono, y un espacio privado donde te sientas cómodo hablando.</p></div>
                     </details>
                     <details class="faq-item">
-                        <summary class="faq-question">¿Cuánto dura una sesión?</summary>
-                        <div class="faq-answer"><p>Las sesiones típicamente duran entre 45 y 60 minutos. Tu terapeuta trabajará contigo para establecer la frecuencia y duración más adecuadas para tu proceso.</p></div>
+                        <summary class="faq-question" data-i18n="faq.q7">¿Cuánto dura una sesión?</summary>
+                        <div class="faq-answer"><p data-i18n="faq.a7">Las sesiones típicamente duran entre 45 y 60 minutos. Tu terapeuta trabajará contigo para establecer la frecuencia y duración más adecuadas para tu proceso.</p></div>
                     </details>
                     <details class="faq-item">
-                        <summary class="faq-question">¿Puedo cancelar o reprogramar mi cita?</summary>
-                        <div class="faq-answer"><p>Sí, puedes cancelar o reprogramar tu cita con al menos 24 horas de anticipación sin costo adicional. Contáctanos y con gusto te ayudamos a encontrar un nuevo horario.</p></div>
+                        <summary class="faq-question" data-i18n="faq.q8">¿Puedo cancelar o reprogramar mi cita?</summary>
+                        <div class="faq-answer"><p data-i18n="faq.a8">Sí, puedes cancelar o reprogramar tu cita con al menos 24 horas de anticipación sin costo adicional. Contáctanos y con gusto te ayudamos a encontrar un nuevo horario.</p></div>
                     </details>
                 </div>
             </div>
@@ -234,44 +244,44 @@
         <!-- Testimonials -->
         <section id="testimonios" class="testimonials">
             <div class="container">
-                <h2 id="cms-test-heading">Lo que dicen nuestros pacientes</h2>
-                <p class="section-intro">Historias reales de personas que dieron el primer paso hacia su bienestar.</p>
+                <h2 id="cms-test-heading" data-i18n="test.heading">Lo que dicen nuestros pacientes</h2>
+                <p class="section-intro" data-i18n="test.intro">Historias reales de personas que dieron el primer paso hacia su bienestar.</p>
                 <div class="testimonials-grid" id="cms-testimonials">
                     <div class="testimonial-card">
                         <div class="testimonial-stars">★★★★★</div>
-                        <p class="testimonial-quote">"Gracias a Umana pude dar el primer paso que tanto me costaba. Mi terapeuta me cambió la vida. No saben cuánto valoro este servicio."</p>
+                        <p class="testimonial-quote" data-i18n="test.q1">"Gracias a Umana pude dar el primer paso que tanto me costaba. Mi terapeuta me cambió la vida. No saben cuánto valoro este servicio."</p>
                         <div class="testimonial-author">
                             <div class="author-avatar">M</div>
                             <div>
                                 <strong>María G.</strong>
-                                <span>Quito, Ecuador</span>
+                                <span data-i18n="test.loc1">Quito, Ecuador</span>
                             </div>
                         </div>
                     </div>
                     <div class="testimonial-card">
                         <div class="testimonial-stars">★★★★★</div>
-                        <p class="testimonial-quote">"Nunca pensé que la terapia online funcionaría tan bien. Ahora me siento en control de mi ansiedad. El proceso fue muy claro y sin complicaciones."</p>
+                        <p class="testimonial-quote" data-i18n="test.q2">"Nunca pensé que la terapia online funcionaría tan bien. Ahora me siento en control de mi ansiedad. El proceso fue muy claro y sin complicaciones."</p>
                         <div class="testimonial-author">
                             <div class="author-avatar">C</div>
                             <div>
                                 <strong>Carlos M.</strong>
-                                <span>Guayaquil, Ecuador</span>
+                                <span data-i18n="test.loc2">Guayaquil, Ecuador</span>
                             </div>
                         </div>
                     </div>
                     <div class="testimonial-card">
                         <div class="testimonial-stars">★★★★★</div>
-                        <p class="testimonial-quote">"El proceso fue muy fácil desde el inicio. Encontré a la terapeuta perfecta para mí en poco tiempo. La recomiendo con los ojos cerrados."</p>
+                        <p class="testimonial-quote" data-i18n="test.q3">"El proceso fue muy fácil desde el inicio. Encontré a la terapeuta perfecta para mí en poco tiempo. La recomiendo con los ojos cerrados."</p>
                         <div class="testimonial-author">
                             <div class="author-avatar">S</div>
                             <div>
                                 <strong>Sofía R.</strong>
-                                <span>Cuenca, Ecuador</span>
+                                <span data-i18n="test.loc3">Cuenca, Ecuador</span>
                             </div>
                         </div>
                     </div>
                 </div>
-                <p class="testimonials-note">* Testimonios anónimos con permiso de nuestros pacientes. Los nombres han sido modificados para proteger la privacidad.</p>
+                <p class="testimonials-note" data-i18n="test.note">* Testimonios anónimos con permiso de nuestros pacientes. Los nombres han sido modificados para proteger la privacidad.</p>
             </div>
         </section>
 
@@ -280,37 +290,37 @@
             <div class="container">
                 <div class="blog-preview-header">
                     <div>
-                        <h2>Recursos para tu Bienestar</h2>
-                        <p class="section-intro">Artículos escritos por nuestros especialistas para acompañarte en tu camino.</p>
+                        <h2 data-i18n="blog.heading">Recursos para tu Bienestar</h2>
+                        <p class="section-intro" data-i18n="blog.intro">Artículos escritos por nuestros especialistas para acompañarte en tu camino.</p>
                     </div>
-                    <a href="recursos.html" class="btn-all-resources">Ver todos los recursos →</a>
+                    <a href="recursos.html" class="btn-all-resources" data-i18n="blog.all">Ver todos los recursos →</a>
                 </div>
                 <div class="blog-preview-grid">
                     <a href="recursos.html" class="blog-preview-card">
                         <div class="blog-preview-card-accent"></div>
                         <div class="blog-preview-card-body">
-                            <div class="blog-preview-cat">😰 Ansiedad</div>
-                            <h3>10 Técnicas Efectivas para Manejar la Ansiedad</h3>
-                            <p>Aprende estrategias prácticas y respaldadas por la ciencia para reducir la ansiedad en tu vida diaria.</p>
-                            <span class="read-more">Leer artículo →</span>
+                            <div class="blog-preview-cat" data-i18n="blog.cat1">😰 Ansiedad</div>
+                            <h3 data-i18n="blog.t1">10 Técnicas Efectivas para Manejar la Ansiedad</h3>
+                            <p data-i18n="blog.d1">Aprende estrategias prácticas y respaldadas por la ciencia para reducir la ansiedad en tu vida diaria.</p>
+                            <span class="read-more" data-i18n="blog.r1">Leer artículo →</span>
                         </div>
                     </a>
                     <a href="recursos.html" class="blog-preview-card">
                         <div class="blog-preview-card-accent"></div>
                         <div class="blog-preview-card-body">
-                            <div class="blog-preview-cat">😔 Depresión</div>
-                            <h3>Señales de Depresión y Cuándo Buscar Ayuda</h3>
-                            <p>Identifica los síntomas clave y entiende cuándo es el momento de dar el paso y hablar con un profesional.</p>
-                            <span class="read-more">Leer artículo →</span>
+                            <div class="blog-preview-cat" data-i18n="blog.cat2">😔 Depresión</div>
+                            <h3 data-i18n="blog.t2">Señales de Depresión y Cuándo Buscar Ayuda</h3>
+                            <p data-i18n="blog.d2">Identifica los síntomas clave y entiende cuándo es el momento de dar el paso y hablar con un profesional.</p>
+                            <span class="read-more" data-i18n="blog.r2">Leer artículo →</span>
                         </div>
                     </a>
                     <a href="recursos.html" class="blog-preview-card">
                         <div class="blog-preview-card-accent"></div>
                         <div class="blog-preview-card-body">
-                            <div class="blog-preview-cat">🧘 Autocuidado</div>
-                            <h3>La Importancia del Autocuidado Mental</h3>
-                            <p>Descubre por qué el autocuidado no es un lujo, sino una necesidad fundamental para tu salud emocional.</p>
-                            <span class="read-more">Leer artículo →</span>
+                            <div class="blog-preview-cat" data-i18n="blog.cat3">🧘 Autocuidado</div>
+                            <h3 data-i18n="blog.t3">La Importancia del Autocuidado Mental</h3>
+                            <p data-i18n="blog.d3">Descubre por qué el autocuidado no es un lujo, sino una necesidad fundamental para tu salud emocional.</p>
+                            <span class="read-more" data-i18n="blog.r3">Leer artículo →</span>
                         </div>
                     </a>
                 </div>
@@ -319,66 +329,66 @@
 
         <section id="contacto" class="contact">
             <div class="container">
-                <h2>Contacto</h2>
+                <h2 data-i18n="ct.heading">Contacto</h2>
                 <div class="contact-content">
                     <div class="contact-info">
-                        <h3>Información de Contacto</h3>
-                        <p>Estamos aquí para ayudarte. Contáctanos para agendar una consulta, resolver dudas o conocer más sobre nuestros servicios.</p>
+                        <h3 data-i18n="ct.info.h">Información de Contacto</h3>
+                        <p data-i18n="ct.info.p">Estamos aquí para ayudarte. Contáctanos para agendar una consulta, resolver dudas o conocer más sobre nuestros servicios.</p>
                         <div class="contact-details">
                             <div class="contact-item">
                                 <span class="icon">📧</span>
                                 <div>
-                                    <strong>Email</strong>
+                                    <strong data-i18n="ct.email.l">Email</strong>
                                     <a href="mailto:hey.umana@outlook.com" class="email-link">hey.umana@outlook.com</a>
                                 </div>
                             </div>
                             <div class="contact-item">
                                 <span class="icon">📱</span>
                                 <div>
-                                    <strong>Teléfono / WhatsApp</strong>
+                                    <strong data-i18n="ct.phone.l">Teléfono / WhatsApp</strong>
                                     <p>+593 983404824</p>
                                     <a href="https://wa.me/593983404824?text=Hola%2C%20quisiera%20informaci%C3%B3n%20sobre%20las%20sesiones%20de%20terapia" target="_blank" rel="noopener noreferrer" class="whatsapp-link">
-                                        Contactar por WhatsApp
+                                        <span data-i18n="ct.wa.btn">Contactar por WhatsApp</span>
                                     </a>
                                 </div>
                             </div>
                             <div class="contact-item">
                                 <span class="icon">📍</span>
                                 <div>
-                                    <strong>Dirección</strong>
-                                    <p>Quito, Ecuador</p>
+                                    <strong data-i18n="ct.addr.l">Dirección</strong>
+                                    <p data-i18n="ct.addr.v">Quito, Ecuador</p>
                                 </div>
                             </div>
                             <div class="contact-item">
                                 <span class="icon">🕐</span>
                                 <div>
-                                    <strong>Horarios</strong>
-                                    <p>Lunes a Viernes: 8:00 AM - 5:00 PM</p>
-                                    <p>Sábados: 9:00 AM - 12:00 PM</p>
+                                    <strong data-i18n="ct.hrs.l">Horarios</strong>
+                                    <p data-i18n="ct.hrs.v1">Lunes a Viernes: 8:00 AM - 5:00 PM</p>
+                                    <p data-i18n="ct.hrs.v2">Sábados: 9:00 AM - 12:00 PM</p>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="contact-form">
-                        <h3>Envíanos un mensaje</h3>
+                        <h3 data-i18n="ct.form.h">Envíanos un mensaje</h3>
                         <form action="#" method="POST" onsubmit="alert('¡Gracias por contactarnos! Te responderemos pronto.'); return false;">
                             <div class="form-group">
-                                <label for="nombre">Nombre completo</label>
+                                <label for="nombre" data-i18n="ct.form.nm">Nombre completo</label>
                                 <input type="text" id="nombre" name="nombre" required>
                             </div>
                             <div class="form-group">
-                                <label for="email">Email</label>
+                                <label for="email" data-i18n="ct.form.em">Email</label>
                                 <input type="email" id="email" name="email" required>
                             </div>
                             <div class="form-group">
-                                <label for="telefono">Teléfono</label>
+                                <label for="telefono" data-i18n="ct.form.ph">Teléfono</label>
                                 <input type="tel" id="telefono" name="telefono">
                             </div>
                             <div class="form-group">
-                                <label for="mensaje">Mensaje</label>
+                                <label for="mensaje" data-i18n="ct.form.ms">Mensaje</label>
                                 <textarea id="mensaje" name="mensaje" rows="5" required></textarea>
                             </div>
-                            <button type="submit" class="submit-button">Enviar mensaje</button>
+                            <button type="submit" class="submit-button" data-i18n="ct.form.btn">Enviar mensaje</button>
                         </form>
                     </div>
                 </div>
@@ -390,8 +400,9 @@
             <div class="container">
                 <div class="crisis-box">
                     <p class="crisis-warning">
-                        Si estás en crisis o cualquier otra persona puede estar en peligro - no uses este sitio.
-                        <a href="ayuda-crisis.html" class="crisis-link">Estos recursos</a> pueden brindarte ayuda inmediata.
+                        <span data-i18n="crisis.before">Si estás en crisis o cualquier otra persona puede estar en peligro - no uses este sitio.</span>
+                        <a href="ayuda-crisis.html" class="crisis-link" data-i18n="crisis.link">Estos recursos</a>
+                        <span data-i18n="crisis.after">pueden brindarte ayuda inmediata.</span>
                     </p>
                 </div>
             </div>
@@ -402,11 +413,11 @@
         <div class="container">
             <div class="footer-content">
                 <div class="footer-info">
-                    <p>&copy; 2026 Umana - Plataforma de Salud Mental. Todos los derechos reservados.</p>
-                    <p class="privacy">Tu información es confidencial y está protegida.</p>
+                    <p data-i18n="footer.copy">&copy; 2026 Umana - Plataforma de Salud Mental. Todos los derechos reservados.</p>
+                    <p class="privacy" data-i18n="footer.privacy">Tu información es confidencial y está protegida.</p>
                 </div>
                 <div class="social-media">
-                    <h3>Síguenos en redes sociales</h3>
+                    <h3 data-i18n="footer.social">Síguenos en redes sociales</h3>
                     <div class="social-links">
                         <a href="https://www.tiktok.com/@umanaterapiaonline?lang=es-419" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="TikTok">
                             <svg width="24" height="24" viewBox="0 0 24 24" fill="#FFFFFF">
@@ -556,6 +567,15 @@
     })();
     </script>
 
+    <!-- Social proof toast (FOMO notification) -->
+    <div id="sp-toast" class="sp-toast" role="status" aria-live="polite" aria-atomic="true">
+        <div class="sp-avatar" id="sp-avatar">A</div>
+        <div class="sp-body">
+            <div class="sp-dot"></div>
+            <p id="sp-text" class="sp-text"></p>
+        </div>
+    </div>
+
     <!-- Back to top -->
     <button id="back-to-top" aria-label="Volver arriba">↑</button>
 
@@ -698,6 +718,137 @@
             el.dataset.target = el.textContent.trim();
             counterObs.observe(el);
         });
+
+    }());
+
+    /* ═══════════════════════════════════════════════════════════
+       LANGUAGE TOGGLE  ·  TYPEWRITER HERO  ·  SOCIAL PROOF TOAST
+    ═══════════════════════════════════════════════════════════ */
+    (function () {
+        'use strict';
+
+        /* Guard — wait for UMANA_I18N (loaded via translations.js) */
+        if (!window.UMANA_I18N) return;
+        var I18N = window.UMANA_I18N;
+
+        /* ── i18n init (restores saved language on page load) ── */
+        I18N.init();
+
+        /* ── Language toggle click ─────────────────────────────── */
+        var btn = document.getElementById('lang-toggle');
+        if (btn) {
+            btn.addEventListener('click', function () {
+                var next = I18N.current === 'es' ? 'en' : 'es';
+                I18N.apply(next);
+                /* restart typewriter with new lang */
+                if (window._umanaTypewriter) window._umanaTypewriter.restart();
+            });
+        }
+
+        /* ── Typewriter hero h1 ────────────────────────────────── */
+        var heroTitle  = document.getElementById('hero-title');
+        var TWcursor   = null;
+
+        if (heroTitle) {
+            /* Inject cursor span next to title text */
+            TWcursor = document.createElement('span');
+            TWcursor.id = 'tw-cursor';
+            TWcursor.setAttribute('aria-hidden', 'true');
+            heroTitle.after(TWcursor);
+
+            var twState = {
+                lang: I18N.current,
+                phraseIdx: 0,
+                charIdx: 0,
+                deleting: false,
+                paused: false,
+                timer: null
+            };
+
+            function twPhrases() {
+                return I18N.typewriterPhrases[twState.lang] || I18N.typewriterPhrases['es'];
+            }
+
+            function twTick() {
+                var phrases = twPhrases();
+                var cur     = phrases[twState.phraseIdx % phrases.length];
+
+                if (twState.deleting) {
+                    twState.charIdx--;
+                    heroTitle.textContent = cur.slice(0, twState.charIdx);
+                    if (twState.charIdx === 0) {
+                        twState.deleting  = false;
+                        twState.phraseIdx = (twState.phraseIdx + 1) % phrases.length;
+                        twState.timer = setTimeout(twTick, 420);
+                        return;
+                    }
+                    twState.timer = setTimeout(twTick, 42);
+                } else {
+                    twState.charIdx++;
+                    heroTitle.textContent = cur.slice(0, twState.charIdx);
+                    if (twState.charIdx === cur.length) {
+                        twState.paused = true;
+                        twState.timer  = setTimeout(function () {
+                            twState.paused   = false;
+                            twState.deleting = true;
+                            twTick();
+                        }, 2600);
+                        return;
+                    }
+                    twState.timer = setTimeout(twTick, 68);
+                }
+            }
+
+            /* Start after initial hero animations finish */
+            twState.charIdx = I18N.typewriterPhrases[twState.lang][0].length;
+            twState.timer   = setTimeout(function () {
+                twState.deleting = true;
+                twTick();
+            }, 3000);
+
+            window._umanaTypewriter = {
+                setLang: function (lang) {
+                    twState.lang = lang;
+                },
+                restart: function () {
+                    clearTimeout(twState.timer);
+                    var phrases     = twPhrases();
+                    twState.phraseIdx = 0;
+                    twState.charIdx   = 0;
+                    twState.deleting  = false;
+                    heroTitle.textContent = '';
+                    twState.timer = setTimeout(twTick, 200);
+                }
+            };
+        }
+
+        /* ── Social proof FOMO toast ───────────────────────────── */
+        var toast   = document.getElementById('sp-toast');
+        var spText  = document.getElementById('sp-text');
+        var spAvatar= document.getElementById('sp-avatar');
+
+        if (toast && spText && spAvatar) {
+            function rnd(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+
+            function showSP() {
+                var name   = rnd(I18N.spNames);
+                var city   = rnd(I18N.spCities);
+                var tpl    = I18N.spTemplate[I18N.current] || I18N.spTemplate['es'];
+                var msg    = tpl.replace('{name}', name).replace('{city}', city);
+
+                spAvatar.textContent = name[0].toUpperCase();
+                spText.textContent   = msg;
+
+                toast.classList.add('sp-visible');
+                setTimeout(function () { toast.classList.remove('sp-visible'); }, 5000);
+            }
+
+            /* Show first toast after 12s, then every 38–55s */
+            setTimeout(function () {
+                showSP();
+                setInterval(showSP, 38000 + Math.random() * 17000);
+            }, 12000);
+        }
 
     }());
     </script>
