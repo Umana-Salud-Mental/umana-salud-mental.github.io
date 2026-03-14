@@ -40,7 +40,7 @@ nav:hover {
 .breadcrumb span    { color: #2F2F2F; }
 
 .recursos-hero h1 {
-    font-family: var(--font-heading, 'Fraunces', Georgia, serif);
+    font-family: var(--font-heading, 'Playfair Display', Georgia, serif);
     font-size: clamp(2.2rem, 5vw, 3.4rem);
     color: #2F2F2F;
     margin-bottom: 1rem;
@@ -201,7 +201,7 @@ nav:hover {
 }
 
 .section-title {
-    font-family: var(--font-heading, 'Fraunces', Georgia, serif);
+    font-family: var(--font-heading, 'Playfair Display', Georgia, serif);
     font-size: 2.5rem;
     color: #2F2F2F;
     margin-bottom: 3rem;
