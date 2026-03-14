@@ -577,6 +577,16 @@
             });
         }());
 
+        // ── CMS branding (logo) ─────────────────────────────────────
+        (function () {
+            try {
+                var d = JSON.parse(localStorage.getItem('umana_site_content') || '{}');
+                if (d.branding && d.branding.logoUrl) {
+                    document.querySelectorAll('.logo-img').forEach(function(img) { img.src = d.branding.logoUrl; });
+                }
+            } catch(e) {}
+        }());
+
         // ── Lang toggle ─────────────────────────────────────────────
         (function () {
             var i18n   = window.UMANA_I18N;

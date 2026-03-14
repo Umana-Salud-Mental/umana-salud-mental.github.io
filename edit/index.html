@@ -251,6 +251,9 @@
                                 <button class="qa-btn" onclick="goTo('site-content','testimonials')"><span>💬</span> Editar Testimonios</button>
                                 <button class="qa-btn" onclick="goTo('site-content','faq')"><span>❓</span> Editar FAQ</button>
                                 <button class="qa-btn" onclick="goTo('site-content','contact')"><span>📞</span> Editar Contacto</button>
+                                <button class="qa-btn" onclick="goTo('site-content','trust')"><span>📊</span> Editar Estadísticas</button>
+                                <button class="qa-btn" onclick="goTo('site-content','social')"><span>📱</span> Editar Redes Sociales</button>
+                                <button class="qa-btn" onclick="goTo('site-content','branding')"><span>🎨</span> Editar Logo / Marca</button>
                                 <a href="../" target="_blank" class="qa-btn"><span>👁️</span> Ver sitio web</a>
                             </div>
                         </div>
@@ -311,6 +314,9 @@
                         <button class="content-tab" data-section="faq">❓ FAQ</button>
                         <button class="content-tab" data-section="schedule">🕐 Horarios</button>
                         <button class="content-tab" data-section="contact">📞 Contacto</button>
+                        <button class="content-tab" data-section="trust">📊 Estadísticas</button>
+                        <button class="content-tab" data-section="social">📱 Redes Sociales</button>
+                        <button class="content-tab" data-section="branding">🎨 Marca & Logo</button>
                     </div>
 
                     <!-- Hero -->
@@ -430,6 +436,59 @@
                             <button class="btn btn-primary" onclick="saveSiteSection('contact')">💾 Guardar</button>
                             <button class="btn btn-secondary" onclick="resetSiteSection('contact')">↩ Resetear</button>
                             <span class="save-flash" id="sf-contact">✓ Guardado</span>
+                        </div>
+                    </div>
+
+                    <!-- Trust Stats -->
+                    <div class="content-section" id="cs-trust">
+                        <div class="section-header"><h3>Estadísticas de Confianza</h3><p>Los 4 números destacados que aparecen en la franja inferior al hero.</p></div>
+                        <div id="trust-items"></div>
+                        <button class="btn-add-item" onclick="addTrustItem()">+ Agregar estadística</button>
+                        <div class="content-save-bar">
+                            <button class="btn btn-primary" onclick="saveSiteSection('trust')">💾 Guardar</button>
+                            <button class="btn btn-secondary" onclick="resetSiteSection('trust')">↩ Resetear</button>
+                            <span class="save-flash" id="sf-trust">✓ Guardado</span>
+                        </div>
+                    </div>
+
+                    <!-- Social Media -->
+                    <div class="content-section" id="cs-social">
+                        <div class="section-header"><h3>Redes Sociales</h3><p>URLs de los perfiles en el footer del sitio.</p></div>
+                        <div class="field-group">
+                            <label>TikTok URL</label>
+                            <input type="url" id="social-tiktok" placeholder="https://www.tiktok.com/@umanaterapiaonline">
+                        </div>
+                        <div class="field-group">
+                            <label>Instagram URL</label>
+                            <input type="url" id="social-instagram" placeholder="https://www.instagram.com/umana.saludmental/">
+                        </div>
+                        <div class="field-group">
+                            <label>Facebook URL</label>
+                            <input type="url" id="social-facebook" placeholder="https://www.facebook.com/profile.php?id=...">
+                        </div>
+                        <div class="content-save-bar">
+                            <button class="btn btn-primary" onclick="saveSiteSection('social')">💾 Guardar</button>
+                            <button class="btn btn-secondary" onclick="resetSiteSection('social')">↩ Resetear</button>
+                            <span class="save-flash" id="sf-social">✓ Guardado</span>
+                        </div>
+                    </div>
+
+                    <!-- Branding & Logo -->
+                    <div class="content-section" id="cs-branding">
+                        <div class="section-header"><h3>Marca &amp; Logo</h3><p>Logotipo y datos de marca del sitio.</p></div>
+                        <div class="field-group">
+                            <label>URL del Logo (imagen)</label>
+                            <input type="text" id="branding-logo" placeholder="assets/images/logo.png?v=2">
+                            <span class="field-hint">Ruta relativa (assets/images/logo.png) o URL absoluta. Al guardar se actualiza en todas las páginas de este navegador.</span>
+                        </div>
+                        <div class="field-group">
+                            <label>Nombre del Sitio</label>
+                            <input type="text" id="branding-name" placeholder="Umana">
+                        </div>
+                        <div class="content-save-bar">
+                            <button class="btn btn-primary" onclick="saveSiteSection('branding')">💾 Guardar</button>
+                            <button class="btn btn-secondary" onclick="resetSiteSection('branding')">↩ Resetear</button>
+                            <span class="save-flash" id="sf-branding">✓ Guardado</span>
                         </div>
                     </div>
                 </section>
@@ -552,7 +611,10 @@ const DEFAULTS = {
     testimonials: { heading:'Lo que dicen nuestros pacientes', items:[{quote:'Gracias a Umana pude dar el primer paso que tanto me costaba. Mi terapeuta me cambió la vida.',author:'María G.',location:'Quito',stars:5},{quote:'Nunca pensé que la terapia online funcionaría tan bien. Ahora me siento en control de mi ansiedad.',author:'Carlos M.',location:'Guayaquil',stars:5},{quote:'El proceso fue muy fácil desde el inicio. Encontré a la terapeuta perfecta para mí en poco tiempo.',author:'Sofía R.',location:'Cuenca',stars:5}] },
     faq: { items:[{q:'¿Cómo funciona Umana?',a:'Umana conecta personas que buscan apoyo de salud mental con profesionales certificados. Agenda tu cita y comienza tu proceso terapéutico de manera sencilla y confidencial.'},{q:'¿Los terapeutas están certificados?',a:'Sí, todos nuestros profesionales están debidamente certificados y cuentan con licencia para ejercer.'},{q:'¿Cuánto cuesta una sesión?',a:'Los costos varían según el tipo de servicio. Contáctanos para conocer nuestras tarifas actuales.'},{q:'¿Es confidencial mi información?',a:'Absolutamente. Tu privacidad es nuestra prioridad. Toda la información está protegida por las leyes de privacidad y secreto profesional.'},{q:'¿Puedo cambiar de terapeuta?',a:'Sí, puedes solicitar un cambio en cualquier momento sin ningún problema.'},{q:'¿Qué necesito para una sesión online?',a:'Solo necesitas conexión a internet, un dispositivo con cámara y micrófono, y un espacio privado.'}] },
     schedule: { days1:'Lunes - Viernes', hours1:'8:00 AM - 5:00 PM', days2:'Sábados', hours2:'9:00 AM - 12:00 PM', note:'* Agenda tu cita con anticipación. Horarios sujetos a disponibilidad.' },
-    contact: { email:'hey.umana@outlook.com', phone:'+593 983404824', address:'Quito, Ecuador', wa:'593983404824' }
+    contact: { email:'hey.umana@outlook.com', phone:'+593 983404824', address:'Quito, Ecuador', wa:'593983404824' },
+    trust: { items:[{num:'500+',label:'Pacientes atendidos'},{num:'30+',label:'Terapeutas certificados'},{num:'98%',label:'Tasa de satisfacción'},{num:'100%',label:'Online y confidencial'}] },
+    social: { tiktok:'https://www.tiktok.com/@umanaterapiaonline?lang=es-419', instagram:'https://www.instagram.com/umana.saludmental/', facebook:'https://www.facebook.com/profile.php?id=61584479810534' },
+    branding: { logoUrl:'assets/images/logo.png?v=2', siteName:'Umana' }
 };
 
 const CAT_LABELS = { ansiedad:'😰 Ansiedad', depresion:'😔 Depresión', relaciones:'💑 Relaciones', estres:'😤 Estrés', autocuidado:'🧘 Autocuidado', familia:'👨‍👩‍👧‍👦 Familia', general:'📄 General' };
@@ -809,6 +871,20 @@ function loadSiteContentForms() {
     document.getElementById('contact-phone').value   = ct.phone||'';
     document.getElementById('contact-address').value = ct.address||'';
     document.getElementById('contact-wa').value      = ct.wa||'';
+
+    // Trust stats
+    renderTrustItems(getSection('trust').items||[]);
+
+    // Social media
+    const so = getSection('social');
+    document.getElementById('social-tiktok').value    = so.tiktok    || '';
+    document.getElementById('social-instagram').value = so.instagram || '';
+    document.getElementById('social-facebook').value  = so.facebook  || '';
+
+    // Branding
+    const br = getSection('branding');
+    document.getElementById('branding-logo').value = br.logoUrl  || '';
+    document.getElementById('branding-name').value = br.siteName || '';
 }
 
 function saveSiteSection(s) {
@@ -837,6 +913,13 @@ function saveSiteSection(s) {
     }
     if (s === 'schedule') data = { days1:v('sch-days1'), hours1:v('sch-hours1'), days2:v('sch-days2'), hours2:v('sch-hours2'), note:v('sch-note') };
     if (s === 'contact')  data = { email:v('contact-email'), phone:v('contact-phone'), address:v('contact-address'), wa:v('contact-wa') };
+    if (s === 'trust') {
+        const items = [];
+        document.querySelectorAll('#trust-items .repeatable-item').forEach(el => items.push({ num:el.querySelector('.tr-num').value, label:el.querySelector('.tr-label').value }));
+        data = { items };
+    }
+    if (s === 'social') data = { tiktok:v('social-tiktok'), instagram:v('social-instagram'), facebook:v('social-facebook') };
+    if (s === 'branding') data = { logoUrl:v('branding-logo'), siteName:v('branding-name') };
     siteContent[s] = data; saveContent(); flash('sf-'+s);
 }
 
@@ -932,6 +1015,28 @@ function addFaqItem() {
             <div class="item-header"><span class="item-label">Pregunta ${n}</span><button class="btn btn-danger btn-sm" onclick="this.closest('.repeatable-item').remove()">✕</button></div>
             <div class="field-group"><label>Pregunta</label><input class="faq-q" type="text" value="" placeholder="¿...?"></div>
             <div class="field-group"><label>Respuesta</label><textarea class="faq-a" rows="3" placeholder="Respuesta..."></textarea></div>
+        </div>`);
+}
+
+function renderTrustItems(items) {
+    document.getElementById('trust-items').innerHTML = items.map((it,i) => `
+        <div class="repeatable-item">
+            <div class="item-header"><span class="item-label">Estadística ${i+1}</span><button class="btn btn-danger btn-sm" onclick="this.closest('.repeatable-item').remove()">✕</button></div>
+            <div class="field-row">
+                <div class="field-group" style="flex:0 0 110px"><label>Número / Valor</label><input class="tr-num" type="text" value="${esc(it.num||'')}" placeholder="500+"></div>
+                <div class="field-group"><label>Etiqueta</label><input class="tr-label" type="text" value="${esc(it.label||'')}" placeholder="Pacientes atendidos"></div>
+            </div>
+        </div>`).join('');
+}
+function addTrustItem() {
+    const n = document.querySelectorAll('#trust-items .repeatable-item').length + 1;
+    document.getElementById('trust-items').insertAdjacentHTML('beforeend', `
+        <div class="repeatable-item">
+            <div class="item-header"><span class="item-label">Estadística ${n}</span><button class="btn btn-danger btn-sm" onclick="this.closest('.repeatable-item').remove()">✕</button></div>
+            <div class="field-row">
+                <div class="field-group" style="flex:0 0 110px"><label>Número / Valor</label><input class="tr-num" type="text" value="" placeholder="500+"></div>
+                <div class="field-group"><label>Etiqueta</label><input class="tr-label" type="text" value="" placeholder="Descripción..."></div>
+            </div>
         </div>`);
 }
 

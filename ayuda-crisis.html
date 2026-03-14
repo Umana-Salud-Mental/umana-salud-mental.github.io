@@ -327,6 +327,16 @@
             // Add active class to clicked button
             event.target.classList.add('active');
         }
+
+        // ── CMS branding (logo) ─────────────────────────────────────
+        (function () {
+            try {
+                var d = JSON.parse(localStorage.getItem('umana_site_content') || '{}');
+                if (d.branding && d.branding.logoUrl) {
+                    document.querySelectorAll('.logo-img').forEach(function(img) { img.src = d.branding.logoUrl; });
+                }
+            } catch(e) {}
+        }());
     </script>
 </body>
 </html>
