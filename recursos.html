@@ -74,6 +74,7 @@
                     </svg>
                     <input type="text" class="search-input" placeholder="Buscar por tema, palabra clave..." id="searchInput"
                            data-i18n-placeholder="rec.search.ph">
+                    <button class="search-clear-btn" id="searchClear" type="button" aria-label="Limpiar búsqueda" style="display:none;">&#x2715;</button>
                     <button class="search-btn" onclick="performSearch()" data-i18n="rec.search.btn">Buscar</button>
                 </div>
             </div>
@@ -310,6 +311,12 @@
                     </div>
                 </article>
             </div>
+
+            <!-- No-results message (shown by search JS) -->
+            <div id="no-results-msg" class="no-results-msg" style="display:none;" role="status" aria-live="polite">
+                <p>🔍 No se encontraron artículos para &ldquo;<span id="no-results-term"></span>&rdquo;</p>
+                <button class="btn-clear-search" onclick="clearSearch()">Ver todos los artículos</button>
+            </div>
         </div>
     </section>
 
@@ -492,25 +499,98 @@
     <!-- JavaScript -->
     <script>
         // ── Search ──────────────────────────────────────────────────
-        function performSearch() {
-            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
-            document.querySelectorAll('.article-card').forEach(article => {
-                const title = article.querySelector('h3').textContent.toLowerCase();
-                const desc  = article.querySelector('p').textContent.toLowerCase();
-                article.style.display = (title.includes(searchTerm) || desc.includes(searchTerm)) ? '' : 'none';
+        var searchDebounce = null;
+        var activeCategory = 'all';
+
+        function performSearch(termOverride) {
+            var term = (termOverride !== undefined
+                ? termOverride
+                : document.getElementById('searchInput').value
+            ).trim().toLowerCase();
+
+            // Show/hide clear button
+            var clearBtn = document.getElementById('searchClear');
+            if (clearBtn) clearBtn.style.display = term ? 'flex' : 'none';
+
+            // Filter only the main articles grid (featured section stays untouched)
+            var matched = 0;
+            document.querySelectorAll('#articlesGrid .article-card').forEach(function(article) {
+                var title = article.querySelector('h3') ? article.querySelector('h3').textContent.toLowerCase() : '';
+                var desc  = article.querySelector('p')  ? article.querySelector('p').textContent.toLowerCase()  : '';
+                var catMatch  = activeCategory === 'all' || article.dataset.category === activeCategory;
+                var termMatch = !term || title.includes(term) || desc.includes(term);
+                var show = catMatch && termMatch;
+                article.style.display = show ? '' : 'none';
+                if (show) matched++;
+            });
+
+            // No-results feedback
+            var noMsg  = document.getElementById('no-results-msg');
+            var noTerm = document.getElementById('no-results-term');
+            if (noMsg) {
+                if (noTerm) noTerm.textContent = term;
+                noMsg.style.display = (matched === 0 && term) ? '' : 'none';
+            }
+
+            // Scroll to articles section when the user actively searched
+            if (term) {
+                var section = document.querySelector('.articles-section');
+                if (section) section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        }
+
+        function clearSearch() {
+            var inp = document.getElementById('searchInput');
+            if (inp) inp.value = '';
+            var clearBtn = document.getElementById('searchClear');
+            if (clearBtn) clearBtn.style.display = 'none';
+            var noMsg = document.getElementById('no-results-msg');
+            if (noMsg) noMsg.style.display = 'none';
+            // Re-apply only the category filter
+            document.querySelectorAll('#articlesGrid .article-card').forEach(function(a) {
+                a.style.display = (activeCategory === 'all' || a.dataset.category === activeCategory) ? '' : 'none';
             });
         }
-        document.getElementById('searchInput').addEventListener('keypress', e => {
-            if (e.key === 'Enter') performSearch();
+
+        // Live search as you type (300 ms debounce)
+        document.getElementById('searchInput').addEventListener('input', function() {
+            clearTimeout(searchDebounce);
+            var val = this.value;
+            searchDebounce = setTimeout(function() { performSearch(val.trim().toLowerCase()); }, 300);
         });
+
+        // Enter key
+        document.getElementById('searchInput').addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') { clearTimeout(searchDebounce); performSearch(); }
+        });
+
+        // Clear button (×)
+        document.getElementById('searchClear').addEventListener('click', clearSearch);
 
         // ── Category filter ─────────────────────────────────────────
         function filterByCategory(category) {
-            document.querySelectorAll('.pill').forEach(p =>
-                p.classList.toggle('active', p.dataset.category === category));
-            document.querySelectorAll('.article-card').forEach(a =>
-                a.style.display = (category === 'all' || a.dataset.category === category) ? '' : 'none');
-            // scroll up to articles
+            activeCategory = category;
+            var searchTerm = document.getElementById('searchInput').value.trim().toLowerCase();
+
+            document.querySelectorAll('.pill').forEach(function(p) {
+                p.classList.toggle('active', p.dataset.category === category);
+            });
+
+            // Apply both category and current search term together
+            var matched = 0;
+            document.querySelectorAll('#articlesGrid .article-card').forEach(function(a) {
+                var title = a.querySelector('h3') ? a.querySelector('h3').textContent.toLowerCase() : '';
+                var desc  = a.querySelector('p')  ? a.querySelector('p').textContent.toLowerCase()  : '';
+                var catMatch  = category === 'all' || a.dataset.category === category;
+                var termMatch = !searchTerm || title.includes(searchTerm) || desc.includes(searchTerm);
+                var show = catMatch && termMatch;
+                a.style.display = show ? '' : 'none';
+                if (show) matched++;
+            });
+
+            var noMsg  = document.getElementById('no-results-msg');
+            if (noMsg) noMsg.style.display = 'none'; // categories always have some articles
+
             document.querySelector('.articles-section').scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
 
@@ -575,6 +655,114 @@
                 };
                 document.body.appendChild(script);
             });
+        }());
+
+        // ── CMS blog posts injection ────────────────────────────────
+        (function () {
+            var CAT_LABELS = {
+                ansiedad:'Ansiedad', depresion:'Depresión', relaciones:'Relaciones',
+                estres:'Estrés', autocuidado:'Autocuidado', familia:'Familia', general:'General'
+            };
+            var CAT_CSS = {
+                ansiedad:'img-ansiedad', depresion:'img-depresion', relaciones:'img-relaciones',
+                estres:'img-estres', autocuidado:'img-autocuidado', familia:'img-familia', general:'img-autocuidado'
+            };
+            var CAT_ICONS = {
+                ansiedad:'😰', depresion:'😔', relaciones:'💬',
+                estres:'🌿', autocuidado:'🧘', familia:'🏡', general:'📝'
+            };
+
+            var posts = [];
+            try {
+                var raw = JSON.parse(localStorage.getItem('umana_blog_posts') || '[]');
+                posts = raw.filter(function(p) { return p.status === 'published'; })
+                           .sort(function(a, b) { return new Date(b.createdAt) - new Date(a.createdAt); });
+            } catch(e) {}
+            if (!posts.length) return;
+
+            function readingTime(html) {
+                var words = (html || '').replace(/<[^>]*>/g,' ').split(/\s+/).filter(Boolean).length;
+                return Math.max(1, Math.round(words / 200));
+            }
+            function esc(s) { var d=document.createElement('div'); d.textContent=s||''; return d.innerHTML; }
+
+            function makeCard(p, featured) {
+                var art = document.createElement('article');
+                art.className = 'article-card' + (featured ? ' featured' : '');
+                art.dataset.category = p.category || 'general';
+                art.dataset.cmsPost  = 'true';
+
+                var imgDiv = document.createElement('div');
+                if (p.image) {
+                    imgDiv.className = 'article-image';
+                    imgDiv.style.backgroundImage = 'url(' + esc(p.image) + ')';
+                    imgDiv.style.backgroundSize  = 'cover';
+                    imgDiv.style.backgroundPosition = 'center';
+                } else {
+                    imgDiv.className = 'article-image ' + (CAT_CSS[p.category] || 'img-autocuidado');
+                }
+                if (featured) {
+                    var badge = document.createElement('div');
+                    badge.className = 'article-badge';
+                    badge.textContent = 'Nuevo';
+                    imgDiv.appendChild(badge);
+                }
+                var icon = document.createElement('div');
+                icon.className = 'article-img-icon';
+                icon.textContent = CAT_ICONS[p.category] || '📝';
+                imgDiv.appendChild(icon);
+
+                var content = document.createElement('div');
+                content.className = 'article-content';
+
+                var meta = document.createElement('div');
+                meta.className = 'article-meta';
+                var catSpan = document.createElement('span');
+                catSpan.className = 'category';
+                catSpan.textContent = CAT_LABELS[p.category] || 'General';
+                var timeSpan = document.createElement('span');
+                timeSpan.className = 'read-time';
+                timeSpan.textContent = readingTime(p.content) + ' min';
+                meta.appendChild(catSpan);
+                meta.appendChild(timeSpan);
+
+                var h3 = document.createElement('h3');
+                h3.textContent = p.title || '';
+
+                var para = document.createElement('p');
+                para.textContent = (p.excerpt || '').slice(0, 180);
+
+                var link = document.createElement('a');
+                link.href = 'post.html?id=' + encodeURIComponent(p.id);
+                link.className = 'article-link';
+                link.textContent = 'Leer más →';
+
+                content.appendChild(meta);
+                content.appendChild(h3);
+                content.appendChild(para);
+                content.appendChild(link);
+
+                art.appendChild(imgDiv);
+                art.appendChild(content);
+                return art;
+            }
+
+            // Inject into All Articles grid (prepend newest first)
+            var grid = document.getElementById('articlesGrid');
+            if (grid) {
+                var frag = document.createDocumentFragment();
+                posts.forEach(function(p) { frag.appendChild(makeCard(p, false)); });
+                grid.insertBefore(frag, grid.firstChild);
+            }
+
+            // Inject featured posts into featured grid
+            var featPosts = posts.filter(function(p) { return p.featured; });
+            var featGrid  = document.querySelector('.featured-grid');
+            if (featGrid && featPosts.length) {
+                var frag2 = document.createDocumentFragment();
+                featPosts.slice(0, 3).forEach(function(p) { frag2.appendChild(makeCard(p, true)); });
+                featGrid.insertBefore(frag2, featGrid.firstChild);
+            }
         }());
 
         // ── CMS branding (logo) ─────────────────────────────────────

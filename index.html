@@ -1017,7 +1017,48 @@
                 }
                 if (sc.note) { const el = document.querySelector('.schedule-note'); if (el) el.textContent = sc.note; }
             }
+            // Blog Preview section heading/intro
+            if (data.blogPreview) {
+                var bp = data.blogPreview;
+                if (bp.heading) { var bpH = document.querySelector('#blog-preview h2'); if (bpH) bpH.textContent = bp.heading; }
+                if (bp.intro)   { var bpI = document.querySelector('#blog-preview .section-intro'); if (bpI) bpI.textContent = bp.intro; }
+            }
         } catch(e) { /* CMS integration: graceful fail */ }
+
+        // ── Render CMS blog posts in the homepage preview grid ──
+        (function () {
+            var CAT_MAP = {
+                ansiedad:'😰 Ansiedad', depresion:'😔 Depresión', relaciones:'💬 Relaciones',
+                estres:'🌿 Estrés', autocuidado:'🧘 Autocuidado', familia:'🏡 Familia', general:'📝 General'
+            };
+            var posts = [];
+            try {
+                var raw = JSON.parse(localStorage.getItem('umana_blog_posts') || '[]');
+                posts = raw.filter(function(p) { return p.status === 'published'; })
+                           .sort(function(a, b) { return new Date(b.createdAt) - new Date(a.createdAt); });
+            } catch(e) {}
+            if (!posts.length) return;
+
+            var grid = document.querySelector('.blog-preview-grid');
+            if (!grid) return;
+            grid.innerHTML = '';
+            posts.slice(0, 3).forEach(function(p) {
+                var a = document.createElement('a');
+                a.href = 'post.html?id=' + encodeURIComponent(p.id);
+                a.className = 'blog-preview-card';
+                var cat = CAT_MAP[p.category] || '📝 General';
+                var excerpt = (p.excerpt || '').slice(0, 160);
+                a.innerHTML =
+                    '<div class="blog-preview-card-accent"></div>' +
+                    '<div class="blog-preview-card-body">' +
+                        '<div class="blog-preview-cat">' + cat + '</div>' +
+                        '<h3>' + (p.title || '').slice(0, 100) + '</h3>' +
+                        '<p>' + excerpt + '</p>' +
+                        '<span class="read-more">Leer artículo →</span>' +
+                    '</div>';
+                grid.appendChild(a);
+            });
+        }());
     })();
     </script>
 

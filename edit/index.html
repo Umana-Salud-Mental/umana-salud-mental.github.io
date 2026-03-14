@@ -254,6 +254,7 @@
                                 <button class="qa-btn" onclick="goTo('site-content','trust')"><span>📊</span> Editar Estadísticas</button>
                                 <button class="qa-btn" onclick="goTo('site-content','social')"><span>📱</span> Editar Redes Sociales</button>
                                 <button class="qa-btn" onclick="goTo('site-content','branding')"><span>🎨</span> Editar Logo / Marca</button>
+                                <button class="qa-btn" onclick="goTo('site-content','blogPreview')"><span>📰</span> Editar Blog Preview</button>
                                 <a href="../" target="_blank" class="qa-btn"><span>👁️</span> Ver sitio web</a>
                             </div>
                         </div>
@@ -317,6 +318,7 @@
                         <button class="content-tab" data-section="trust">📊 Estadísticas</button>
                         <button class="content-tab" data-section="social">📱 Redes Sociales</button>
                         <button class="content-tab" data-section="branding">🎨 Marca & Logo</button>
+                        <button class="content-tab" data-section="blogPreview">📰 Blog Preview</button>
                     </div>
 
                     <!-- Hero -->
@@ -491,9 +493,20 @@
                             <span class="save-flash" id="sf-branding">✓ Guardado</span>
                         </div>
                     </div>
+
+                    <!-- Blog Preview section (inside view-site-content) -->
+                    <div class="content-section" id="cs-blogPreview">
+                        <div class="section-header"><h3>📰 Blog Preview (Página Principal)</h3><span class="save-flash" id="sf-blogPreview">✓ Guardado</span></div>
+                        <p class="field-hint" style="margin-bottom:1rem;">Controla el encabezado de la sección de blog en la página principal. Las tarjetas se llenan automáticamente con los artículos publicados en <strong>Blog / Artículos</strong>.</p>
+                        <div class="field-group"><label>Título de la sección</label><input type="text" id="bp-heading" placeholder="Recursos para tu Bienestar"></div>
+                        <div class="field-group"><label>Descripción / Subtítulo</label><textarea id="bp-intro" rows="2" placeholder="Artículos escritos por nuestros especialistas para acompañarte en tu camino."></textarea></div>
+                        <div class="content-save-bar">
+                            <button class="btn btn-primary" onclick="saveSiteSection('blogPreview')">💾 Guardar</button>
+                            <button class="btn btn-secondary" onclick="resetSiteSection('blogPreview')">↩ Resetear</button>
+                        </div>
+                    </div>
                 </section>
 
-                <!-- ── SETTINGS ── -->
                 <section class="cms-view" id="view-settings">
                     <div class="settings-card">
                         <h3>🔐 Cambiar Contraseña</h3>
@@ -611,7 +624,8 @@ const DEFAULTS = {
     contact: { email:'hey.umana@outlook.com', phone:'+593 983404824', address:'Quito, Ecuador', wa:'593983404824' },
     trust: { items:[{num:'500+',label:'Pacientes atendidos'},{num:'30+',label:'Terapeutas certificados'},{num:'98%',label:'Tasa de satisfacción'},{num:'100%',label:'Online y confidencial'}] },
     social: { tiktok:'https://www.tiktok.com/@umanaterapiaonline?lang=es-419', instagram:'https://www.instagram.com/umana.saludmental/', facebook:'https://www.facebook.com/profile.php?id=61584479810534' },
-    branding: { logoUrl:'assets/images/logo.png?v=2', siteName:'Umana' }
+    branding: { logoUrl:'assets/images/logo.png?v=2', siteName:'Umana' },
+    blogPreview: { heading:'Recursos para tu Bienestar', intro:'Artículos escritos por nuestros especialistas para acompañarte en tu camino.' }
 };
 
 const CAT_LABELS = { ansiedad:'😰 Ansiedad', depresion:'😔 Depresión', relaciones:'💑 Relaciones', estres:'😤 Estrés', autocuidado:'🧘 Autocuidado', familia:'👨‍👩‍👧‍👦 Familia', general:'📄 General' };
@@ -905,6 +919,11 @@ function loadSiteContentForms() {
     const br = getSection('branding');
     document.getElementById('branding-logo').value = br.logoUrl  || '';
     document.getElementById('branding-name').value = br.siteName || '';
+
+    // Blog Preview section
+    const bpSec = getSection('blogPreview');
+    document.getElementById('bp-heading').value = bpSec.heading || '';
+    document.getElementById('bp-intro').value   = bpSec.intro   || '';
 }
 
 function saveSiteSection(s) {
@@ -940,6 +959,7 @@ function saveSiteSection(s) {
     }
     if (s === 'social') data = { tiktok:v('social-tiktok'), instagram:v('social-instagram'), facebook:v('social-facebook') };
     if (s === 'branding') data = { logoUrl:v('branding-logo'), siteName:v('branding-name') };
+    if (s === 'blogPreview') data = { heading:v('bp-heading'), intro:v('bp-intro') };
     siteContent[s] = data; saveContent(); flash('sf-'+s);
 }
 

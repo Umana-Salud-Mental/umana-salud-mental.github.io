@@ -118,6 +118,44 @@ nav:hover {
     transform: scale(1.05);
 }
 
+.search-clear-btn {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #999;
+    font-size: 1.1rem;
+    line-height: 1;
+    padding: .25rem .5rem;
+    border-radius: 50%;
+    transition: color .2s, background .2s;
+    flex-shrink: 0;
+}
+.search-clear-btn:hover {
+    color: #5D8064;
+    background: rgba(93,128,100,.1);
+}
+
+.no-results-msg {
+    text-align: center;
+    padding: 3rem 1rem;
+    color: #777;
+}
+.no-results-msg p { margin-bottom: 1rem; font-size: 1.05rem; }
+.btn-clear-search {
+    background: #5D8064;
+    color: #fff;
+    border: none;
+    padding: .6rem 1.5rem;
+    border-radius: 50px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background .2s;
+}
+.btn-clear-search:hover { background: #4a6650; }
+
 /* ============================================
    CATEGORY PILLS/TABS
    ============================================ */
