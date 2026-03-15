@@ -1649,10 +1649,11 @@
                     var posts = (data && data.posts) ? data.posts : [];
                     if (!posts.length) { if (placeholder) placeholder.style.display = 'none'; return; }
 
+                    var shown = posts.slice(0, 9);
                     var grid = document.createElement('div');
-                    grid.className = 'ig-posts-grid';
+                    grid.className = 'ig-posts-grid' + (shown.length <= 3 ? ' ig-row-1' : '');
 
-                    posts.slice(0, 9).forEach(function (post) {
+                    shown.forEach(function (post) {
                         var a = document.createElement('a');
                         a.href = post.permalink || 'https://www.instagram.com/umana.saludmental/';
                         a.target = '_blank';
