@@ -2981,15 +2981,12 @@ nav .container {
 /* Rendered Instagram posts grid */
 .ig-posts-grid {
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 160px));
+    grid-template-columns: repeat(3, 1fr);
     gap: 8px;
-    justify-content: center;
+    max-width: 720px;
+    margin: 0 auto;
     border-radius: var(--radius-md);
     overflow: hidden;
-}
-/* 3-post variant (single row): slightly wider cells */
-.ig-posts-grid.ig-row-1 {
-    grid-template-columns: repeat(3, minmax(0, 200px));
 }
 .ig-post {
     display: block;
@@ -3010,11 +3007,6 @@ nav .container {
 @media (max-width: 640px) {
     .ig-placeholder-grid { grid-template-columns: repeat(2, 1fr); }
     .ig-tile:nth-child(9) { display: none; }
-    .ig-posts-grid {
-        grid-template-columns: repeat(3, minmax(0, 110px));
-    }
-    .ig-posts-grid.ig-row-1 {
-        grid-template-columns: repeat(3, minmax(0, 130px));
-    }
+    .ig-posts-grid { max-width: 100%; }
     .ig-header { flex-direction: column; align-items: flex-start; }
 }
