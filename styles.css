@@ -2983,8 +2983,6 @@ nav .container {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 8px;
-    max-width: 720px;
-    margin: 0 auto;
     border-radius: var(--radius-md);
     overflow: hidden;
 }
@@ -3007,6 +3005,5 @@ nav .container {
 @media (max-width: 640px) {
     .ig-placeholder-grid { grid-template-columns: repeat(2, 1fr); }
     .ig-tile:nth-child(9) { display: none; }
-    .ig-posts-grid { max-width: 100%; }
     .ig-header { flex-direction: column; align-items: flex-start; }
 }
