@@ -2983,29 +2983,6 @@ nav .container {
     display: block;
     width: 100%;
 }
-/* Setup notice (shown when no feed ID) */
-.ig-setup-notice {
-    background: #f0f5f1;
-    border: 1.5px dashed var(--color-primary);
-    border-radius: var(--radius-md);
-    padding: 2rem;
-    text-align: center;
-    margin-top: 1.5rem;
-}
-.ig-setup-notice p {
-    color: var(--color-dark);
-    font-size: 0.9rem;
-    line-height: 1.6;
-    margin-bottom: 0.5rem;
-}
-.ig-setup-notice strong { color: var(--color-primary); }
-.ig-setup-notice code {
-    background: rgba(93,128,100,.12);
-    padding: 0.15em 0.4em;
-    border-radius: 4px;
-    font-size: 0.85em;
-    color: var(--color-primary);
-}
 @media (max-width: 640px) {
     .ig-placeholder-grid { grid-template-columns: repeat(2, 1fr); }
     .ig-tile:nth-child(9) { display: none; }
