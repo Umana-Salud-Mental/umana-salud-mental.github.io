@@ -1624,9 +1624,9 @@
 
     <!-- Instagram / Behold.so feed loader -->
     <script>
-    /* ── Instagram Feed (Behold.so) ─────────────────────────────
-       Auto-refreshing Instagram widget. Feed ID: mig5lKXMAg1A9HsRL670
-       New posts appear automatically — no token management, no backend.
+    /* ── Instagram Feed (Behold.so JSON feed) ──────────────────
+       Fetches JSON feed mig5lKXMAg1A9HsRL670 and renders a
+       3-column photo grid — no widget dependency needed.
     ──────────────────────────────────────────────────────────── */
     (function () {
         'use strict';
@@ -1643,21 +1643,40 @@
             var placeholder = document.getElementById('ig-placeholder');
             if (!container) return;
 
-            // Create Behold custom element
-            var widget = document.createElement('behold-widget');
-            widget.setAttribute('feed-id', id);
-            container.insertBefore(widget, placeholder);
+            fetch('https://feeds.behold.so/' + id)
+                .then(function (r) { return r.json(); })
+                .then(function (data) {
+                    var posts = (data && data.posts) ? data.posts : [];
+                    if (!posts.length) { if (placeholder) placeholder.style.display = 'none'; return; }
 
-            // Load Behold script lazily (ESM module, non-blocking)
-            var s = document.createElement('script');
-            s.type = 'module';
-            s.src = 'https://w.behold.so/widget.js';
-            document.head.appendChild(s);
+                    var grid = document.createElement('div');
+                    grid.className = 'ig-posts-grid';
 
-            // Hide shimmer once widget content appears
-            setTimeout(function () {
-                if (placeholder) placeholder.style.display = 'none';
-            }, 2500);
+                    posts.slice(0, 9).forEach(function (post) {
+                        var a = document.createElement('a');
+                        a.href = post.permalink || 'https://www.instagram.com/umana.saludmental/';
+                        a.target = '_blank';
+                        a.rel = 'noopener noreferrer me';
+                        a.className = 'ig-post';
+                        var label = post.caption ? post.caption.slice(0, 80) : 'Publicación de Instagram';
+                        a.setAttribute('aria-label', label);
+
+                        var img = document.createElement('img');
+                        img.src = post.thumbnailUrl || post.prunedMediaUrl || post.mediaUrl || '';
+                        img.alt = '';
+                        img.loading = 'lazy';
+                        img.decoding = 'async';
+
+                        a.appendChild(img);
+                        grid.appendChild(a);
+                    });
+
+                    container.insertBefore(grid, placeholder);
+                    if (placeholder) placeholder.style.display = 'none';
+                })
+                .catch(function () {
+                    if (placeholder) placeholder.style.display = 'none';
+                });
         };
     }());
     </script>
