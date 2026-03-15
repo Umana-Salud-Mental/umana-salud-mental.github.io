@@ -147,7 +147,7 @@
     <!-- ═══ Fonts ══════════════════════════════════════════════════ -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Instrument+Serif:ital@0;1&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
 
     <!-- ═══ Sitemap reference ══════════════════════════════════════ -->
     <link rel="sitemap" type="application/xml" href="/sitemap.xml">
@@ -700,6 +700,50 @@
             </div>
         </section>
 
+        <!-- ── Instagram Feed ──────────────────────────────────────── -->
+        <section id="instagram" class="instagram-section reveal" aria-label="Últimas publicaciones en Instagram">
+            <div class="container">
+                <div class="ig-header">
+                    <div class="ig-header-text">
+                        <p class="ig-eyebrow">📸 Instagram</p>
+                        <h2>Últimas publicaciones</h2>
+                        <p>Bienestar mental, reflexiones y consejos desde <a id="ig-handle-link" href="https://www.instagram.com/umana.saludmental/" target="_blank" rel="noopener noreferrer me">@umana.saludmental</a></p>
+                    </div>
+                    <a id="ig-follow-btn" href="https://www.instagram.com/umana.saludmental/" target="_blank" rel="noopener noreferrer me" class="ig-follow-btn" aria-label="Seguir a Umana en Instagram">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+                        Seguir en Instagram
+                    </a>
+                </div>
+                <!-- Behold.so widget container — feed injected by JS when feed-id is configured -->
+                <div id="ig-feed-container">
+                    <!-- Shimmer placeholder shown until Behold widget loads or if not configured -->
+                    <div id="ig-placeholder" class="ig-placeholder-grid" aria-hidden="true">
+                        <div class="ig-tile"></div>
+                        <div class="ig-tile"></div>
+                        <div class="ig-tile"></div>
+                        <div class="ig-tile"></div>
+                        <div class="ig-tile"></div>
+                        <div class="ig-tile"></div>
+                        <div class="ig-tile"></div>
+                        <div class="ig-tile"></div>
+                        <div class="ig-tile"></div>
+                    </div>
+                    <!-- Setup prompt shown when no Behold feed ID is configured -->
+                    <div id="ig-setup-notice" class="ig-setup-notice" style="display:none" aria-live="polite">
+                        <p>🔗 <strong>Conecta tu Instagram en segundos:</strong><br>
+                        Crea una cuenta gratuita en <a href="https://behold.so" target="_blank" rel="noopener noreferrer">behold.so</a>, conecta <strong>@umana.saludmental</strong>, copia tu <strong>Feed ID</strong> y pégalo en el panel de administración bajo <em>Contenido del Sitio → Redes Sociales → Feed ID Instagram</em>.<br>
+                        Las publicaciones aparecerán automáticamente cada vez que hagas una nueva publicación.</p>
+                    </div>
+                    <div class="ig-placeholder-cta">
+                        <a href="https://www.instagram.com/umana.saludmental/" target="_blank" rel="noopener noreferrer me" class="ig-follow-btn" style="margin:0 auto">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+                            Ver todas las publicaciones
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <section id="contacto" class="contact">
             <div class="container">
                 <h2 data-i18n="ct.heading">Contacto</h2>
@@ -852,11 +896,10 @@
         });
     })();
 
-    // ── CMS localStorage integration ──
-    // Reads content stored via the CMS at /edit and applies it to the live page.
+    // ── CMS content integration ──
+    // Priority: 1) /site-content.json (committed via admin GitHub API) 2) localStorage (local browser only)
     (function() {
-        try {
-            const data = JSON.parse(localStorage.getItem('umana_site_content') || '{}');
+        function applyCMSData(data) {
             if (!data || !Object.keys(data).length) return;
 
             // Hero
@@ -866,6 +909,14 @@
                 if (h.subtitle) { const el = document.querySelector('.hero .hero-subtitle'); if (el) el.textContent = h.subtitle; }
                 if (h.desc)     { const el = document.querySelector('.hero .hero-content > p:not(.hero-subtitle)'); if (el) el.textContent = h.desc; }
                 if (h.cta)      { const el = document.querySelector('.hero .cta-button'); if (el) { el.textContent = h.cta; if (h.ctaLink) el.href = h.ctaLink; } }
+                if (h.bgImage)  {
+                    const hero = document.querySelector('.hero');
+                    if (hero) {
+                        hero.style.backgroundImage = 'linear-gradient(rgba(0,0,0,.45),rgba(0,0,0,.45)), url(' + JSON.stringify(h.bgImage) + ')';
+                        hero.style.backgroundSize = 'cover';
+                        hero.style.backgroundPosition = 'center';
+                    }
+                }
             }
             // About
             if (data.about) {
@@ -874,6 +925,26 @@
                 if (ab.subheading) { const el = document.querySelector('#quienes-somos .about-text h3'); if (el) el.textContent = ab.subheading; }
                 if (ab.p1)         { const el = document.querySelector('#quienes-somos .about-text > p:nth-of-type(1)'); if (el) el.textContent = ab.p1; }
                 if (ab.p2)         { const el = document.querySelector('#quienes-somos .about-text > p:nth-of-type(2)'); if (el) el.textContent = ab.p2; }
+                if (ab.image) {
+                    var aboutContent = document.querySelector('#quienes-somos .about-content');
+                    if (aboutContent) {
+                        var existingImg = aboutContent.querySelector('.cms-about-img');
+                        if (!existingImg) {
+                            existingImg = document.createElement('div');
+                            existingImg.className = 'cms-about-img';
+                            existingImg.style.cssText = 'flex:0 0 auto;width:clamp(220px,35%,420px);border-radius:12px;overflow:hidden;align-self:center;';
+                            var imgEl = document.createElement('img');
+                            imgEl.style.cssText = 'width:100%;height:100%;object-fit:cover;display:block;';
+                            imgEl.alt = 'Equipo Umana';
+                            existingImg.appendChild(imgEl);
+                            aboutContent.appendChild(existingImg);
+                            aboutContent.style.display = 'flex';
+                            aboutContent.style.gap = '2.5rem';
+                            aboutContent.style.alignItems = 'flex-start';
+                        }
+                        existingImg.querySelector('img').src = ab.image;
+                    }
+                }
             }
             // How it works
             if (data.howItWorks) {
@@ -912,7 +983,16 @@
                             const stars = document.createElement('div'); stars.className = 'testimonial-stars'; stars.textContent = '★'.repeat(Math.min(5, parseInt(t.stars)||5));
                             const quote = document.createElement('p');   quote.className = 'testimonial-quote'; quote.textContent = '\u201c' + (t.quote||'') + '\u201d';
                             const auth  = document.createElement('div'); auth.className = 'testimonial-author';
-                            const av    = document.createElement('div'); av.className = 'author-avatar';    av.textContent = ((t.author||'?')[0]||'?').toUpperCase();
+                            const av    = document.createElement('div'); av.className = 'author-avatar';
+                            if (t.avatar) {
+                                const avImg = document.createElement('img');
+                                avImg.src = t.avatar;
+                                avImg.alt = t.author || '';
+                                avImg.style.cssText = 'width:100%;height:100%;object-fit:cover;border-radius:50%;';
+                                av.appendChild(avImg);
+                            } else {
+                                av.textContent = ((t.author||'?')[0]||'?').toUpperCase();
+                            }
                             const info  = document.createElement('div');
                             const name  = document.createElement('strong'); name.textContent = t.author   || '';
                             const loc   = document.createElement('span');   loc.textContent  = t.location || '';
@@ -983,6 +1063,7 @@
                 if (so.tiktok)    { const el = document.getElementById('cms-social-tiktok');    if (el) el.href = so.tiktok; }
                 if (so.instagram) { const el = document.getElementById('cms-social-instagram'); if (el) el.href = so.instagram; }
                 if (so.facebook)  { const el = document.getElementById('cms-social-facebook');  if (el) el.href = so.facebook; }
+                if (so.beholdFeedId) { initBeholdFeed(so.beholdFeedId); }
             }
             // Logo & Branding
             if (data.branding) {
@@ -1023,7 +1104,22 @@
                 if (bp.heading) { var bpH = document.querySelector('#blog-preview h2'); if (bpH) bpH.textContent = bp.heading; }
                 if (bp.intro)   { var bpI = document.querySelector('#blog-preview .section-intro'); if (bpI) bpI.textContent = bp.intro; }
             }
-        } catch(e) { /* CMS integration: graceful fail */ }
+        } // end applyCMSData
+
+        // Try server-side site-content.json first (written by admin GitHub API)
+        fetch('/site-content.json?v=' + Date.now())
+            .then(function(r) { return r.ok ? r.json() : Promise.reject(); })
+            .then(function(d) {
+                applyCMSData(d);
+                // Also sync to localStorage so admin sees it
+                try { localStorage.setItem('umana_site_content', JSON.stringify(d)); } catch(_) {}
+            })
+            .catch(function() {
+                // Fallback: apply from localStorage (admin's own browser only)
+                try {
+                    applyCMSData(JSON.parse(localStorage.getItem('umana_site_content') || '{}'));
+                } catch(_) {}
+            });
 
         // ── Render CMS blog posts in the homepage preview grid ──
         (function () {
@@ -1535,6 +1631,59 @@
                     '</a>' +
                 '</div>';
         });
+    }());
+    </script>
+
+    <!-- Instagram / Behold.so feed loader -->
+    <script>
+    /* ── Instagram Feed (Behold.so) ─────────────────────────────
+       behold.so is a free, auto-refreshing Instagram widget.
+       Setup: behold.so → connect @umana.saludmental → copy Feed ID
+              → CMS admin /edit → Contenido → Redes Sociales → paste ID.
+       New posts appear automatically — no token management, no backend.
+    ──────────────────────────────────────────────────────────── */
+    (function () {
+        'use strict';
+        var _beholdLoaded = false;
+
+        window.initBeholdFeed = function (feedId) {
+            if (!feedId || _beholdLoaded) return;
+            _beholdLoaded = true;
+
+            var container = document.getElementById('ig-feed-container');
+            var placeholder = document.getElementById('ig-placeholder');
+            var notice = document.getElementById('ig-setup-notice');
+            var cta = document.querySelector('.ig-placeholder-cta');
+            if (!container) return;
+
+            // Hide setup notice if it was shown
+            if (notice) notice.style.display = 'none';
+
+            // Create Behold custom element
+            var widget = document.createElement('behold-widget');
+            widget.setAttribute('feed-id', feedId);
+            container.insertBefore(widget, placeholder);
+
+            // Load Behold script lazily (ESM module, non-blocking)
+            var s = document.createElement('script');
+            s.type = 'module';
+            s.src = 'https://w.behold.so/widget.js';
+            document.head.appendChild(s);
+
+            // Hide shimmer once widget content appears
+            setTimeout(function () {
+                if (placeholder) placeholder.style.display = 'none';
+                if (cta) cta.style.display = 'none';
+            }, 2500);
+        };
+
+        // Show setup notice if no feed is loaded after CMS data applies
+        setTimeout(function () {
+            if (!_beholdLoaded) {
+                var notice = document.getElementById('ig-setup-notice');
+                if (notice) notice.style.display = 'block';
+            }
+        }, 1500);
     }());
     </script>
 </body>
