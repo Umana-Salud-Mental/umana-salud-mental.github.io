@@ -1,0 +1,3 @@
+<FilesMatch "\.xml$">
+  Header set Content-Type "application/xml"
+</FilesMatch>
