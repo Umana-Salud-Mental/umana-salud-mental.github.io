@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://umana-salud-mental.github.io/sitemap.xml
+Sitemap: https://umana-salud-mental.github.io/sitemap.txt
